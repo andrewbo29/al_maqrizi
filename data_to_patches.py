@@ -16,7 +16,7 @@ NEGATIVE_IMAGES_DIR_LIST = [
 ]
 
 
-OUTPUT_DIR = 'patches'
+OUTPUT_DIR = 'patche_bw'
 
 SAMPLES_TYPES = ['train', 'val', 'test']
 
@@ -50,7 +50,7 @@ for class_label, images_dir in CLASS_IMAGES_DIR_LIST:
 		        output_images_width=20,
 		        regions_filter=regions_filter,
 		        region_resizer=region_resizer,
-		        output_binary=False
+		        output_binary=True
 		        )
 
 			save_images_in_dir(
