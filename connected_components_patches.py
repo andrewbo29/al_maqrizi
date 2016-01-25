@@ -269,9 +269,9 @@ def extract_patches(
 
     # selecting image to output
     if output_binary:
-        image_for_output = image
+        image_for_output = image * 1.
     else:
-        image_for_output = image_color
+        image_for_output = image_color * 1.
 
     for i, r in enumerate(regions_filtered):
         # resizing region bounding box
@@ -284,7 +284,10 @@ def extract_patches(
         maxc = min(image_for_output.shape[1], maxc)
 
         # copying patch from output image
-        patch = image_for_output[minr:maxr, minc:maxc, :]
+        if len(image_for_output.shape) == 3:
+            patch = image_for_output[minr:maxr, minc:maxc, :]
+        else: 
+            patch = image_for_output[minr:maxr, minc:maxc]
 
         # resizing patch to specified shape
         patch_resized = resize2d(patch, (output_images_height, output_images_width))
