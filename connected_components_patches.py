@@ -272,6 +272,8 @@ def extract_patches(
         image_for_output = image * 1.
     else:
         image_for_output = image_color * 1.
+    if image_for_output.max() > 1.:
+        image_for_output /= 255.
 
     for i, r in enumerate(regions_filtered):
         # resizing region bounding box
@@ -297,6 +299,7 @@ def extract_patches(
 def save_images_in_dir(output_dir, images, output_format, prefix=''):
     for i, image in enumerate(images):
         skimage.io.imsave(os.path.join(output_dir, '{0}{1}.{2}'.format(prefix, i, output_format)), image)
+
 
 
 if __name__ == '__main__':
