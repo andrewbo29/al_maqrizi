@@ -78,25 +78,72 @@ def show_patch(patches_list, patch_ind):
     skimage.io.show()
 
 
-def save_patches(patches_list, dir_name, image_name):
-    if not os.path.exists(dir_name):
-        os.mkdir(dir_name)
+def save_patches(patches_list, dir_name, txt_fname, image_name, label):
+    with open(txt_fname, 'a') as txt_file:
+        if not os.path.exists(dir_name):
+            os.mkdir(dir_name)
 
-    image_fname = image_name.split('/')[-1][:-4]
-    patches_dir_name = '%s/%s' % (dir_name, image_fname)
-    os.mkdir(patches_dir_name)
+        image_fname = image_name.split('/')[-1][:-4]
+        patches_dir_name = '%s/%s' % (dir_name, image_fname)
+        if not os.path.exists(patches_dir_name):
+            os.mkdir(patches_dir_name)
 
-    patch_num = 0
-    for patch in patches_list:
-        patch_fname = '%s/%s.png' % (patches_dir_name, patch_num)
-        skimage.io.imsave(patch_fname, patch)
-        patch_num += 1
+        patch_num = 0
+        for patch in patches_list:
+            patch_fname = '%s/%s.png' % (patches_dir_name, patch_num)
+            skimage.io.imsave(patch_fname, patch)
+            patch_num += 1
+            txt_file.write('%s %d\n' % (patch_fname, label))
 
 
-img_name = '../data/al-maqrizi/Archive_1/Ms-orient-A-01771_014.jpg'
+def process_image(image_name, window_size, stride, dir_name, txt_fname, label):
+    print 'Processing image %s' % image_name
 
-bin_map = get_binary_map(img_name)
-crops = get_sliding_window_patches(img_name, bin_map, 152, 50)
-print len(crops)
+    bin_map = get_binary_map(image_name)
+    crops = get_sliding_window_patches(image_name, bin_map, window_size, stride)
+    save_patches(crops, dir_name, txt_fname, image_name, label)
 
-save_patches(crops, '../data', img_name)
+    print 'Number of patches: %d' % len(crops)
+
+
+def process_images_path(path, window_size, stride, dir_name, txt_fname, label):
+    for image_name in os.listdir(path):
+        full_image_name = '%s/%s' % (path, image_name)
+        process_image(full_image_name, window_size, stride, dir_name, txt_fname, label)
+
+
+def half_image(image_name, image_num_1, image_num_2):
+    dir_name = '/'.join(image_name.split('/')[:-1])
+
+    image = skimage.io.imread(image_name)
+    half_w = int(image.shape[1] / 2)
+    img_1 = image[:, :half_w, :]
+    img_1_name = '%s/archive_2_%d.png' % (dir_name, image_num_1)
+    skimage.io.imsave(img_1_name, img_1)
+
+    img_2 = image[:, half_w:, :]
+    img_2_name = '%s/archive_2_%d.png' % (dir_name, image_num_2)
+    skimage.io.imsave(img_2_name, img_2)
+
+
+if __name__ == '__main__':
+    window_size = 152
+    stride = 50
+    data_dir = '/home/andrew/Projects/al-maqrizi/data/sw_patches'
+    data_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches/train.txt'
+
+    path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_2/pages'
+    label = 1
+    process_images_path(path, window_size, stride, data_dir, data_fname, label)
+
+    path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/1/text'
+    label = 0
+    process_images_path(path, window_size, stride, data_dir, data_fname, label)
+
+    path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/2/text'
+    label = 0
+    process_images_path(path, window_size, stride, data_dir, data_fname, label)
+
+    path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/3/text'
+    label = 0
+    process_images_path(path, window_size, stride, data_dir, data_fname, label)
