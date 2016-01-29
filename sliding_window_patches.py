@@ -112,7 +112,7 @@ def process_images_path(path, window_size, stride, dir_name, txt_fname, label):
         process_image(full_image_name, window_size, stride, dir_name, txt_fname, label)
 
 
-def half_image(image_name, image_num_1, image_num_2):
+def _half_image(image_name, image_num_1, image_num_2):
     dir_name = '/'.join(image_name.split('/')[:-1])
 
     image = skimage.io.imread(image_name)
@@ -130,6 +130,9 @@ if __name__ == '__main__':
     window_size = 152
     stride = 50
     data_dir = '/home/andrew/Projects/al-maqrizi/data/sw_patches'
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)
+
     data_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches/train.txt'
 
     path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_2/pages'
