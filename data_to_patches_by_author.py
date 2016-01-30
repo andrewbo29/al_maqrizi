@@ -22,7 +22,7 @@ VALID_NEGATIVE_IMAGES_DIR_LIST = [
 ]
 
 
-OUTPUT_DIR = 'patches_by_author'
+OUTPUT_DIR = 'patches_bw_by_author'
 
 SAMPLES_TYPES = ['train', 'val', 'test']
 
@@ -51,7 +51,7 @@ for class_label, sample_type_out, images_dir in CLASS_IMAGES_DIR_LIST:
 	for sample_type in SAMPLES_TYPES:
 		output_sample_dir = os.path.join(OUTPUT_DIR, sample_type_out, str(class_label))
 		images_sample_dir = os.path.join(images_dir, sample_type)
-		images_files = [os.listdir(images_sample_dir)[0]]
+		images_files = os.listdir(images_sample_dir)
 
 		for image_file in images_files:
 			time_start = time.clock()
@@ -61,7 +61,7 @@ for class_label, sample_type_out, images_dir in CLASS_IMAGES_DIR_LIST:
 		        output_images_width=20,
 		        regions_filter=regions_filter,
 		        region_resizer=region_resizer,
-		        output_binary=False
+		        output_binary=True
 		        )
 
 			save_images_in_dir(
