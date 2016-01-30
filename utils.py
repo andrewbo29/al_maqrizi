@@ -17,7 +17,7 @@ def image_to_vector(im):
 
 
 
-def report_image_almaqrizi_p(model, image_file, output_binary=False):
+def report_image_almaqrizi_p(model, image_file, X_preprocess_foo=lambda x: x, output_binary=False):
     # reading colored input image
     image_color = skimage.io.imread(image_file, as_grey=False)
 
@@ -39,6 +39,7 @@ def report_image_almaqrizi_p(model, image_file, output_binary=False):
 
     # get patches al-maqrizi authorship probability prediction
     X_test = [image_to_vector(patch) for patch in patch_list]
+    X_test = X_preprocess_foo(X_test)
     y_test_pred_p = model.predict_proba(X_test)[:,1]
     
     image_p = np.zeros((image_color.shape[:2]))
