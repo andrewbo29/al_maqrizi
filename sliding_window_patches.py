@@ -1,52 +1,58 @@
 import numpy as np
 import skimage.io
 import skimage.filters
+import skimage.transform
+import skimage.color
 import os
 
+RESIZE_HEIGHT = 700
+RESIZE_WEIGHT = 500
 
-def get_binary_map(image_name):
-    image = skimage.io.imread(image_name, as_grey=True)
+NORMALIZE_THRESH_DOWN = 0.1
+NORMALIZE_THRESH_UP = 0.97
 
-    global_thresh = skimage.filters.threshold_otsu(image)
-    binary_global = image > global_thresh
+VALID_PATCH_THRESH = 0.9
 
-    return np.where(binary_global, image, 0.)
+PATCH_THRESH_DOWN = 0
+PATCH_THRESH_UP = 0.73
+
+
+def get_binary_map(image):
+    grey_image = skimage.color.rgb2grey(image)
+
+    global_thresh = skimage.filters.threshold_otsu(grey_image)
+    binary_global = grey_image > global_thresh
+
+    return np.where(binary_global, grey_image, 0.)
 
 
 def is_valid_patch(patch):
     height = patch.shape[0]
     weight = patch.shape[1]
 
-    threshold = 0.9
-
     for i in range(height):
         res = float((patch[i, :] == 0).sum()) / weight
-        if res >= threshold:
+        if res >= VALID_PATCH_THRESH:
             return False
 
     for j in range(weight):
         res = float((patch[:, j] == 0).sum()) / height
-        if res >= threshold:
+        if res >= VALID_PATCH_THRESH:
             return False
 
     return True
 
 
-def get_sliding_window_patches(image_name, binary_map, window_size=152, stride=10):
-    image = skimage.io.imread(image_name)
-
+def get_sliding_window_patches(image, binary_map, window_size=152, stride=10):
     x1 = 0
     y1 = 0
     x2 = window_size
     y2 = window_size
 
-    threshold_down = 0.63
-    threshold_up = 0.67
-
     patches = []
     while x2 < binary_map.shape[0]:
         binary_patch = binary_map[x1:x2, y1:y2]
-        if threshold_down < binary_patch.mean() < threshold_up:
+        if PATCH_THRESH_DOWN < np.mean(binary_patch) < PATCH_THRESH_UP:
             if is_valid_patch(binary_patch):
                 patches.append(image[x1:x2, y1:y2])
 
@@ -61,19 +67,19 @@ def get_sliding_window_patches(image_name, binary_map, window_size=152, stride=1
     return patches
 
 
-def show_rand_patch(patches_list):
+def _show_rand_patch(patches_list):
     ind = np.random.choice(len(patches_list))
     skimage.io.imshow(patches_list[ind])
     skimage.io.show()
 
 
-def show_patches(patches_list):
+def _show_patches(patches_list):
     for ind in range(len(patches_list)):
         skimage.io.imshow(patches_list[ind])
         skimage.io.show()
 
 
-def show_patch(patches_list, patch_ind):
+def _show_patch(patches_list, patch_ind):
     skimage.io.imshow(patches_list[patch_ind])
     skimage.io.show()
 
@@ -99,8 +105,10 @@ def save_patches(patches_list, dir_name, txt_fname, image_name, label):
 def process_image(image_name, window_size, stride, dir_name, txt_fname, label):
     print 'Processing image %s' % image_name
 
-    bin_map = get_binary_map(image_name)
-    crops = get_sliding_window_patches(image_name, bin_map, window_size, stride)
+    image = normalize_image(image_name)
+
+    bin_map = get_binary_map(image)
+    crops = get_sliding_window_patches(image, bin_map, window_size, stride)
     save_patches(crops, dir_name, txt_fname, image_name, label)
 
     print 'Number of patches: %d' % len(crops)
@@ -126,27 +134,95 @@ def _half_image(image_name, image_num_1, image_num_2):
     skimage.io.imsave(img_2_name, img_2)
 
 
+def normalize_image(image_name):
+    origin_image = skimage.io.imread(image_name)
+
+    bin_map = get_binary_map(origin_image)
+
+    height = bin_map.shape[0]
+    weight = bin_map.shape[1]
+
+    x_up = 0
+    x_down = height
+    y_left = 0
+    y_right = weight
+
+    for i in range(height):
+        t = np.median(bin_map[i, :]) - 0.02
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            x_up = i
+        else:
+            break
+
+    for i in range(height - 1, 0, -1):
+        t = np.median(bin_map[i, :]) + 0.02
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            x_down = i
+        else:
+            break
+
+    for j in range(weight):
+        t = np.median(bin_map[:, j])
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            y_left = j
+        else:
+            break
+
+    for j in range(weight - 1, 0, -1):
+        t = np.median(bin_map[:, j]) - 0.01
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            y_right = j
+        else:
+            break
+
+    new_image = origin_image[x_up:x_down, y_left:y_right]
+
+    return skimage.transform.resize(new_image, (RESIZE_HEIGHT, RESIZE_WEIGHT))
+
+
+def _generate_normalize_images(path):
+    img_path = os.path.join(path, 'text')
+    for fname in os.listdir(img_path):
+        image_name = os.path.join(img_path, fname)
+        norm_dir = os.path.join(path, 'norm')
+        if not os.path.exists(norm_dir):
+            os.mkdir(norm_dir)
+        norm_image_name = os.path.join(norm_dir, fname)
+        skimage.io.imsave(norm_image_name, normalize_image(image_name))
+
+
 if __name__ == '__main__':
-    window_size = 152
-    stride = 50
+    train_images_paths = [('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_2/text', 1),
+                          ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/1/text', 0),
+                          ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/2/text', 0),
+                          ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/3/text', 0),
+                          ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/4/text', 0),
+                          ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/6/text', 0),
+                          ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/5/text', 0),
+                          ]
+
+    val_images_paths = [('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/text', 1),
+                        ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/7/text', 0),
+                        ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/8/text', 0)]
+
+    window_size = 80
+    stride = 20
     data_dir = '/home/andrew/Projects/al-maqrizi/data/sw_patches'
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
 
-    data_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches/train.txt'
+    train_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches/train.txt'
+    val_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches/val.txt'
 
-    path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_2/pages'
-    label = 1
-    process_images_path(path, window_size, stride, data_dir, data_fname, label)
+    for image_path, class_label in train_images_paths:
+        process_images_path(image_path, window_size, stride, data_dir, train_fname, class_label)
 
-    path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/1/text'
-    label = 0
-    process_images_path(path, window_size, stride, data_dir, data_fname, label)
+    for image_path, class_label in val_images_paths:
+        process_images_path(image_path, window_size, stride, data_dir, val_fname, class_label)
 
-    path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/2/text'
-    label = 0
-    process_images_path(path, window_size, stride, data_dir, data_fname, label)
+        # for image_path in images_paths:
+        #     _generate_normalize_images(image_path)
 
-    path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/3/text'
-    label = 0
-    process_images_path(path, window_size, stride, data_dir, data_fname, label)
+        # _generate_normalize_images('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1')
+
+        # process_image('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/5/norm/5_7.png', window_size, stride, data_dir, train_fname, 0)
