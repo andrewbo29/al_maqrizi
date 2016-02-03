@@ -30,25 +30,29 @@ def process_images_path(path, dir_name, txt_fname, label):
         )
 
 
-data_dir = '/home/andrew/Projects/al-maqrizi/data/components_patches'
+# root_dir = '.'
+root_dir = '/home/andrew/Projects/al-maqrizi'
+in_root_dir = lambda p: os.path.join(root_dir, p)
+
+data_dir = in_root_dir('data/components_patches')
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
 
-data_fname = '/home/andrew/Projects/al-maqrizi/data/components_patches/train.txt'
+data_fname = in_root_dir('data/components_patches/train.txt')
 
-MANUSCRIPTS = [('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_2/text', 1),
-               ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/1/text', 0),
-               ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/2/text', 0),
-               ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/3/text', 0),
-               ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/4/text', 0),
-               ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/5/text', 0)]
+MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_2/text'), 1),
+               (in_root_dir('data/not_al-maqrizi/1/text'), 0),
+               (in_root_dir('data/not_al-maqrizi/2/text'), 0),
+               (in_root_dir('data/not_al-maqrizi/3/text'), 0),
+               (in_root_dir('data/not_al-maqrizi/4/text'), 0),
+               (in_root_dir('data/not_al-maqrizi/5/text'), 0)]
 
-# data_fname = '/home/andrew/Projects/al-maqrizi/data/components_patches/val.txt'
+# data_fname = in_root_dir('components_patches/val.txt'
 #
-# MANUSCRIPTS = [('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/norm', 1),
-#                ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/6/norm', 0),
-#                ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/7/norm', 0),
-#                ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/8/norm', 0)]
+# MANUSCRIPTS = [(in_root_dir('al-maqrizi/Archive_1/norm', 1),
+#                (in_root_dir('not_al-maqrizi/6/norm', 0),
+#                (in_root_dir('not_al-maqrizi/7/norm', 0),
+#                (in_root_dir('not_al-maqrizi/8/norm', 0)]
 
 for manuscript_path, class_label in MANUSCRIPTS:
     process_images_path(manuscript_path, data_dir, data_fname, class_label)

@@ -51,10 +51,10 @@ class RegionsFilter(ArgParseMixin):
     def __init__(
             self,
             max_major_minor_axis_length_ratio=10.,
-            min_minor_axis_length=8,
-            min_major_axis_length=15,
-            max_major_axis_length=160,
-            dbscan_eps=0.3,
+            min_minor_axis_length=5,
+            min_major_axis_length=8,
+            max_major_axis_length=220,
+            dbscan_eps=0.5,
             dbscan_min_samples=10
     ):
         self.max_major_minor_axis_length_ratio = max_major_minor_axis_length_ratio
@@ -66,16 +66,16 @@ class RegionsFilter(ArgParseMixin):
 
     def add_args(self, parser):
         parser.add_argument('--dbscan_eps', type=float,
-                            help="eps parameter for DBSCAN algorithm used to detect outlier regions", default=0.3)
+                            help="eps parameter for DBSCAN algorithm used to detect outlier regions", default=0.5)
         parser.add_argument('--dbscan_min_samples', type=int,
                             help="min_samples parameter for DBSCAN algorithm used to detect outlier regions",
                             default=10)
         parser.add_argument('--max_major_axis_length', type=int,
-                            help="filter regions with major_axis_length greater then this value", default=160)
+                            help="filter regions with major_axis_length greater then this value", default=220)
         parser.add_argument('--min_major_axis_length', type=int,
-                            help="filter regions with major_axis_length lower then this value", default=15)
+                            help="filter regions with major_axis_length lower then this value", default=8)
         parser.add_argument('--min_minor_axis_length', type=int,
-                            help="filter regions with minor_axis_length lower then this value", default=7)
+                            help="filter regions with minor_axis_length lower then this value", default=5)
         parser.add_argument('--max_major_minor_axis_length_ratio', type=float,
                             help="filter regions with major_axis_length/minor_axis_length ration greater then this value",
                             default=10.)
@@ -111,7 +111,11 @@ class RegionsFilter(ArgParseMixin):
         X = StandardScaler().fit_transform(X)
         db = DBSCAN(eps=self.dbscan_eps, min_samples=self.dbscan_min_samples).fit(X)
         labels = db.labels_
-        return [r for r, l in zip(regions, labels) if l >= 0]
+
+        if min(labels) == -1:
+            return regions
+        else:
+            return [r for r, l in zip(regions, labels) if l >= 0]
 
     def filter(self, regions):
         regions_filtered = self._filter_regions_by_properties(regions)
