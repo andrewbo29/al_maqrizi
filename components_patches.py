@@ -38,21 +38,21 @@ data_dir = in_root_dir('data/components_patches')
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
 
-data_fname = in_root_dir('data/components_patches/train.txt')
-
-MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_2/text'), 1),
-               (in_root_dir('data/not_al-maqrizi/1/text'), 0),
-               (in_root_dir('data/not_al-maqrizi/2/text'), 0),
-               (in_root_dir('data/not_al-maqrizi/3/text'), 0),
-               (in_root_dir('data/not_al-maqrizi/4/text'), 0),
-               (in_root_dir('data/not_al-maqrizi/5/text'), 0)]
-
-# data_fname = in_root_dir('components_patches/val.txt'
+# data_fname = in_root_dir('data/components_patches/train.txt')
 #
-# MANUSCRIPTS = [(in_root_dir('al-maqrizi/Archive_1/norm', 1),
-#                (in_root_dir('not_al-maqrizi/6/norm', 0),
-#                (in_root_dir('not_al-maqrizi/7/norm', 0),
-#                (in_root_dir('not_al-maqrizi/8/norm', 0)]
+# MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_2/text'), 1),
+#                (in_root_dir('data/not_al-maqrizi/1/text'), 0),
+#                (in_root_dir('data/not_al-maqrizi/2/text'), 0),
+#                (in_root_dir('data/not_al-maqrizi/3/text'), 0),
+#                (in_root_dir('data/not_al-maqrizi/4/text'), 0),
+#                (in_root_dir('data/not_al-maqrizi/5/text'), 0),
+#                (in_root_dir('data/not_al-maqrizi/8/norm'), 0)]
+
+data_fname = in_root_dir('data/components_patches/val.txt')
+
+MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_1/norm'), 1),
+               (in_root_dir('data/not_al-maqrizi/6/norm'), 0),
+               (in_root_dir('data/not_al-maqrizi/7/norm'), 0)]
 
 for manuscript_path, class_label in MANUSCRIPTS:
     process_images_path(manuscript_path, data_dir, data_fname, class_label)

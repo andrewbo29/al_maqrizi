@@ -191,9 +191,64 @@ def _generate_normalize_images(path):
         skimage.io.imsave(norm_image_name, normalize_image(image_name))
 
 
+def _generate_normalize_double_images(image_name):
+    origin_image = skimage.io.imread(image_name)
+
+    bin_map = get_binary_map(origin_image)
+
+    height = bin_map.shape[0]
+    weight = bin_map.shape[1]
+
+    x_up = 0
+    x_down = height
+    y_left = 0
+    y_right = weight
+
+    for i in range(height):
+        t = np.median(bin_map[i, :]) - 0.02
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            x_up = i
+        else:
+            break
+
+    for i in range(height - 1, 0, -1):
+        t = np.median(bin_map[i, :]) + 0.02
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            x_down = i
+        else:
+            break
+
+    for j in range(weight):
+        t = np.median(bin_map[:, j])
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            y_left = j
+        else:
+            break
+
+    for j in range(weight - 1, 0, -1):
+        t = np.median(bin_map[:, j]) - 0.01
+        if t < NORMALIZE_THRESH_DOWN or t > NORMALIZE_THRESH_UP:
+            y_right = j
+        else:
+            break
+
+    new_image = origin_image[x_up:x_down, y_left:y_right]
+
+    dir_name = '/'.join(image_name.split('/')[:-1])
+    image_fname = image_name.split('/')[-1]
+
+    half_w = int(new_image.shape[1] / 2)
+    img_1 = new_image[:, :half_w + 100, :]
+    img_1_name = '%s/text/%s_1.png' % (dir_name, image_fname)
+    skimage.io.imsave(img_1_name, img_1)
+
+    img_2 = new_image[:, half_w:, :]
+    img_2_name = '%s/text/%s_2.png' % (dir_name, image_fname)
+    skimage.io.imsave(img_2_name, img_2)
+
+
 if __name__ == '__main__':
     train_images_paths = [('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_2/text', 1),
-                          ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/1/text', 0),
                           ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/2/text', 0),
                           ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/3/text', 0),
                           ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/4/text', 0),
@@ -202,6 +257,7 @@ if __name__ == '__main__':
                           ]
 
     val_images_paths = [('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/text', 1),
+                        ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/1/text', 0),
                         ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/7/text', 0),
                         ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/8/text', 0)]
 
@@ -226,3 +282,9 @@ if __name__ == '__main__':
         # _generate_normalize_images('/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1')
 
         # process_image('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/5/norm/5_7.png', window_size, stride, data_dir, train_fname, 0)
+
+        # path = '/home/andrew/Projects/al-maqrizi/data/hitat'
+        # for image_name in os.listdir(path):
+        #     full_image_name = os.path.join(path, image_name)
+        #     if os.path.isfile(full_image_name):
+        #         _generate_normalize_double_images(full_image_name)
