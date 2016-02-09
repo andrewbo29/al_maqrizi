@@ -40,12 +40,12 @@ if not os.path.exists(data_dir):
 
 # data_fname = in_root_dir('data/components_patches_bin/train.txt')
 #
-# MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_2/text'), 1),
-#                (in_root_dir('data/not_al-maqrizi/1/text'), 0),
-#                (in_root_dir('data/not_al-maqrizi/2/text'), 0),
-#                (in_root_dir('data/not_al-maqrizi/3/text'), 0),
-#                (in_root_dir('data/not_al-maqrizi/4/text'), 0),
-#                (in_root_dir('data/not_al-maqrizi/5/text'), 0),
+# MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_2/norm'), 1),
+#                (in_root_dir('data/not_al-maqrizi/1/norm'), 0),
+#                (in_root_dir('data/not_al-maqrizi/2/norm'), 0),
+#                (in_root_dir('data/not_al-maqrizi/3/norm'), 0),
+#                (in_root_dir('data/not_al-maqrizi/4/norm'), 0),
+#                (in_root_dir('data/not_al-maqrizi/5/norm'), 0),
 #                (in_root_dir('data/not_al-maqrizi/8/norm'), 0)]
 
 data_fname = in_root_dir('data/components_patches_bin/val.txt')
