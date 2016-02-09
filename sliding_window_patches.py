@@ -67,6 +67,30 @@ def get_sliding_window_patches(image, binary_map, window_size=152, stride=10):
     return patches
 
 
+def get_sliding_window_patches_coord(image, binary_map, window_size=152, stride=10):
+    x1 = 0
+    y1 = 0
+    x2 = window_size
+    y2 = window_size
+
+    patches = []
+    while x2 < binary_map.shape[0]:
+        binary_patch = binary_map[x1:x2, y1:y2]
+        if PATCH_THRESH_DOWN < np.mean(binary_patch) < PATCH_THRESH_UP:
+            if is_valid_patch(binary_patch):
+                patches.append([x1, y1, x2, y2])
+
+        y1 += stride
+        y2 = y1 + window_size
+        if y2 >= binary_map.shape[1]:
+            y1 = 0
+            y2 = window_size
+            x1 += stride
+            x2 = x1 + window_size
+
+    return patches
+
+
 def _show_rand_patch(patches_list):
     ind = np.random.choice(len(patches_list))
     skimage.io.imshow(patches_list[ind])
