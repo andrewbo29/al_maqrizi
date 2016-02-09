@@ -14,7 +14,7 @@ def process_images_path(path, dir_name, txt_fname, label):
                 output_images_width=28,
                 regions_filter=regions_filter,
                 region_resizer=region_resizer,
-                output_binary=False
+                output_binary=True
         )
 
         output_sample_dir = os.path.join(dir_name, image_file[:-4])
@@ -34,11 +34,11 @@ def process_images_path(path, dir_name, txt_fname, label):
 root_dir = '/home/andrew/Projects/al-maqrizi'
 in_root_dir = lambda p: os.path.join(root_dir, p)
 
-data_dir = in_root_dir('data/components_patches')
+data_dir = in_root_dir('data/components_patches_bin')
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
 
-# data_fname = in_root_dir('data/components_patches/train.txt')
+# data_fname = in_root_dir('data/components_patches_bin/train.txt')
 #
 # MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_2/text'), 1),
 #                (in_root_dir('data/not_al-maqrizi/1/text'), 0),
@@ -48,7 +48,7 @@ if not os.path.exists(data_dir):
 #                (in_root_dir('data/not_al-maqrizi/5/text'), 0),
 #                (in_root_dir('data/not_al-maqrizi/8/norm'), 0)]
 
-data_fname = in_root_dir('data/components_patches/val.txt')
+data_fname = in_root_dir('data/components_patches_bin/val.txt')
 
 MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_1/norm'), 1),
                (in_root_dir('data/not_al-maqrizi/6/norm'), 0),
