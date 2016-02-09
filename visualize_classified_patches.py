@@ -53,9 +53,9 @@ def plot_image_estimated_al_maqrizi_probability2(
 
     matplotlib.rc('font', **font)
 
-    ax1 = plt.subplot2grid((100, 1), (0, 0), rowspan=70)
-    ax2 = plt.subplot2grid((100, 1), (72, 0), rowspan=4)
-    ax3 = plt.subplot2grid((100, 1), (79, 0), rowspan=20)
+    ax1 = plt.subplot2grid((100, 1), (0, 0), rowspan=78)
+    ax2 = plt.subplot2grid((100, 1), (80, 0), rowspan=2)
+    ax3 = plt.subplot2grid((100, 1), (85, 0), rowspan=15)
 
     # plot image itself
     ax1.set_title(
@@ -88,3 +88,4 @@ def plot_image_estimated_al_maqrizi_probability2(
     ax3.set_xticks([0, 1])
 
     plt.show()
+
