@@ -3,6 +3,7 @@ import numpy as np
 import sliding_window_patches as sw
 from skimage import img_as_ubyte
 import visualize_classified_patches as viz
+import matplotlib
 
 
 class FeaturesNet(caffe.Net):
@@ -69,7 +70,9 @@ net = FeaturesNet(MODEL_FILE, PRETRAINED, MEAN)
 window_size = 80
 stride = 20
 
-IMAGE_FILE = '/home/boyarov/Documents/arab/data/al-maqrizi/Archive_1/Ms-orient-A-01771_026.jpg'
+IMAGE_FILE = '/home/boyarov/Documents/arab/data/al-maqrizi/Archive_1/Ms-orient-A-01771_014.jpg'
+# IMAGE_FILE = '/home/boyarov/Documents/arab/data/not_al-maqrizi/1/Pic-1.png'
+# IMAGE_FILE = '/home/boyarov/Documents/arab/data/not_al-maqrizi/4/Pic-1.png'
 
 prob = []
 bbox_list = []
@@ -78,4 +81,5 @@ for patch, coord in process_image_sw(IMAGE_FILE, window_size, stride):
     prob.append(output[1])
     bbox_list.append((coord, output[1]))
 
+matplotlib.rcParams['figure.figsize'] = (10.0, 18.0)
 viz.plot_image_estimated_al_maqrizi_probability2(sw.normalize_image(IMAGE_FILE), bbox_list)
