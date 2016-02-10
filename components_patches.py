@@ -44,16 +44,16 @@ def process_images_path(path, dir_name, txt_fname, label):
 
 if __name__ == '__main__':
     # root_dir = '.'
-    # root_dir = '/home/andrew/Projects/al-maqrizi'
-    root_dir = '/home/boyarov/Projects/al-maqrizi'
+    root_dir = '/home/andrew/Projects/al-maqrizi'
+    # root_dir = '/home/boyarov/Projects/al-maqrizi'
     in_root_dir = lambda p: os.path.join(root_dir, p)
 
     data_dir = in_root_dir('data/components_patches_bin')
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
 
-    # data_fname = in_root_dir('data/components_patches_bin/train.txt')
-    #
+    data_fname = in_root_dir('data/components_patches_bin/train.txt')
+
     # MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_2/norm'), 1),
     #                (in_root_dir('data/not_al-maqrizi/1/norm'), 0),
     #                (in_root_dir('data/not_al-maqrizi/2/norm'), 0),
@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
     MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_1/norm'), 1),
                    (in_root_dir('data/not_al-maqrizi/6/norm'), 0),
-                   (in_root_dir('data/not_al-maqrizi/8/nrom'), 0)]
+                   (in_root_dir('data/not_al-maqrizi/8/norm'), 0)]
 
     for manuscript_path, class_label in MANUSCRIPTS:
         process_images_path(manuscript_path, data_dir, data_fname, class_label)

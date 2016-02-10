@@ -57,7 +57,8 @@ class VerificationGreyNet(caffe.Net):
 
     def predict(self, images):
         in_ = self.inputs[0]
-        caffe_in = np.zeros((len(images), 1) + self.blobs[in_].data.shape[2:], dtype=np.float32)
+        caffe_in = np.zeros((len(images), 3) + self.blobs[in_].data.shape[2:], dtype=np.float32)
+        print caffe_in.shape
         for ix, img in enumerate(images):
             print img.shape
             caffe_in[ix] = self.transformer.preprocess(in_, img)
@@ -94,9 +95,9 @@ def process_image_components(image_fname, size):
     new_crops_images = []
     for img in crops_images:
         if img.ndim == 2:
-            # img = np.tile(img[:, :, np.newaxis], (1, 1, 3))
+            img = np.tile(img[:, :, np.newaxis], (1, 1, 3))
             img = img[:, :, np.newaxis]
-            # print img.shape
+            # img = img[np.newaxis, :, :]
             new_crops_images.append(img)
     # crops_images = map(cp.fix_if_grayscale, crops_images)
 
@@ -128,30 +129,43 @@ if __name__ == '__main__':
     # pretrained = '/home/boyarov/Projects/al-maqrizi/net/snapshot_iter_7170.caffemodel'
     # mean_fname = '/home/boyarov/Projects/al-maqrizi/net/mean.binaryproto'
 
-    model = '/home/boyarov/nvcaffe-jobs/20160210-152119-d95f/deploy.prototxt'
-    pretrained = '/home/boyarov/nvcaffe-jobs/20160210-152119-d95f/snapshot_iter_42060.caffemodel'
-    mean_fname = '/home/boyarov/nvcaffe-jobs/20160210-145407-d7f0/mean.binaryproto'
-    mean_file = '/home/boyarov/Projects/al-maqrizi/data/mean.npy'
+    # model = '/home/boyarov/nvcaffe-jobs/20160210-152119-d95f/deploy.prototxt'
+    # pretrained = '/home/boyarov/nvcaffe-jobs/20160210-152119-d95f/snapshot_iter_42060.caffemodel'
+    # mean_fname = '/home/boyarov/nvcaffe-jobs/20160210-145407-d7f0/mean.binaryproto'
+    # mean_file = '/home/boyarov/Projects/al-maqrizi/data/mean.npy'
+
+    model = '/home/andrew/digits/digits/jobs/20160210-212054-7029/deploy.prototxt'
+    pretrained = '/home/andrew/digits/digits/jobs/20160210-212054-7029/snapshot_iter_70100.caffemodel'
+    mean_fname = '/home/andrew/digits/digits/jobs/20160210-211223-168a/mean.binaryproto'
+    mean_file = '/home/andrew/digits/digits/jobs/20160210-211223-168a/mean.npy'
 
     caffe.set_mode_gpu()
     # net = VerificationNet(model, pretrained, mean_file=mean_fname)
-    net = VerificationGreyNet(model, pretrained, mean_file=mean_fname)
-    # net = caffe.Classifier(model, pretrained, mean_file)
+    # net = VerificationGreyNet(model, pretrained, mean_file=mean_fname)
+    net = caffe.Classifier(model, pretrained, np.load(mean_file).mean(1).mean(1))
 
     # image_name = '/home/boyarov/Documents/arab/data/al-maqrizi/Archive_1/Ms-orient-A-01771_014.jpg'
-    # image_name = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/text/Ms-orient-A-01771_019.jpg'
-    image_name = '/home/boyarov/Projects/al-maqrizi/data/hitat/UM605 pgs. 006-007.JPG_1.png'
+    image_name = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/text/Ms-orient-A-01771_019.jpg'
+    # image_name = '/home/boyarov/Projects/al-maqrizi/data/hitat/UM605 pgs. 006-007.JPG_1.png'
 
-    image_path = '/home/boyarov/Projects/al-maqrizi/data/hitat'
+    patches, patches_coord = process_image_components(image_name, size=28)
 
-    for fname in os.listdir(image_path):
-        image_name = os.path.join(image_path, image_name)
+    output = net.predict(map(img_as_ubyte, patches))
+    bbox_list = [(patches_coord[i], output[i][1]) for i in range(len(output))]
 
-        # patches, patches_coord = process_image_sw(image_name, window_size, stride)
-        patches, patches_coord = process_image_components(image_name, size=28)
+    matplotlib.rcParams['figure.figsize'] = (10.0, 18.0)
+    viz.plot_image_estimated_al_maqrizi_probability2(sw.normalize_image(image_name), bbox_list)
 
-        output = net.predict(img_as_ubyte(patches))
-        bbox_list = [(patches_coord[i], output[i][1]) for i in range(len(output))]
-
-        matplotlib.rcParams['figure.figsize'] = (10.0, 18.0)
-        viz.plot_image_estimated_al_maqrizi_probability2(sw.normalize_image(image_name), bbox_list)
+    # image_path = '/home/boyarov/Projects/al-maqrizi/data/hitat'
+    #
+    # for fname in os.listdir(image_path):
+    #     image_name = os.path.join(image_path, image_name)
+    #
+    #     # patches, patches_coord = process_image_sw(image_name, window_size, stride)
+    #     patches, patches_coord = process_image_components(image_name, size=28)
+    #
+    #     output = net.predict(img_as_ubyte(patches))
+    #     bbox_list = [(patches_coord[i], output[i][1]) for i in range(len(output))]
+    #
+    #     matplotlib.rcParams['figure.figsize'] = (10.0, 18.0)
+    #     viz.plot_image_estimated_al_maqrizi_probability2(sw.normalize_image(image_name), bbox_list)
