@@ -51,8 +51,8 @@ class RegionsFilter(ArgParseMixin):
     def __init__(
             self,
             max_major_minor_axis_length_ratio=10.,
-            min_minor_axis_length=5,
-            min_major_axis_length=8,
+            min_minor_axis_length=3,
+            min_major_axis_length=5,
             max_major_axis_length=220,
             dbscan_eps=0.5,
             dbscan_min_samples=10
@@ -73,9 +73,9 @@ class RegionsFilter(ArgParseMixin):
         parser.add_argument('--max_major_axis_length', type=int,
                             help="filter regions with major_axis_length greater then this value", default=220)
         parser.add_argument('--min_major_axis_length', type=int,
-                            help="filter regions with major_axis_length lower then this value", default=8)
+                            help="filter regions with major_axis_length lower then this value", default=5)
         parser.add_argument('--min_minor_axis_length', type=int,
-                            help="filter regions with minor_axis_length lower then this value", default=5)
+                            help="filter regions with minor_axis_length lower then this value", default=3)
         parser.add_argument('--max_major_minor_axis_length_ratio', type=float,
                             help="filter regions with major_axis_length/minor_axis_length ration greater then this value",
                             default=10.)
