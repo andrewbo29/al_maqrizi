@@ -1,5 +1,16 @@
 from connected_components_patches import *
 import os
+import skimage
+import skimage.color
+
+
+def fix_if_grayscale(im):
+    if len(im.shape) == 3:
+        return im
+    if len(im.shape) == 2:
+        return skimage.color.gray2rgb(im)
+    raise BaseException('Unsupported image shape: {}'.format(str(im.shape)))
+
 
 
 def process_images_path(path, dir_name, txt_fname, label):
@@ -16,7 +27,7 @@ def process_images_path(path, dir_name, txt_fname, label):
                 region_resizer=region_resizer,
                 output_binary=True
         )
-
+        crops = (fix_if_grayscale(im) for im in crops)
         output_sample_dir = os.path.join(dir_name, image_file[:-4])
         if not os.path.exists(output_sample_dir):
             os.mkdir(output_sample_dir)
@@ -30,8 +41,8 @@ def process_images_path(path, dir_name, txt_fname, label):
         )
 
 
-# root_dir = '.'
-root_dir = '/home/andrew/Projects/al-maqrizi'
+root_dir = '.'
+# root_dir = '/home/andrew/Projects/al-maqrizi'
 in_root_dir = lambda p: os.path.join(root_dir, p)
 
 data_dir = in_root_dir('data/components_patches_bin')
