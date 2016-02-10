@@ -19,22 +19,24 @@ def process_images_path(path, dir_name, txt_fname, label):
 
     for image_file in os.listdir(path):
         print image_file
-        crops = extract_patches(
+        crops_with_bboxes = extract_patches(
                 input_file=os.path.join(path, image_file),
                 output_images_height=28,
                 output_images_width=28,
                 regions_filter=regions_filter,
                 region_resizer=region_resizer,
-                output_binary=True
+                output_binary=True,
+                return_bbox=True
         )
-        crops = (fix_if_grayscale(im) for im in crops)
+        crops_images, crops_bboxes = zip(*crops_with_bboxes)
+        crops_images = map(fix_if_grayscale, crops_images)
         output_sample_dir = os.path.join(dir_name, image_file[:-4])
         if not os.path.exists(output_sample_dir):
             os.mkdir(output_sample_dir)
 
         save_images_in_dir(
                 output_sample_dir,
-                crops,
+                crops_images,
                 'png',
                 txt_fname,
                 label
@@ -63,7 +65,7 @@ data_fname = in_root_dir('data/components_patches_bin/val.txt')
 
 MANUSCRIPTS = [(in_root_dir('data/al-maqrizi/Archive_1/norm'), 1),
                (in_root_dir('data/not_al-maqrizi/6/norm'), 0),
-               (in_root_dir('data/not_al-maqrizi/7/norm'), 0)]
+               (in_root_dir('data/not_al-maqrizi/8/nrom'), 0)]
 
 for manuscript_path, class_label in MANUSCRIPTS:
     process_images_path(manuscript_path, data_dir, data_fname, class_label)

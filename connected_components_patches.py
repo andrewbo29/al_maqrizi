@@ -257,7 +257,8 @@ def extract_patches(
         output_images_width,
         regions_filter,
         region_resizer,
-        output_binary=False
+        output_binary=False,
+        return_bbox=False
 ):
     # reading input image
     image_color = skimage.io.imread(input_file, as_grey=False)
@@ -299,7 +300,10 @@ def extract_patches(
 
         # resizing patch to specified shape
         patch_resized = resize2d(patch, (output_images_height, output_images_width))
-        yield patch_resized
+        if return_bbox:
+            yield patch_resized, (minr, minc, maxr, maxc)
+        else:
+            yield patch_resized
 
 
 def save_images_in_dir(output_dir, images, output_format, txt_fname, label, prefix=''):
