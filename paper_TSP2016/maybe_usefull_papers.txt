@@ -1,0 +1,5 @@
+- Signature Verification using Multiple Neural Classifiers
+http://eprint.iitd.ac.in/bitstream/2074/323/1/bajajsig97.pdf
+
+- Writer Identification using Innovative Binarised Features of Handwritten Numerals 
+https://www.researchgate.net/profile/Graham_Leedham/publication/4033349_Writer_identification_using_innovative_binarised_features_of_handwritten_numerals/links/540e17690cf2f2b
