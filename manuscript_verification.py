@@ -95,13 +95,13 @@ if __name__ == '__main__':
         window_size = 80
         stride = 20
 
-        model = '/home/boyarov/Projects/al-maqrizi/net/sw/deploy.prototxt'
-        pretrained = '/home/boyarov/Projects/al-maqrizi/net/sw/snapshot_iter_7170.caffemodel'
-        mean_fname = '/home/boyarov/Projects/al-maqrizi/net/sw/mean.binaryproto'
+        model = '/home/andrew/Projects/al-maqrizi/nets/sw/deploy.prototxt'
+        pretrained = '/home/andrew/Projects/al-maqrizi/nets/sw/snapshot_iter_7170.caffemodel'
+        mean_fname = '/home/andrew/Projects/al-maqrizi/nets/sw/mean.binaryproto'
 
         net = VerificationNet(model, pretrained, mean_file=mean_fname)
 
-        image_path = '/home/boyarov/Projects/al-maqrizi/data/hitat'
+        image_path = '/home/andrew/Projects/al-maqrizi/data/hitat/text'
 
         doc_probs = []
         for fname in os.listdir(image_path):
@@ -124,9 +124,9 @@ if __name__ == '__main__':
     elif patches_type == 'components':
         patch_size = 28
 
-        model = '/home/boyarov/Projects/al-maqrizi/net/components_bin/deploy.prototxt'
-        pretrained = '/home/boyarov/Projects/al-maqrizi/net/components_bin/snapshot_iter_70100.caffemodel'
-        mean_file = '/home/boyarov/Projects/al-maqrizi/net/components_bin/mean.npy'
+        model = '/home/andrew/Projects/al-maqrizi/nets/components_bin/deploy.prototxt'
+        pretrained = '/home/andrew/Projects/al-maqrizi/nets/components_bin/snapshot_iter_70100.caffemodel'
+        mean_file = '/home/andrew/Projects/al-maqrizi/nets/components_bin/mean.npy'
 
         net = caffe.Classifier(model, pretrained, image_dims=(patch_size, patch_size),
                                mean=np.load(mean_file).mean(1).mean(1))

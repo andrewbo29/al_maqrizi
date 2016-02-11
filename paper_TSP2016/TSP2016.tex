@@ -54,7 +54,7 @@
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
 
-\title{Arabic Handwritten Text Images Authorship Attribution using Deep Convolutional Networks}
+\title{Arabic Handwriting Texts Visual Author Verification using Deep Convolutional Networks}
 
 % ---------------------------------------------------
 % Authors, Affiliation, and Acknowledgment
@@ -106,10 +106,10 @@ Dmitry Shalymov\IEEEauthorrefmark{4}
 \IEEEauthorblockA{
 	\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\IEEEauthorrefmark{4}
 	Faculty of Mathematics and Mechanics\\
-	Saint-Petersburg State University\\
-	Saint-Petersburg, Russia\\
+	Saint Petersburg State University\\
+	Saint Petersburg, Russia\\
 	Email: 
-		\IEEEauthorrefmark{1}andrei.boiarov@gmail.com, 
+		\IEEEauthorrefmark{1}a.boiarov@spbu.ru, 
 		\IEEEauthorrefmark{2}alexander.senov@gmail.com, 
 		\IEEEauthorrefmark{4}dmitry.shalymov@gmail.com
 }
@@ -180,10 +180,9 @@ The abstract goes here. The length of the abstract should not exceed 150 words.
 \section{Introduction}
 
 \begin{enumerate}
-	\item Важность задачи handwritten text image authorship attribution
-	\item Текущее состоянее дел по handwritten text image authorship attribution 
+	\item Важность задачи handwritten text visual author verification
+	\item Текущее состоянее дел по handwritten text author verification
 	\item Актуальность deep learning подхода к классификации изображений
-	\item Краткий перечень основных достижений с помощью deep learning в классификации изображений
 	\item Акцент на том, что в authorship attribution/verification/etc deep learning не пременялся, в этом новизна
 	\item Описание задачи (Problem statement): верификация авторства рукописи (изображения) посредством deep learning
 	\item Описание секций
@@ -206,12 +205,13 @@ The abstract goes here. The length of the abstract should not exceed 150 words.
 \begin{enumerate}
 	\item Описание общей структуры, желательно с блок-схемой: 
 		\begin{enumerate}
-			 \item Train: картнка страницы [$\to$  предобработка]$\to$ выделение патчей $\to$ тренировка сети
+			 \item Train: картинка страницы [$\to$  предобработка]$\to$ выделение патчей $\to$ тренировка сети
 			 \item Application: картинка страницы [$\to$  предобработка]$\to$ выделение патчей $\to$ классификация патчей $\to$ классификация страницы
 		\end{enumerate}
 	Тут кроме того важно явно прописать, что мы рассматриваем authorship attribution/verification как задачу классификации
 	\item Подраздел --- описание способа(способов?) выделения патчей, перевода их к размеру для сетки
 	\item Подраздел --- описание сети: архитектура, обучение
+	\item Подраздел --- метод определения, какому автору принадлежит документ (среднее значение вероятностей)
 \end{enumerate}
 
 
