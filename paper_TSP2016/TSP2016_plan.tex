@@ -1,0 +1,284 @@
+% ---------------------------------------------------
+% TSP 2016 Conference Template
+% ---------------------------------------------------
+
+
+\documentclass[conference,a4paper,twocolumn]{IEEEtran}
+
+\IEEEoverridecommandlockouts
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+\else
+\fi
+
+
+  \usepackage{tipa}
+  \usepackage[pdftex]{graphicx}
+	\usepackage{epsfig}
+	\usepackage{epstopdf}
+
+
+% *** MATH PACKAGES ***
+%
+\usepackage[cmex10]{amsmath}
+
+
+% *** SUBFIGURE PACKAGES ***
+\usepackage{subfigure}
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+% *** CUSTOME (added by Alexander Senov) PACKAGES ***
+\usepackage[utf8x]{inputenc} % указывает кодировку документа
+\usepackage[T2A]{fontenc} % указывает внутреннюю кодировку TeX 
+\usepackage[russian,english]{babel} % указывает язык документа
+\usepackage{lmodern}
+%\usepackage{gentium}
+%\renewcommand*\rmdefault{phv}
+% ---------------------------------------------------
+% Begin of Document
+% ---------------------------------------------------
+
+\begin{document}
+
+% ---------------------------------------------------
+% Title
+% ---------------------------------------------------
+
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+
+
+\title{Arabic Manuscript Author Verification Using\\ 
+Deep Convolutional Networks}
+
+% ---------------------------------------------------
+% Authors, Affiliation, and Acknowledgment
+% ---------------------------------------------------
+
+% use a multiple column layout for up to three different
+% affiliations
+%\author{
+%\IEEEauthorblockN{Andrei Boiarov}
+%\IEEEauthorblockA{Faculty of Mathematics and Mechanics\\
+%Saint-Petersburg State University\\
+%Saint-Petersburg, Russia\\
+%Email: a.boiarov@spbu.ru}
+%\and
+%\IEEEauthorblockN{Alexander Senov}
+%\IEEEauthorblockA{Faculty of Mathematics and Mechanics\\
+%Saint-Petersburg State University\\
+%Saint-Petersburg, Russia\\
+%Email: alexander.senov@gmail.com}
+%\and
+%\IEEEauthorblockN{Alexander Knysh}
+%\IEEEauthorblockA{Department of Near Eastern Studies\\
+%University of Michigan\\
+%Ann Arbor, MI 48104-1608, USA\\
+%Email: alknysh@umich.edu}
+%\and 
+%\IEEEauthorblockN{Dmitry Shalymov}
+%\IEEEauthorblockA{Faculty of Mathematics and Mechanics\\
+%Saint-Petersburg State University\\
+%Saint-Petersburg, Russia\\
+%Email: dmitry.shalymov@gmail.com}
+%\thanks{Identify applicable sponsor/s here. If no acknowledgements, delete this line.}}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+\author{
+\IEEEauthorblockN{
+Andrei Boiarov\IEEEauthorrefmark{1},
+Alexander Senov\IEEEauthorrefmark{2},
+Alexander Knysh\IEEEauthorrefmark{3} and
+Dmitry Shalymov\IEEEauthorrefmark{4}
+}
+\IEEEauthorblockA{
+	\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\IEEEauthorrefmark{4}
+	Faculty of Mathematics and Mechanics\\
+	Saint Petersburg State University\\
+	Saint Petersburg, Russia\\
+	Email: 
+		\IEEEauthorrefmark{1}a.boiarov@spbu.ru, 
+		\IEEEauthorrefmark{2}alexander.senov@gmail.com, 
+		\IEEEauthorrefmark{4}dmitry.shalymov@gmail.com
+}
+\IEEEauthorblockA{
+\IEEEauthorrefmark{3}Department of Near Eastern Studies\\
+University of Michigan\\
+Ann Arbor, Michigan 48104-1608, USA\\
+Email: alknysh@umich.edu}
+\thanks{This research is supported by Saint-Petersburg State Unversity grant 6.37.181.2014. The authors express their deep gratitude to Mrs. Evyn Kropf of the Hatcher Graduate Library who kindly facilitated access to the University of Michigan library resources.}
+}
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+% ---------------------------------------------------
+% Abstract
+% ---------------------------------------------------
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+The abstract goes here. The length of the abstract should not exceed 150 words. 
+
+Замечания
+\begin{enumerate}
+	\item The Method, The Data и заголовок --- "рабочие" названия
+	\item Упор на authorship attribution via deep learning, без акцента на аль-Макризи
+	\item По authorship attribution гугль молчит, есть схожие направления: author identification и author verification, возможно стоит отойти к ним
+	\item Возможно, я неправильно форматировал список авторов, надо будет посмотреть.
+	\item Предположительное распределение текста:
+	\begin{itemize}
+		\item 2 колонки (неполных --- на первой странице) --- Introduction
+		\item 1 колонка --- The Data
+		\item 2 колонки --- The Method
+		\item 2 колонки --- Results and Discussion
+		\item 1/2 колонки --- Conclusion
+		\item 1 колонка --- Bibliography
+	\end{itemize}
+	Получается 8 и 1/2 - можно урезать The Method и The Data
+	\item Позже надо будет удалить весь русский язык и пакет lmodern
+\end{enumerate}
+
+\end{abstract}
+
+% no keywords
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+% ---------------------------------------------------
+% Introduction
+% ---------------------------------------------------
+
+\section{Introduction}
+
+\begin{enumerate}
+	\item Важность задачи handwritten text visual author verification
+	\item Текущее состоянее дел по handwritten text author verification
+	\item Актуальность deep learning подхода к классификации изображений
+	\item Акцент на том, что в authorship attribution/verification/etc deep learning не пременялся, в этом новизна
+	\item Описание задачи (Problem statement): верификация авторства рукописи (изображения) посредством deep learning
+	\item Описание секций
+\end{enumerate}
+
+\section{The Data}
+Небольшой раздел, не более чем одной колонки.
+\begin{enumerate}
+	\item Почему задача верификации именно авторства аль-Макризи актуальна, цитирование Ноаха (это, в принципе, можно попросить написать Кныша)
+	\item Описания данных: 
+	\begin{enumerate}
+		\item что за данные
+		\item структура (страницы), 
+		\item предобработка (обрезание и скэйлинг до 700х500), 
+	\end{enumerate}
+\end{enumerate}
+
+
+\section{The Method}
+\begin{enumerate}
+	\item Описание общей структуры, желательно с блок-схемой: 
+		\begin{enumerate}
+			 \item Train: картинка страницы [$\to$  предобработка]$\to$ выделение патчей $\to$ тренировка сети
+			 \item Application: картинка страницы [$\to$  предобработка]$\to$ выделение патчей $\to$ классификация патчей $\to$ классификация страницы
+		\end{enumerate}
+	Тут кроме того важно явно прописать, что мы рассматриваем authorship attribution/verification как задачу классификации
+	\item Подраздел --- описание способа(способов?) выделения патчей, перевода их к размеру для сетки
+	\item Подраздел --- описание сети: архитектура, обучение
+	\item Подраздел --- метод определения, какому автору принадлежит документ (среднее значение вероятностей)
+\end{enumerate}
+
+
+\section{Results and Discussion}
+\begin{enumerate}
+	\item Подраздел --- результаты решения задачи классификации патчей
+	\item Подраздел --- рассуждение на тему сети, визуализация скрытых слоев 
+	\item Подраздел --- результаты решения задачи классификации страниц, пара картинок известных классов (о применении на Хитат в этой статье не стоит говорить, только если во 2-м разделе и заключении про "дальнейшие направлении иследований").
+\end{enumerate}
+
+
+
+% ---------------------------------------------------
+% Conclusion
+% ---------------------------------------------------
+
+\section{Conclusion}
+\begin{enumerate}
+	\item блаблабла
+ 	\item сказать про компоненты связности
+ 	\item сказать про другие дальнейшие улучшениея --- больше данных, больше слоев
+ 	\item сказать про Хитат
+\end{enumerate}
+
+
+% ---------------------------------------------------
+% References
+% ---------------------------------------------------
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+
+\begin{thebibliography}{99}
+
+\bibitem{MBulacu} M.~Bulacu, L.~Schomaker, A.~Brink \lq\lq Text-independent writer identification and verification on offline arabic handwriting,\rq\rq~in~\emph{Proc. 9th International Conference on Document Analysis and Recognition, ICDAR}, Curitiba, 2007, pp.~769--773.
+
+\bibitem{MBulacu} D.~Fecker, A.~Asi, W.~Pantke, V.~Märgner, J.~El-Sana, T.~Fingscheidt \lq\lq Document Writer Analysis with Rejection for Historical Arabic Manuscripts,\rq\rq~in~\emph{Proc. 14th nternational Conference on Frontiers in Handwriting Recognition, ICFHR}, Crete, 2014, pp.~743--748.
+
+\bibitem{DL} Y.~Lecun, Y.~Bengio, G.~Hinton, \lq\lq Deep learning,\rq\rq~\emph{Nature}, no.~521, pp.~436--444, May.~2015.
+
+\bibitem{CNN} Y.~Lecun, L.~Bottou, Y.~Bengio, P.~Haffner, \lq\lq Gradient-based learning applied to document recognition,\rq\rq~in~\emph{Proc. of the IEEE}, 1998, pp.~2278--2324.
+
+\bibitem{Alexnet} A.~Krizhevsky,I.~Sutskever, G.~Hinton, \lq\lq ImageNet Classification with Deep Convolutional Neural Networks,\rq\rq~in~\emph{Advances in Neural Information Processing Systems}, vol.~25, 2012, pp.~1097--1105.
+
+\bibitem{Googlenet} C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan, V.~Vanhoucke, A.~Rabinovich, \lq\lq Going deeper with convolutions,\rq\rq~in~\emph{Proc. of the IEEE Conference on Computer Vision and Pattern Recognition}, Boston, 2015, pp.~1--9.
+
+\bibitem{GranVolk} O.~Granichin, V.~Volkovich, D.~Toledano-Kitai, \emph{Randomized Algorithms in Automatic Control and Data Mining}.	Springer-Verlag: Heidelberg, New York, Dordrecht, London, 2015, 251~p.
+
+\end{thebibliography}
+
+% ---------------------------------------------------
+% End of Document
+% ---------------------------------------------------
+
+% that's all folks
+\end{document}
+
+
