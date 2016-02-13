@@ -34,7 +34,7 @@
 % *** CUSTOME (added by Alexander Senov) PACKAGES ***
 %\usepackage[utf8x]{inputenc} % указывает кодировку документа
 %\usepackage[T2A]{fontenc} % указывает внутреннюю кодировку TeX 
-%\usepackage[russian,english]{babel} % указывает язык документа
+\usepackage[english]{babel} % указывает язык документа
 %\usepackage{lmodern}
 %\usepackage{gentium}
 %\renewcommand*\rmdefault{phv}
@@ -99,7 +99,9 @@ Dmitry Shalymov\IEEEauthorrefmark{4}
 \IEEEauthorblockA{
 \IEEEauthorrefmark{3}Department of Near Eastern Studies\\
 University of Michigan\\
-Ann Arbor, Michigan 48104-1608, USA\\
+St. Petersburg State University Laboratory of Analysis and Modeling of Social Processes\\
+%Ann Arbor, Michigan 48104-1608, USA\\
+Ann Arbor, Michigan, USA\\
 Email: alknysh@umich.edu}
 \thanks{This research is supported by Saint Petersburg State University grant 6.37.181.2014. The authors express their deep gratitude to Mrs. Evyn Kropf of the Hatcher Graduate Library who kindly facilitated access to the University of Michigan library resources.}
 }
@@ -142,8 +144,13 @@ Email: alknysh@umich.edu}
 
 \section{Introduction}
 \label{sec:introduction}
-\todo{Replace dummy text with normal}
-\lipsum[6-10]
+The present study was motivated by the recent discovery by Dr. Noah Gardiner of the holograph (autograph) copy of the third volume of al-Maqrizi's famous “Description of Egypt” in the Library of the University of Michigan (Michigan Islamic MS 605) \cite{Noah}. The full title of the manuscript is "al-Mawa'iz wa-al-i'tibar fi dhikr al-khitat wa-al-athar" ("The Book of Admonitions and Lessons in the Catalogue of Territorial Divisions and Historical Monuments"; usually cited simply as al-Khitat). The manuscript was copied well after 818 A.H. (1415 C.E.) and was finished shortly after 831 (1427) by the celebrated Egyptian historian Taqi al-Din Ahmad Ibn 'Ali al-Maqrizi (d. 845/1442). It is the only known Maqrizi holograph (autograph) in the Americas. A number of elements in the codex, including the apparent age of the paper, lacunae in the text where the dates of certain events had not been filled in, and a number of marginal addenda and sewn-in inserts containing text found in the printed editions, led Dr. Gardiner to suspect that it might be a draft copy of the work. He visually collated the predominant hand of the codex and the inserts with some published images of al-Maqrizi’s hand and felt that a match was highly likely. He then sent images of the codex to Prof. Frederic Bauden of the University of Liege, the author of numerous articles on al-Maqrizi autographs. Prof. Bauden confirmed that the codex was indeed copied by al-Maqrizi himself, and was thus a holograph (autograph). He identified it as the fair copy (the author’s final version) of the third volume of al-Khitat, and thus the only fair copy of any volume of al-Khitat to have been found.
+
+Given the importance of this discovery for the history of science (al-Maqrizi's Khitat is one of the earliest descriptions of the topography of Cairo and ancient Egyptian monuments in its environs as well as Alexandria), a cross-disciplinary team of researchers affiliated with the St. Petersburg State University (Laboratory of Analysis and Modeling of Social Processes) decided to verify Dr. Gardiner’s and Prof. Bauden’s findings by using method based on deep convolutional networks.
+
+Previously used methods for author verification of arabic manuscript and for related fields were focused on developing of various types of features that can be obtained from a manuscript picture \cite{MBulacu}, \cite{DFecker}. In this paper we present a novel approach based on learning of deep hierarchical structure of features from the row image. This method belongs to the class of deep learning algorithms \cite{DL} and uses convolutional network \cite{CNN} for feature extraction and prediction. Deep convolution networks since 2012 year \cite{Alexnet} became the state of the art in many areas of computer vision: objects recognition, face identification, optical character recognition, object detection etc \cite{DL}.
+
+The paper is organized as follows. In the next section is given a description of data set used in experiments. Section III contains presentation of our methodology of extracting patches from image, training deep convolution networks and making decision of manuscript author. In section IV we present results of our experiments. At the end, conclusion is given.  
 %\pagebreak
 	
 
@@ -154,15 +161,28 @@ Email: alknysh@umich.edu}
   \label{fig:pipeline}
 \end{figure*}	
 	
-\section{The Data}
+\section{Data Set}
 \label{sec:the_data}
-\todo{Replace dummy text with normal}
-\lipsum[11-14]
+
+Solving of the problem of al-Maqrizi authorship verification requires training and validation data sets. As a one unique data element we consider single page of manuscript. Data set composes of a set of consistent parts from manuscripts of two kinds:
+\begin{itemize}
+	\item Two sets of verified al-Maqrizi's holographs from codex of Prof. Bauden is taken as a positive examples.
+	\item Eight manuscripts not written by al-Maqrizi's hand from the University of Michigan Hatcher Library (Special Collections) are considered as a negative examples. This manuscripts are selected in such way that the date and place of writing each of them is close to al-Maqrizi's Khitat: 14th and 15th centuries, Egypt and Syria.
+\end{itemize}
+For robustness of learning process obtained data is divided into training and validation sets:
+\begin{itemize}
+	\item Training set: 1 al-Maqrizi's manuscript consisting of 26 pages and 5 not al-Maqrizi's manuscripts each of which consists of 7 pages.
+	\item Validation set: 1 al-Maqrizi's manuscript consisting of 14 pages and 3 not al-Maqrizi's manuscripts each of which consists of 7 pages. Authors of this 3 manuscripts differ from authors of 5 negative examples in training set.   
+\end{itemize}
+
+It is important to note that we split our data set by the factor of a manuscript author. Thus when algorithm is learning on training set, it can not see authors in validation set. In that way we achieve robustness our method in terms of manuscripts because input of method is a whole manuscript. Number of not al-Maqrizi's documents is chosen in such way that training and validation set is nearly balanced.
+
+Main interest of this paper is author verification of al-Khitat manuscript consisting of 32 pages.
 
 
 %\pagebreak
 
-\section{The Method}
+\section{Method}
 \label{sec:the_method}
 
 We consider author verification problem as a binary classification problem: Al-Maqrizi class denoted as $1$ and non-Al-Maqrizi class denoted as $0$. In this context our goal is to build a classification pipeline able predict the probability (\textit{soft} classification) that given image belongs to the $1$ (Al-Maqrizi) class. The entire Al-Maqrizi authorship classification pipeline illustrated at figure~\ref{fig:pipeline} consists of the following steps:
@@ -215,8 +235,7 @@ It could be seen, that connected components based patches usually consist of one
 
 \section{Conclusion}
 
-
-\todo{Fill this section}
+The join research on al-Maqrizi’s “Description of Egypt” undertaken by a historian-philologist and three mathematicians from St. Petersburg State University is a unique experiment in working across disciplinary boundaries to achieve a common goal. Its results bode well for the future by opening new horizons for scholars of “Oriental” manuscripts who often desperately lack resources (other than their own eyes and intuition) to verify the provenance and authorship of the manuscript material they are working with. Given the propensity of Muslim scribes and later writers to attribute manuscripts to important luminaries of the past (such as, e.g., al-Ghazali, d. 505/1111; Ibn al-ʿArabi, d. 638/1240, and others), the new methods of analyzing and verifying handwritten texts, which have been designed and tested by St. Petersburg mathematicians, are bound to become an important tool for their colleagues in the humanities and social sciences.
 
 % ---------------------------------------------------
 % References
@@ -236,6 +255,8 @@ It could be seen, that connected components based patches usually consist of one
 % (used to reserve space for the reference number labels box)
 
 \begin{thebibliography}{99}
+
+\bibitem{Noah} N.~Gardiner, F.~Bauden, \lq\lq A Recently Discovered Holograph Fair Copy of al-Maqrīzī’s al-Mawāʿiẓ wa-al-iʿtibār fī dhikr al-khiṭaṭ wa-al-āthār (Michigan Islamic MS 605),\rq\rq~in~\emph{Journal of Islamic Manuscripts}, vol.~2, E.~J.~Brill, Leiden and Boston, 2011, pp.~123--131.
 
 \bibitem{MBulacu} M.~Bulacu, L.~Schomaker, A.~Brink \lq\lq Text-independent writer identification and verification on offline arabic handwriting,\rq\rq~in~\emph{Proc. 9th International Conference on Document Analysis and Recognition, ICDAR}, Curitiba, 2007, pp.~769--773.
 
