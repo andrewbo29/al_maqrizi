@@ -34,10 +34,16 @@
 % *** CUSTOME (added by Alexander Senov) PACKAGES ***
 %\usepackage[utf8x]{inputenc} % указывает кодировку документа
 %\usepackage[T2A]{fontenc} % указывает внутреннюю кодировку TeX 
-\usepackage[english]{babel} % указывает язык документа
+%\usepackage[english]{babel} % указывает язык документа
 %\usepackage{lmodern}
 %\usepackage{gentium}
 %\renewcommand*\rmdefault{phv}
+
+\usepackage{graphicx}
+\usepackage{subfig} % to make two figures side by side
+%\usepackage{subcaption}
+\usepackage{enumitem} % to specify enumeration start
+
 \usepackage{color} % для цветного текста
 
 \usepackage{lipsum} % for dummy text
@@ -187,20 +193,27 @@ Main interest of this paper is author verification of al-Khitat manuscript consi
 
 We consider author verification problem as a binary classification problem: Al-Maqrizi class denoted as $1$ and non-Al-Maqrizi class denoted as $0$. In this context our goal is to build a classification pipeline able predict the probability (\textit{soft} classification) that given image belongs to the $1$ (Al-Maqrizi) class. The entire Al-Maqrizi authorship classification pipeline illustrated at figure~\ref{fig:pipeline} consists of the following steps:
 
-\begin{enumerate}
+\begin{enumerate}[start=0]
 	\item Image preprocessing.
 	\item Extracting patches from candidate image.
 	\item Patches soft classification using \convnet.
 	\item Averaging predicted patches probabilities to produce overall candidate image Al-Maqrizi authorship probability.
 \end{enumerate}
 
-
-
 Each of this steps are thoroughly described in the following sections.	
 
 %The heart of our method is a \convnet patches classifier. We use ground-truth labelled patches extracted from images described in section~\ref{sec:the_data} as a training set for \convnet. [SOME DEFERRABLES FOR \convnet HERE].
 
-\todo{Describe image preprocessing}
+
+\subsection{Image preprocessing}
+This step was done to bring all images to relatively same size and scale by performing following steps:
+\begin{enumerate}
+	\item Removing part of image within the text bounding box.
+	\item Resizing resulted image to resolution $700\times 500$.
+\end{enumerate}
+This steps are reasonable enough since all images from our data set has approximately equal number of text lines and text bounding box aspect ratio. 
+
+Since this step is done only to unify our image dataset we does not include it in the pipeline.
 
 \subsection{Patches extraction}
 The patches extraction method generates a set of sub-images called patches from given image. The basic idea is that patch should represent small but yet meaningful part of image for the main purpose - authorship verification. We use two alternative methods for patches extraction described in following subsections.
@@ -219,11 +232,56 @@ c	\item Too small, too big and too stretched connected components filtering usin
 	\item Using remaining connected components bounding boxes as patches.
 \end{enumerate}
 
-Example of connected components based patches show on figure~\ref{fig:patches_example_connected components} \todo{add figure}. 
+Example of connected components based patches show on figure~\ref{fig:patches_example_connected_components} \todo{add figure}. 
 
-It could be seen, that connected components based patches usually consist of one or few letters thus providing high robustness for different image scale and size in contrast to fixed-size sliding window patches. However, fixed-sliding patches contain much more information: several symbols from several lines, - a very important feature for the authorship verification.
+It could be seen, that connected components based patches usually consist of one or few letters thus providing high robustness for different image scale and size in contrast to fixed-size sliding window patches. However, fixed-sliding patches contain much more information: several symbols from several lines, --- a very important feature for the authorship verification.
+%
+%\begin{figure}[!b]
+%    \centering
+%    \includegraphics[width=0.2\textwidth]{figures/patches_example_connected_components.png}	 
+%	\hfill    
+%    \includegraphics[width=0.2\textwidth]{figures/patches_example_connected_components.png} 
+%%    \caption{2 Figures side by side}%
+%    \label{fig:example}%
+%\end{figure}
 
+%\begin{figure}
+%	\centering
+%	\begin{minipage}{0.1\textwidth}
+%	\centering
+%	\includegraphics{figures/patches_example_connected_components.png}
+%	\caption{first figure}
+%	\end{minipage}
+%	\hfill
+%	\begin{minipage}{0.1\textwidth}
+%	\centering
+%	\includegraphics{figures/patches_example_connected_components.png}
+%	\caption{second figure}
+%	\end{minipage}
+%\end{figure}
 
+\begin{figure}
+\centering
+\begin{minipage}{.45\linewidth}
+  \includegraphics[width=\linewidth]{figures/patches_example_connected_components.png}
+  \captionof{figure}{\todo{Insert sliding window patches example figure}}
+  \label{img1}
+\end{minipage}
+\hspace{.05\linewidth}
+\begin{minipage}{.45\linewidth}
+  \includegraphics[width=\linewidth]{figures/patches_example_connected_components.png}
+  \captionof{figure}{Connected components patches example}
+  \label{img2}
+\end{minipage}
+\end{figure}
+%\begin{figure}
+%	\centering
+%	\subcaptionbox{A cat\label{cat}}
+%	[.4\linewidth]{\includegraphics{figures/patches_example_connected components.png}}%
+%	\subcaptionbox{An elephant\label{elephant}}
+%	[.4\linewidth]{\includegraphics{figures/patches_example_connected components.png}}
+%	\caption{Two animals}\label{animals}
+%\end{figure}
 
 \todo{Fill this section}
 
