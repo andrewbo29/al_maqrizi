@@ -130,7 +130,7 @@ Email: alknysh@umich.edu}
 % in the abstract
 \begin{abstract}
 % \lipsum[5]
-The problem of manuscript author verification is quite important nowadays and since manual verification has a subjectivity drawback, need in objective automatic methods arises. In this paper we propose an automatic method for author verification based on consecutive patches from image extraction and such state of the art image classification algorithm as deep convolutional network with two types of patches extraction: connected components based and fixed-size sliding window based. We apply this method to specific problem of medieval Egyptian historian al-Maqrizi's authorship verification of ancient manuscript al-Khitat volume recently discovered. Using appropriately collected ground-truth labelled data for convolutional network training purpose our method demonstrates very promising results on previously unseen images.
+The problem of manuscript author verification is quite important nowadays and since manual verification has a subjectivity drawback, need in objective automatic methods arises. In this paper we propose an automatic method for author verification based on consecutive patches from image extraction and such state of the art image classification algorithm as deep convolutional network with two types of patches extraction: connected components based and fixed-size sliding window based. We apply this method to specific problem of medieval Egyptian arabic historian al-Maqrizi's authorship verification of manuscript al-Khitat which volume was recently discovered. Using appropriately collected ground-truth labelled data for convolutional network training purpose our method demonstrates very promising results on previously unseen manuscripts.
 
 
 %The problem of manuscript author verification is quite important nowadays. Since manual verification has a subjectivity drawback, need in objective automatic methods arises. We propose an automatic method for author verification based on such foremost image classification method as deep convolutional network which encapsulate both features from image extraction and classification steps thus removing subjectivity even from features extraction step in contrast to most state of the art author verification methods. We apply the method to the problem of of recently discovered paper by questonable  al-Maqrizi's authorship verification for specific set of manuscripts images authored both by al-Maqrizi (positive class) and other authors (negative class). Using careful by-author train/validation/test set splitting, preprocessing and convolutional network training we achieve excellent classification accuracy on the test set. 
@@ -233,7 +233,7 @@ This method uses following routine for patches extraction
 	\item Input image binarization using Otsu's filter~\cite{otsu1975threshold}.
 	\item Connected components extraction from binarized image using algorithm from~\cite{fiorio1996connected_components}.
 	\item Too small, too big and too stretched connected components filtering using several empirical rules, e.g.: major axis to minor axis ratio less then $10$, minimum minor axis length greater then $3$ pixels, etc.
-	\item Outlier connected components filtering using DBSCAN clustering algorithm~\cite{ester1996dbscan}.
+	\item Outlier connected components filtering using DBSCAN clustering algorithm~\cite{ester1996dbscan}, \cite{GranVolk}.
 	\item Extracting remaining connected components bounding boxes from source image and resizing them $28\times 28$ pixels size.
 \end{enumerate}
 
@@ -466,7 +466,7 @@ The join research on al-Maqrizi’s ``Description of Egypt'' undertaken by a his
 
 \begin{thebibliography}{99}
 
-\bibitem{Noah} N.~Gardiner, F.~Bauden, \lq\lq A Recently Discovered Holograph Fair Copy of al-Maqrīzī’s al-Mawāʿiẓ wa-al-iʿtibār fī dhikr al-khiṭaṭ wa-al-āthār (Michigan Islamic MS 605),\rq\rq~in~\emph{Journal of Islamic Manuscripts}, vol.~2, E.~J.~Brill, Leiden and Boston, 2011, pp.~123--131.
+\bibitem{Noah} N.~Gardiner, F.~Bauden, \lq\lq A Recently Discovered Holograph Fair Copy of al-Maqrizi's al-Mawa'iz wa-al-i'tibar fi dhikr al-khitat wa-al-athar (Michigan Islamic MS 605),\rq\rq~in~\emph{Journal of Islamic Manuscripts}, vol.~2, E.~J.~Brill, Leiden and Boston, 2011, pp.~123--131.
 
 \bibitem{MBulacu} M.~Bulacu, L.~Schomaker, A.~Brink \lq\lq Text-independent writer identification and verification on offline arabic handwriting,\rq\rq~in~\emph{Proc. 9th International Conference on Document Analysis and Recognition, ICDAR}, Curitiba, 2007, pp.~769--773.
 
@@ -480,14 +480,14 @@ The join research on al-Maqrizi’s ``Description of Egypt'' undertaken by a his
 
 \bibitem{Googlenet} C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan, V.~Vanhoucke, A.~Rabinovich, \lq\lq Going deeper with convolutions,\rq\rq~in~\emph{Proc. of the IEEE Conference on Computer Vision and Pattern Recognition}, Boston, 2015, pp.~1--9.
 
-\bibitem{GranVolk} O.~Granichin, V.~Volkovich, D.~Toledano-Kitai, \emph{Randomized Algorithms in Automatic Control and Data Mining}. Springer-Verlag: Heidelberg, New York, Dordrecht, London, 2015, 251~p.
-
 \bibitem{otsu1975threshold} N.~Otsu, \lq\lq A threshold selection method from gray-level histograms, \rq\rq~\emph{Automatica}, vol.~11, 1975, pp.~285--296.
+
+\bibitem{fiorio1996connected_components} C.~Fiorio, J.~Gustedt, \lq\lq Two linear time union-find strategies for image processing, \rq\rq~\emph{Theoretical Computer Science}, vol.~154, no.~2, 1996, pp.~165--181.
 
 \bibitem{ester1996dbscan} M.~Ester, H.P.~Kriegel, J.~Sander, X.~Xu, \lq\lq A density-based algorithm for discovering clusters in large spatial databases with noise, \rq\rq~in~\emph{Proc. of Second International
 Conference on Knowledge Discovery and Data Mining}, vol.~96, no.~34, 1996, pp.~226--231.
 
-\bibitem{fiorio1996connected_components} C.~Fiorio, J.~Gustedt, \lq\lq Two linear time union-find strategies for image processing, \rq\rq~\emph{Theoretical Computer Science}, vol.~154, no.~2, 1996, pp.~165--181.
+\bibitem{GranVolk} O.~Granichin, V.~Volkovich, D.~Toledano-Kitai, \emph{Randomized Algorithms in Automatic Control and Data Mining}. Springer-Verlag: Heidelberg, New York, Dordrecht, London, 2015, 251~p.
 
 \end{thebibliography}
 
