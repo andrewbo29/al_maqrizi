@@ -166,25 +166,25 @@ The paper is organized as follows. In the next section is given a description of
 \begin{figure*}[!t]
 	\center
   \includegraphics[width=\textwidth]{figures/Al-Maqrizi_classification_pipeline.png}
-  \caption{Al-Maqrizi authorship soft classification pipeline}
+  \caption{al-Maqrizi authorship soft classification pipeline}
   \label{fig:pipeline}
 \end{figure*}	
 	
 \section{Data Set}
 \label{sec:the_data}
 
-Solving of the problem of al-Maqrizi authorship verification requires training and validation data sets. As a one unique data element we consider single page of manuscript. Data set composes of a set of consistent parts from manuscripts of two kinds:
+Solving of the problem of al-Maqrizi authorship verification requires training and test data sets. As a one unique data element we consider single page of manuscript. Data set composes of a set of consistent parts from manuscripts of two kinds:
 \begin{itemize}
 	\item Two sets of verified al-Maqrizi's holographs from codex of Prof. Bauden is taken as a positive examples.
 	\item Eight manuscripts not written by al-Maqrizi's hand from the University of Michigan Hatcher Library (Special Collections) are considered as a negative examples. This manuscripts are selected in such way that the date and place of writing each of them is close to al-Maqrizi's Khitat: 14th and 15th centuries, Egypt and Syria.
 \end{itemize}
-For robustness of learning process obtained data is divided into training and validation sets:
+For robustness of learning process obtained data is divided into training and test sets:
 \begin{itemize}
 	\item Training set: 1 al-Maqrizi's manuscript consisting of 26 pages and 5 not al-Maqrizi's manuscripts each of which consists of 7 pages.
-	\item Validation set: 1 al-Maqrizi's manuscript consisting of 14 pages and 3 not al-Maqrizi's manuscripts each of which consists of 7 pages. Authors of this 3 manuscripts differ from authors of 5 negative examples in training set.   
+	\item Test set: 1 al-Maqrizi's manuscript consisting of 14 pages and 3 not al-Maqrizi's manuscripts each of which consists of 7 pages. Authors of this 3 manuscripts differ from authors of 5 negative examples in training set.   
 \end{itemize}
 
-It is important to note that we split our data set by the factor of a manuscript author. Thus when algorithm is learning on training set, it can not see authors in validation set. In that way we achieve robustness our method in terms of manuscripts because input of method is a whole manuscript. Number of not al-Maqrizi's documents is chosen in such way that training and validation set is nearly balanced.
+It is important to note that we split our data set by the factor of a manuscript author. Thus when algorithm is learning on training set, it can not see authors in test set. In that way we achieve robustness our method in terms of manuscripts because input of method is a whole manuscript. Number of not al-Maqrizi's documents is chosen in such way that training and test set is nearly balanced.
 
 Main interest of this paper is author verification of al-Khitat manuscript consisting of 32 pages.
 
@@ -222,7 +222,7 @@ Since this step is done only to unify our image data set we does not include it 
 The patches extraction method generates a set of sub-images called patches from given image. The basic idea is that patch should represent small but yet meaningful part of image for the main purpose - authorship verification. We use two alternative methods for patches extraction described in following subsections.
 
 \subsubsection{Sliding window based method}
-This method splits image into patches by a grid of fixed cell of size $80\times 80$ pixels. Figure~\ref{fig:patches_example_sliding_window} \todo{add figure} illustrates the idea. 
+This method splits image into patches by a grid of fixed cell of size $80\times 80$ pixels with a stride $20$ pixels. Figure~\ref{fig:patches_example_sliding_window} illustrates the idea. 
 
 \subsubsection{Connected components based method}
 This method uses following routine for patches extraction
@@ -277,6 +277,7 @@ It could be seen, that connected components based patches usually consist of one
   \label{img2}
 \end{minipage}
 \end{figure}
+
 %\begin{figure}
 %	\centering
 %	\subcaptionbox{A cat\label{cat}}
@@ -340,7 +341,7 @@ softmax & & 2 \\
 
 As an input network takes $80\times80$ RGB image. All activation functions in convolution and fully connected layers is rectified linear units (ReLU). This deep network was trained by stochastic gradient descent method with Nesterov momentum, initial learning rate is $0.01$ and it decrease policy is step down.
 
-With connected components patches we use GoogleNet type of deep convolutional network \cite{Googlenet}. It architecture provided in table~\ref{googlenet_tab}. 
+With connected components patches we use GoogLeNet type of deep convolutional network \cite{Googlenet}. It architecture provided in table~\ref{googlenet_tab}. 
 \begin{table}[!h]
 \centering
 \caption{Connected components patch convolution network}
@@ -384,99 +385,58 @@ softmax & & 2 \\
 \end{tabular}
 \end{table}
 
-As an input network takes $28\times28$ RGB image. All activation functions in convolution and fully connected layers is rectified linear units (ReLU). Inception layer is a combination of several convolution and pooling layers, for more details see \cite{Googlenet}. Learning method for this convolutional network is stochastic gradient descent with Nesterov momentum and initial learning rate equals to $0.01$ with step down decrease policy. 
+As an input network takes $28\times28$ RGB image. All activation functions in convolution and fully connected layers is rectified linear units (ReLU). Inception layer is a combination of several convolution and pooling layers, for more details see \cite{Googlenet}. Learning method for this convolutional network is stochastic gradient descent with Nesterov momentum and initial learning rate $0.01$ with step down decrease policy. 
 
 \section{Results and Discussion}
 
-\subsection{Patches classification}
-\todo{Fill this section}
+We experimented with both types of patches extraction and corresponding convolutional networks. 
 
-\subsection{Deep Convolutional Network}
-\todo{Fill this section}
-
-\subsection{Image classification}
-\todo{Fill this section}
-To assess quality of the classification pipeline we use only images from the test set, since they are the only ones had not been used in the learning process. 
-
-Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification result for two images from the test set: one from al-Maqrizi class and one from not-al-Maqrizi class. As you can see, both of them classified quite confidently with estimated al-Maqrizi authorship probability 0.0085 and 0.79 respectively. Regarding entire test set classification accuracy is equal to: \todo{classification accuracy}\todo{confusion matrix maybe?}.
-
-
-
-%\begin{figure}
-%\centering
-%\begin{minipage}{.48\linewidth}
-%	\centering
-%  \includegraphics[width=\linewidth]{figures/not_al_maqrizi_image_classification_example.png}
-%  %\captionof{figure}{ }
-%  %\label{fig:}
-%\end{minipage}
-%\hspace{.01\linewidth}
-%\begin{minipage}{.48\linewidth}
-%	\centering
-%  \includegraphics[width=\linewidth]{figures/al_maqrizi_image_classification_example.png}
-%  %\captionof{figure}{ }
-%  %\label{fig:}
-%\end{minipage}
-%  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example for two test set images: not-al-Maqrizi image (left) and al-Maqrizi image (right). Patches probabilities visualized using white-red (corresponding to 0-1 classes) colors on top of the original image. Additionally, probabilities histogram presented below.}
-%	\label{fig:al_maqrizi_classification_example}
-%\end{figure}
+\subsection{Deep convolutional network learning}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.2]{figures/alexnet_loss.png}
 \caption{Sliding window patch convolution network learning process.}
-\label{fig01}
+\label{img_alexnet}
 \end{figure}
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[scale=0.2]{figures/googlenet_loss.png}
-\caption{Connected components patch convolution network learning process.}
-\label{fig01}
-\end{figure}
+In picture~\ref{img_alexnet} displayed values of loss function on training (blue curve) and test (green curve) sets depending on the learning epoch for sliding window patch convolution network. Also one can see accuracy (orange curve) on test set. It final value is near $87 \%$. For connected components patch convolution network accuracy is worse --- $80 \%$.    
 
-\begin{figure}
-\centering
-\begin{minipage}{.45\linewidth}
-  \includegraphics[width=\linewidth]{figures/input.png}
-  \captionof{figure}{Input}
-  \label{img1}
-\end{minipage}
-\hspace{.05\linewidth}
-\begin{minipage}{.45\linewidth}
-  \includegraphics[width=\linewidth]{figures/norm1.png}
-  \captionof{figure}{First layer activation}
-  \label{img2}
-\end{minipage}
-\end{figure}
+\subsection{Manuscript classification}
+
+To assess quality of the classification pipeline we use only images from the test set, since they are the only ones had not been used in the learning process. 
+
+Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification result for two images from the test set: one from al-Maqrizi class and one from not al-Maqrizi class. As you can see, both of them classified quite confidently with estimated al-Maqrizi authorship probability $0.0085$ and $0.94$ respectively. Also this figure shows classification result for Khitat manuscript page. It gives $0.77$ probability of al-Maqrizi authorship.
 
 \begin{figure}
 \centering
-\begin{minipage}{.45\linewidth}
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=\linewidth]{figures/not_al_maqrizi_image_classification_example.png}
+  %\captionof{figure}{ }
+  %\label{fig:}
+\end{minipage}
+\hspace{.01\linewidth}
+\begin{minipage}{.48\linewidth}
+	\centering
   \includegraphics[width=\linewidth]{figures/sw_al_maqrisi.png}
-  \captionof{figure}{Sliding window patch al-Maqrizi}
-  \label{img1}
+  %\captionof{figure}{ }
+  %\label{fig:}
 \end{minipage}
-\hspace{.05\linewidth}
-\begin{minipage}{.45\linewidth}
-  \includegraphics[width=\linewidth]{figures/sw_not_al_maqrisi.png}
-  \captionof{figure}{Sliding window patch not al-Maqrizi}
-  \label{img2}
+\hspace{.01\linewidth}
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=\linewidth]{figures/hitat_15.png}
+  %\captionof{figure}{ }
+  %\label{fig:}
 \end{minipage}
-\hspace{.05\linewidth}
-\begin{minipage}{.45\linewidth}
-  \includegraphics[width=\linewidth]{figures/components_al_maqrisi.png}
-  \captionof{figure}{Sliding window patch Hitat}
-  \label{img2}
-\end{minipage}
+  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: not al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) and manuscript page from Khitat (down). Patches probabilities visualized using white-red (corresponding to 0-1 classes) colors on top of the original image. Additionally, probabilities histogram presented below.}
+	\label{fig:al_maqrizi_classification_example}
 \end{figure}
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[scale=0.2]{figures/components_al_maqrisi.png}
-\caption{Connected components patch al-Maqrizi.}
-\label{fig01}
-\end{figure}
+Regarding entire test set classification for sliding window patches with decision threshold $0.5$ we obtained precision $0.99$ and recall $0.92$. Method based on connected components patches is less robust: it generate many false positive predictions. But this approach has great potential and for it stable work required much more training examples. Thus convolutional network learned on connected components patches is prominent field for further research.
+
+By using sliding window patches with deep network method we received that mean probability of al-Maqrizi authorship of Khitat is equal $0.86$.    
 
 \section{Conclusion}
 
