@@ -88,8 +88,12 @@ if __name__ == '__main__':
 
     caffe.set_mode_gpu()
 
-    patches_type = 'sw'
-    # patches_type = 'components'
+    # patches_type = 'sw'
+    patches_type = 'components'
+
+    # image_path = '/home/andrew/Projects/al-maqrizi/data/hitat/text'
+    image_path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/text'
+    # image_path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/3/text'
 
     if patches_type == 'sw':
         window_size = 80
@@ -100,8 +104,6 @@ if __name__ == '__main__':
         mean_fname = '/home/andrew/Projects/al-maqrizi/nets/sw/mean.binaryproto'
 
         net = VerificationNet(model, pretrained, mean_file=mean_fname)
-
-        image_path = '/home/andrew/Projects/al-maqrizi/data/hitat/text'
 
         doc_probs = []
         for fname in os.listdir(image_path):
@@ -130,8 +132,6 @@ if __name__ == '__main__':
 
         net = caffe.Classifier(model, pretrained, image_dims=(patch_size, patch_size),
                                mean=np.load(mean_file).mean(1).mean(1))
-
-        image_path = '/home/boyarov/Projects/al-maqrizi/data/hitat'
 
         doc_probs = []
         for fname in os.listdir(image_path):
