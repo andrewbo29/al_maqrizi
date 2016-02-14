@@ -129,7 +129,10 @@ Email: alknysh@umich.edu}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-\lipsum[5]
+% \lipsum[5]
+
+The problem of manuscript author verification is quite important nowadays. Since manual verification has a subjectivity drawback, need in objective automatic methods arises. In this paper we propose an automatic method for author verification based on such foremost image classification method as deep convolutional network which encapsulate both features from image extraction and classification steps thus removing subjectivity even from features extraction step. We consider specific problem of al-Maqrizi's authorship verification for specific set of manuscripts images authored both by al-Maqrizi (positive class) and other authors (negative class). Using careful by-author train/validation/test set splitting, preprocessing and convolutional network training we achieve excellent classification accuracy on the test set. 
+
 \end{abstract}
 
 % no keywords
@@ -150,7 +153,7 @@ Email: alknysh@umich.edu}
 
 \section{Introduction}
 \label{sec:introduction}
-The present study was motivated by the recent discovery by Dr. Noah Gardiner of the holograph (autograph) copy of the third volume of al-Maqrizi's famous “Description of Egypt” in the Library of the University of Michigan (Michigan Islamic MS 605) \cite{Noah}. The full title of the manuscript is "al-Mawa'iz wa-al-i'tibar fi dhikr al-khitat wa-al-athar" ("The Book of Admonitions and Lessons in the Catalogue of Territorial Divisions and Historical Monuments"; usually cited simply as al-Khitat). The manuscript was copied well after 818 A.H. (1415 C.E.) and was finished shortly after 831 (1427) by the celebrated Egyptian historian Taqi al-Din Ahmad Ibn 'Ali al-Maqrizi (d. 845/1442). It is the only known Maqrizi holograph (autograph) in the Americas. A number of elements in the codex, including the apparent age of the paper, lacunae in the text where the dates of certain events had not been filled in, and a number of marginal addenda and sewn-in inserts containing text found in the printed editions, led Dr. Gardiner to suspect that it might be a draft copy of the work. He visually collated the predominant hand of the codex and the inserts with some published images of al-Maqrizi’s hand and felt that a match was highly likely. He then sent images of the codex to Prof. Frederic Bauden of the University of Liege, the author of numerous articles on al-Maqrizi autographs. Prof. Bauden confirmed that the codex was indeed copied by al-Maqrizi himself, and was thus a holograph (autograph). He identified it as the fair copy (the author’s final version) of the third volume of al-Khitat, and thus the only fair copy of any volume of al-Khitat to have been found.
+The present study was motivated by the recent discovery by Dr. Noah Gardiner of the holograph (autograph) copy of the third volume of al-Maqrizi's famous ``Description of Egypt'' in the Library of the University of Michigan (Michigan Islamic MS 605) \cite{Noah}. The full title of the manuscript is ``al-Mawa'iz wa-al-i'tibar fi dhikr al-khitat wa-al-athar'' (``The Book of Admonitions and Lessons in the Catalogue of Territorial Divisions and Historical Monuments''; usually cited simply as al-Khitat). The manuscript was copied well after 818 A.H. (1415 C.E.) and was finished shortly after 831 (1427) by the celebrated Egyptian historian Taqi al-Din Ahmad Ibn 'Ali al-Maqrizi (d. 845/1442). It is the only known Maqrizi holograph (autograph) in the Americas. A number of elements in the codex, including the apparent age of the paper, lacunae in the text where the dates of certain events had not been filled in, and a number of marginal addenda and sewn-in inserts containing text found in the printed editions, led Dr. Gardiner to suspect that it might be a draft copy of the work. He visually collated the predominant hand of the codex and the inserts with some published images of al-Maqrizi’s hand and felt that a match was highly likely. He then sent images of the codex to Prof. Frederic Bauden of the University of Liege, the author of numerous articles on al-Maqrizi autographs. Prof. Bauden confirmed that the codex was indeed copied by al-Maqrizi himself, and was thus a holograph (autograph). He identified it as the fair copy (the author’s final version) of the third volume of al-Khitat, and thus the only fair copy of any volume of al-Khitat to have been found.
 
 Given the importance of this discovery for the history of science (al-Maqrizi's Khitat is one of the earliest descriptions of the topography of Cairo and ancient Egyptian monuments in its environs as well as Alexandria), a cross-disciplinary team of researchers affiliated with the St. Petersburg State University (Laboratory of Analysis and Modeling of Social Processes) decided to verify Dr. Gardiner’s and Prof. Bauden’s findings by using method based on deep convolutional networks.
 
@@ -219,20 +222,20 @@ Since this step is done only to unify our image dataset we does not include it i
 The patches extraction method generates a set of sub-images called patches from given image. The basic idea is that patch should represent small but yet meaningful part of image for the main purpose - authorship verification. We use two alternative methods for patches extraction described in following subsections.
 
 \subsubsection{Sliding window based method}
-This method splits given image by a grid of fixed cell size. Each cell further used as a patch. Figure~\ref{fig:patches_example_sliding_window} \todo{add figure} illustrates the idea. 
+This method splits image into patches by a grid of fixed cell of size $80\times 80$ pixels. Figure~\ref{fig:patches_example_sliding_window} \todo{add figure} illustrates the idea. 
 
 \subsubsection{Connected components based method}
 This method uses following routine for patches extraction
 
 \begin{enumerate}
-	\item Input image binarization using Otsu's filter \todo{reference to Otsu filter paper}.
-	\item Connected components extraction from binarized image using algorithm from \todo{reference to connected components paper}.
-c	\item Too small, too big and too stretched connected components filtering using several empirical rules \todo{specific rules description}.
-	\item Outlier connected components filtering using DBSCAN \todo{reference to DBSCAN paper} clustering algorithm.
-	\item Using remaining connected components bounding boxes as patches.
+	\item Input image binarization using Otsu's filter~\cite{otsu1975threshold}.
+	\item Connected components extraction from binarized image using algorithm from~\cite{fiorio1996connected_components}.
+c	\item Too small, too big and too stretched connected components filtering using several empirical rules, e.g.: major axis to minor axis ratio less then $10$, minimum minor axis length greater then $3$ pixels, etc.
+	\item Outlier connected components filtering using DBSCAN clustering algorithm~\cite{ester1996dbscan}.
+	\item Extracting remaining connected components bounding boxes from source image and resizing them $28\times 28$ pixels size.
 \end{enumerate}
 
-Example of connected components based patches show on figure~\ref{fig:patches_example_connected_components} \todo{add figure}. 
+Example of connected components based patches show on figure~\ref{fig:patches_example_connected_components}. 
 
 It could be seen, that connected components based patches usually consist of one or few letters thus providing high robustness for different image scale and size in contrast to fixed-size sliding window patches. However, fixed-sliding patches contain much more information: several symbols from several lines, --- a very important feature for the authorship verification.
 %
@@ -262,16 +265,18 @@ It could be seen, that connected components based patches usually consist of one
 
 \begin{figure}
 \centering
-\begin{minipage}{.45\linewidth}
-  \includegraphics[width=\linewidth]{figures/patches_example_connected_components.png}
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=0.7\linewidth]{figures/patches_example_connected_components.png}
   \captionof{figure}{\todo{Insert sliding window patches example figure}}
-  \label{img1}
+  \label{fig:patches_example_sliding_window}
 \end{minipage}
-\hspace{.05\linewidth}
-\begin{minipage}{.45\linewidth}
-  \includegraphics[width=\linewidth]{figures/patches_example_connected_components.png}
+\hspace{.01\linewidth}
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=0.7\linewidth]{figures/patches_example_connected_components.png}
   \captionof{figure}{Connected components patches example}
-  \label{img2}
+  \label{fig:patches_example_connected_components}
 \end{minipage}
 \end{figure}
 %\begin{figure}
@@ -288,12 +293,43 @@ It could be seen, that connected components based patches usually consist of one
 
 \section{Results and Discussion}
 
-
+\subsection{Patches classification}
 \todo{Fill this section}
+
+\subsection{Deep Convolutional Network}
+\todo{Fill this section}
+
+\subsection{Image classification}
+\todo{Fill this section}
+To assess quality of the classification pipeline we use only images from the test set, since they are the only ones had not been used in the learning process. 
+
+Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification result for two images from the test set: one from al-Maqrizi class and one from not-al-Maqrizi class. As you can see, both of them classified quite confidently with estimated al-Maqrizi authorship probability 0.0085 and 0.79 respectively. Regarding entire test set classification accuracy is equal to: \todo{classification accuracy}\todo{confusion matrix maybe?}.
+
+
+
+\begin{figure}
+\centering
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=\linewidth]{figures/not_al_maqrizi_image_classification_example.png}
+  %\captionof{figure}{ }
+  %\label{fig:}
+\end{minipage}
+\hspace{.01\linewidth}
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=\linewidth]{figures/al_maqrizi_image_classification_example.png}
+  %\captionof{figure}{ }
+  %\label{fig:}
+\end{minipage}
+  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example for two test set images: not-al-Maqrizi image (left) and al-Maqrizi image (right). Patches probabilities visualized using white-red (corresponding to 0-1 classes) colors on top of the original image. Additionally, probabilities histogram presented below.}
+	\label{fig:al_maqrizi_classification_example}
+\end{figure}
+
 
 \section{Conclusion}
 
-The join research on al-Maqrizi’s “Description of Egypt” undertaken by a historian-philologist and three mathematicians from St. Petersburg State University is a unique experiment in working across disciplinary boundaries to achieve a common goal. Its results bode well for the future by opening new horizons for scholars of “Oriental” manuscripts who often desperately lack resources (other than their own eyes and intuition) to verify the provenance and authorship of the manuscript material they are working with. Given the propensity of Muslim scribes and later writers to attribute manuscripts to important luminaries of the past (such as, e.g., al-Ghazali, d. 505/1111; Ibn al-ʿArabi, d. 638/1240, and others), the new methods of analyzing and verifying handwritten texts, which have been designed and tested by St. Petersburg mathematicians, are bound to become an important tool for their colleagues in the humanities and social sciences.
+The join research on al-Maqrizi’s ``Description of Egypt'' undertaken by a historian-philologist and three mathematicians from St. Petersburg State University is a unique experiment in working across disciplinary boundaries to achieve a common goal. Its results bode well for the future by opening new horizons for scholars of ``Oriental'' manuscripts who often desperately lack resources (other than their own eyes and intuition) to verify the provenance and authorship of the manuscript material they are working with. Given the propensity of Muslim scribes and later writers to attribute manuscripts to important luminaries of the past (such as, e.g., al-Ghazali, d. 505/1111; Ibn al-ʿArabi, d. 638/1240, and others), the new methods of analyzing and verifying handwritten texts, which have been designed and tested by St. Petersburg mathematicians, are bound to become an important tool for their colleagues in the humanities and social sciences.
 
 % ---------------------------------------------------
 % References
@@ -329,6 +365,13 @@ The join research on al-Maqrizi’s “Description of Egypt” undertaken by a h
 \bibitem{Googlenet} C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan, V.~Vanhoucke, A.~Rabinovich, \lq\lq Going deeper with convolutions,\rq\rq~in~\emph{Proc. of the IEEE Conference on Computer Vision and Pattern Recognition}, Boston, 2015, pp.~1--9.
 
 \bibitem{GranVolk} O.~Granichin, V.~Volkovich, D.~Toledano-Kitai, \emph{Randomized Algorithms in Automatic Control and Data Mining}. Springer-Verlag: Heidelberg, New York, Dordrecht, London, 2015, 251~p.
+
+\bibitem{otsu1975threshold} N.~Otsu, \lq\lq A threshold selection method from gray-level histograms, \rq\rq~\emph{Automatica}, vol.~11, 1975, pp.~285--296.
+
+\bibitem{ester1996dbscan} M.~Ester, H.P.~Kriegel, J.~Sander, X.~Xu, \lq\lq A density-based algorithm for discovering clusters in large spatial databases with noise, \rq\rq~in~\emph{Proc. of Second International
+Conference on Knowledge Discovery and Data Mining}, vol.~96, no.~34, 1996, pp.~226--231.
+
+\bibitem{fiorio1996connected_components} C.~Fiorio, J.~Gustedt, \lq\lq Two linear time union-find strategies for image processing, \rq\rq~\emph{Theoretical Computer Science}, vol.~154, no.~2, 1996, pp.~165--181.
 
 \end{thebibliography}
 
