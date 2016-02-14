@@ -2,6 +2,7 @@
   <dictionary name="andrew">
     <words>
       <w>fname</w>
+      <w>pretrained</w>
     </words>
   </dictionary>
 </component>
