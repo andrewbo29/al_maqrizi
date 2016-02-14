@@ -161,7 +161,7 @@ Given the importance of this discovery for the history of science (al-Maqrizi's 
 
 Previously used methods for author verification of arabic manuscript and for related fields were focused on developing of various types of features that can be obtained from a manuscript picture \cite{MBulacu}, \cite{DFecker}. In this paper we present a novel approach based on learning of deep hierarchical structure of features from the row image. This method belongs to the class of deep learning algorithms \cite{DL} and uses convolutional network \cite{CNN} for feature extraction and prediction. Deep convolution networks since 2012 year \cite{Alexnet} became the state of the art in many areas of computer vision: objects recognition, face identification, optical character recognition, object detection etc \cite{DL}.
 
-The paper is organized as follows. In the next section is given a description of data set used in experiments. Section III contains presentation of our methodology of extracting patches from image, training deep convolution networks and making decision of manuscript author. In section IV we present results of our experiments. At the end, conclusion is given.  
+The paper is organized as follows. In section~\ref{sec:the_data} a description of data set used in experiments is given. Section~\ref{sec:the_method} contains presentation of our methodology of patches from image extraction, training deep convolution networks and making decision of manuscript author. In section~\ref{sec:results_and_description} our experiments results are presented. Finally, conclusion is given.  
 %\pagebreak
 	
 
@@ -196,7 +196,7 @@ Main interest of this paper is author verification of al-Khitat manuscript consi
 \section{Method}
 \label{sec:the_method}
 
-We consider author verification problem as a binary classification problem: al-Maqrizi class denoted as $1$ and non al-Maqrizi class denoted as $0$. In this context our goal is to build a classification pipeline able predict the probability (\textit{soft} classification) that given image belongs to the $1$ (al-Maqrizi) class. The entire al-Maqrizi authorship classification pipeline illustrated at figure~\ref{fig:pipeline} consists of the following steps:
+We consider author verification as a binary classification problem: al-Maqrizi class denoted as $1$ and non al-Maqrizi class denoted as $0$. In this context our goal is to build a classification pipeline able predict probability (\textit{soft} classification) that given image belongs to the $1$ (al-Maqrizi) class. The entire al-Maqrizi authorship classification pipeline illustrated at figure~\ref{fig:pipeline} consists of the following steps:
 
 \begin{enumerate}[start=0]
 	\item Image preprocessing.
@@ -221,7 +221,7 @@ This steps are reasonable enough since all images from our data set has approxim
 Since this step is done only to unify our images data set we does not include it in the pipeline.
 
 \subsection{Patches extraction}
-The patches extraction method generates a set of sub-images called patches from given image. The basic idea is that patch should represent small but yet meaningful part of image for the main purpose - authorship verification. We use two alternative methods for patches extraction described in following subsections.
+The patches extraction method generates a set of sub-images called patches from given image. The basic idea is that patch should represent small but yet meaningful part of image for the main purpose --- authorship verification. We use two alternative methods for patches extraction described in following subsections.
 
 \subsubsection{Sliding window based method}
 This method splits image into patches by a grid of fixed cell of size $80\times 80$ pixels with a stride $20$ pixels. Figure~\ref{fig:patches_example_sliding_window} illustrates the idea. 
@@ -239,7 +239,7 @@ This method uses following routine for patches extraction
 
 Example of connected components based patches show on figure~\ref{fig:patches_example_connected_components}. 
 
-It could be seen, that connected components based patches usually consist of one or few letters thus providing high robustness for different image scale and size in contrast to fixed-size sliding window patches. However, fixed-sliding patches contain much more information: several symbols from several lines, --- a very important feature for the authorship verification.
+It can be seen, that connected components based patches usually consist of one or few letters thus providing high robustness for different image scale and size in contrast to fixed-size sliding window patches (since all images been preprocessed this features is not important in our case). However, sliding-window patches contain much more information: several symbols from multiple lines, --- a very important feature for the authorship verification.
 %
 %\begin{figure}[!b]
 %    \centering
@@ -392,6 +392,7 @@ softmax & & 2 \\
 As an input network takes $28\times28$ RGB image. All activation functions in convolution and fully connected layers is rectified linear units (ReLU). Inception layer is a combination of several convolution and pooling layers, for more details see \cite{Googlenet}. Learning method for this convolutional network is stochastic gradient descent with Nesterov momentum and initial learning rate $0.01$ with step down decrease policy. 
 
 \section{Results and Discussion}
+\label{sec:results_and_description}
 
 We experimented with both types of patches extraction and corresponding convolutional networks. 
 
@@ -404,13 +405,13 @@ We experimented with both types of patches extraction and corresponding convolut
 \label{img_alexnet}
 \end{figure}
 
-In picture~\ref{img_alexnet} displayed values of loss function on training (blue curve) and test (green curve) sets depending on the learning epoch for sliding window patch convolution network. Also one can see accuracy (orange curve) on test set. It final value is near $87 \%$. For connected components patch convolution network accuracy is worse --- $80 \%$.    
+Figure~\ref{img_alexnet} demonstrates values of loss function on training (blue curve) and test (green curve) sets depending on the learning epoch for sliding window patch convolution network. Also one can see accuracy (orange curve) on the test set. It final value is near $87 \%$. For connected components patch convolution network accuracy is worse --- $80 \%$.    
 
 \subsection{Manuscript classification}
 
 To assess quality of the classification pipeline we use only images from the test set, since they are the only ones had not been used in the learning process. 
 
-Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification result for two images from the test set: one from al-Maqrizi class and one from not al-Maqrizi class. As you can see, both of them classified quite confidently with estimated al-Maqrizi authorship probability $0.0085$ and $0.94$ respectively. Also this figure shows classification result for Khitat manuscript page. It gives $0.77$ probability of al-Maqrizi authorship.
+Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification result for two images from the test set: one from al-Maqrizi class and one from not al-Maqrizi class. As you can see, both of them classified quite confidently with estimated al-Maqrizi authorship probability $0.0085$ and $0.94$ respectively. Also this figure shows classification result for al-Khitat manuscript page. It gives $0.77$ probability of al-Maqrizi authorship.
 
 \begin{figure}
 \centering
@@ -434,13 +435,13 @@ Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification r
   %\captionof{figure}{ }
   %\label{fig:}
 \end{minipage}
-  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: not al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) and manuscript page from Khitat (down). Patches probabilities visualized using white-red (corresponding to 0-1 classes) colors on top of the original image. Additionally, probabilities histogram presented below.}
+  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: not al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) and manuscript page from Khitat (bottom). Patches probabilities visualized using white-red colors (corresponding to 0-1 classes) on top of the original image. Additionally, probabilities histogram presented below.}
 	\label{fig:al_maqrizi_classification_example}
 \end{figure}
 
 Regarding entire test set classification for sliding window patches with decision threshold $0.5$ we obtained precision $0.99$ and recall $0.92$. Method based on connected components patches is less robust: it generate many false positive predictions. But this approach has great potential and for it stable work required much more training examples. Thus convolutional network learned on connected components patches is prominent field for further research.
 
-By using sliding window patches with deep network method we received that mean probability of al-Maqrizi authorship of Khitat is equal $0.86$.    
+By using sliding window patches with deep network method we received that mean probability of al-Maqrizi authorship over all al-Khitat pages is equal to $0.86$.    
 
 \section{Conclusion}
 
