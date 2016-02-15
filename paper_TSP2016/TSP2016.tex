@@ -130,7 +130,7 @@ Email: alknysh@umich.edu}
 % in the abstract
 \begin{abstract}
 % \lipsum[5]
-The problem of manuscript author verification is quite important nowadays and since manual verification has a subjectivity drawback, need in objective automatic methods arises. In this paper we propose an automatic method for author verification based on consecutive patches from image extraction and such state of the art image classification algorithm as deep convolutional network with two types of patches extraction: connected components based and fixed-size sliding window based. We apply this method to specific problem of medieval Egyptian arabic historian al-Maqrizi's authorship verification of manuscript al-Khitat which volume was recently discovered. Using appropriately collected ground-truth labelled data for convolutional network training purpose our method demonstrates very promising results on previously unseen manuscripts.
+The problem of manuscript author verification is quite important nowadays and since manual verification has a subjectivity drawback, need in objective automatic methods arises. In this paper we propose an automatic method for author verification based on consecutive patches from image extraction and such a state of the art image classification algorithm as deep convolutional network with two types of patches extraction: connected components based and fixed-size sliding window based. We apply this method to specific problem of medieval Egyptian Arab historian al-Maqrizi's authorship verification of manuscript \textit{al-Khitat} which volume was recently discovered. Using appropriately collected ground-truth labelled data for convolutional network training purpose our method demonstrates very promising results on previously unseen manuscripts.
 
 
 %The problem of manuscript author verification is quite important nowadays. Since manual verification has a subjectivity drawback, need in objective automatic methods arises. We propose an automatic method for author verification based on such foremost image classification method as deep convolutional network which encapsulate both features from image extraction and classification steps thus removing subjectivity even from features extraction step in contrast to most state of the art author verification methods. We apply the method to the problem of of recently discovered paper by questonable  al-Maqrizi's authorship verification for specific set of manuscripts images authored both by al-Maqrizi (positive class) and other authors (negative class). Using careful by-author train/validation/test set splitting, preprocessing and convolutional network training we achieve excellent classification accuracy on the test set. 
@@ -155,13 +155,13 @@ The problem of manuscript author verification is quite important nowadays and si
 
 \section{Introduction}
 \label{sec:introduction}
-The present study was motivated by the recent discovery by Dr. Noah Gardiner of the holograph (autograph) copy of the third volume of al-Maqrizi's famous ``Description of Egypt'' in the Library of the University of Michigan (Michigan Islamic MS 605) \cite{Noah}. The full title of the manuscript is ``al-Mawa'iz wa-al-i'tibar fi dhikr al-khitat wa-al-athar'' (``The Book of Admonitions and Lessons in the Catalogue of Territorial Divisions and Historical Monuments''; usually cited simply as al-Khitat). The manuscript was copied well after 818 A.H. (1415 C.E.) and was finished shortly after 831 (1427) by the celebrated Egyptian historian Taqi al-Din Ahmad Ibn 'Ali al-Maqrizi (d. 845/1442). It is the only known Maqrizi holograph (autograph) in the Americas. A number of elements in the codex, including the apparent age of the paper, lacunae in the text where the dates of certain events had not been filled in, and a number of marginal addenda and sewn-in inserts containing text found in the printed editions, led Dr. Gardiner to suspect that it might be a draft copy of the work. He visually collated the predominant hand of the codex and the inserts with some published images of al-Maqrizi’s hand and felt that a match was highly likely. He then sent images of the codex to Prof. Frederic Bauden of the University of Liege, the author of numerous articles on al-Maqrizi autographs. Prof. Bauden confirmed that the codex was indeed copied by al-Maqrizi himself, and was thus a holograph (autograph). He identified it as the fair copy (the author’s final version) of the third volume of al-Khitat, and thus the only fair copy of any volume of al-Khitat to have been found.
+The present study was motivated by the recent discovery by Dr. Noah Gardiner of the holograph (autograph) copy of the third volume of al-Maqrizi's famous ``Description of Egypt'' in the Library of the University of Michigan (Michigan Islamic MS 605) \cite{Noah}. The full title of the manuscript is ``al-Mawa'iz wa-al-i'tibar fi dhikr al-khitat wa-al-athar'' (``The Book of Admonitions and Lessons in the Catalogue of Territorial Divisions and Historical Monuments''; usually cited simply as \textit{al-Khitat}). The manuscript was copied well after 818 A.H. (1415 C.E.) and was finished shortly after 831 (1427) by the celebrated Egyptian historian Taqi al-Din Ahmad Ibn 'Ali al-Maqrizi (d. 845/1442). It is the only known Maqrizi holograph (autograph) in the Americas. A number of elements in the codex, including the apparent age of the paper, lacunae in the text where the dates of certain events had not been filled in, and a number of marginal addenda and sewn-in inserts containing text found in the printed editions, led Dr. Gardiner to suspect that it might be a draft copy of the work. He visually collated the predominant hand of the codex and the inserts with some published images of al-Maqrizi's hand and felt that a match was highly likely. He then sent images of the codex to Prof. Frederic Bauden of the University of Liege, the author of numerous articles on al-Maqrizi autographs. Prof. Bauden confirmed that the codex was indeed copied by al-Maqrizi himself, and was thus a holograph (autograph). He identified it as the fair copy (the author's final version) of the third volume of al-Khitat, and thus the only fair copy of any volume of al-Khitat to have been found.
 
-Given the importance of this discovery for the history of science (al-Maqrizi's Khitat is one of the earliest descriptions of the topography of Cairo and ancient Egyptian monuments in its environs as well as Alexandria), a cross-disciplinary team of researchers affiliated with the St. Petersburg State University (Laboratory of Analysis and Modeling of Social Processes) decided to verify Dr. Gardiner’s and Prof. Bauden’s findings by using method based on deep convolutional networks.
+Given the importance of this discovery for the history of science (al-Maqrizi's \textit{al-Khitat} is one of the earliest descriptions of the topography of Cairo and ancient Egyptian monuments in its environs as well as Alexandria), a cross-disciplinary team of researchers affiliated with the St. Petersburg State University (Laboratory of Analysis and Modeling of Social Processes) decided to verify Dr. Gardiner's and Prof. Bauden's findings by using method based on deep convolutional networks.
 
-Previously used methods for author verification of arabic manuscript and for related fields were focused on developing of various types of features that can be obtained from a manuscript picture \cite{MBulacu}, \cite{DFecker}. In this paper we present a novel approach based on learning of deep hierarchical structure of features from the row image. This method belongs to the class of deep learning algorithms \cite{DL} and uses convolutional network \cite{CNN} for feature extraction and prediction. Deep convolution networks since 2012 year \cite{Alexnet} became the state of the art in many areas of computer vision: objects recognition, face identification, optical character recognition, object detection etc \cite{DL}.
+Previously used methods for author verification of Arabic manuscript and for related fields were focused on developing of various types of features that can be obtained from a manuscript picture \cite{MBulacu}, \cite{DFecker}. In this paper we present a novel approach based on learning of deep hierarchical structure of features from the row image. This method belongs to the class of the deep learning algorithms \cite{DL} and uses convolutional network \cite{CNN} for feature extraction and prediction. Deep convolution networks since 2012 year \cite{Alexnet} became the state of the art in many areas of computer vision: objects recognition, face identification, optical character recognition, object detection, etc \cite{DL}.
 
-The paper is organized as follows. In section~\ref{sec:the_data} a description of data set used in experiments is given. Section~\ref{sec:the_method} contains presentation of our methodology of patches from image extraction, training deep convolution networks and making decision of manuscript author. In section~\ref{sec:results_and_description} our experiments results are presented. Finally, conclusion is given.  
+The paper is organized as follows. In section~\ref{sec:the_data} a description of the data set used in experiments is given. Section~\ref{sec:the_method} contains presentation of our methodology of patches from image extraction, training deep convolution networks and making decision of manuscript author. In section~\ref{sec:results_and_description} we present the results of our experiments, whereupon we provide a conclusion.
 %\pagebreak
 	
 
@@ -175,20 +175,23 @@ The paper is organized as follows. In section~\ref{sec:the_data} a description o
 \section{Data Set}
 \label{sec:the_data}
 
-Solving of the problem of al-Maqrizi authorship verification requires training and test data sets. As a one unique data element we consider single page of manuscript. Data set composes of a set of consistent parts from manuscripts of two kinds:
+Solving the problem of al-Maqrizi authorship verification requires training and test data sets. 
+We consider a single page of the manuscript as one data unit.
+As a one unique data element we consider single page of manuscript. The data set consists of two sets of manuscript materials:
 \begin{itemize}
-	\item Two sets of verified al-Maqrizi's holographs from codex of Prof. Bauden is taken as a positive examples.
-	\item Eight manuscripts not written by al-Maqrizi's hand from the University of Michigan Hatcher Library (Special Collections) are considered as a negative examples. This manuscripts are selected in such way that the date and place of writing each of them is close to al-Maqrizi's Khitat: 14th and 15th centuries, Egypt and Syria.
+	\item two holographs of al-Maqrizi verified by Prof. Bauden will serve as a positive example;
+	\item eight manuscripts not written by al-Maqrizi's hand  (taken from the University of Michigan Hatcher Library Special Collections) are considered to be a negative example. These manuscripts were selected in such a way that the date and place of writing of each of them would be close to those of al-Maqrizi's  \textit{al-Khitat}, namely, the 14th and 15th centuries, Egypt and Syria.
 \end{itemize}
-For robustness of learning process obtained data is divided into training and test sets:
+
+To enhance robustness of the learning process the data obtained were divided into training and test sets:
 \begin{itemize}
 	\item Training set: 1 al-Maqrizi's manuscript consisting of 26 pages and 5 not al-Maqrizi's manuscripts each of which consists of 7 pages.
-	\item Test set: 1 al-Maqrizi's manuscript consisting of 14 pages and 3 not al-Maqrizi's manuscripts each of which consists of 7 pages. Authors of this 3 manuscripts differ from authors of 5 negative examples in training set.   
+	\item Test set: 1 al-Maqrizi's manuscript consisting of 14 pages and 3 non-al-Maqrizi's manuscripts each of which consists of 7 pages. Authors of these 3 manuscripts differ from authors of 5 negative examples in the training set.   
 \end{itemize}
 
-It is important to note that we split our data set by the factor of a manuscript author. Thus when algorithm is learning on training set, it can not see authors in test set. In that way we achieve robustness our method in terms of manuscripts because input of method is a whole manuscript. Number of not al-Maqrizi's documents is chosen in such way that training and test set is nearly balanced.
+It is important to note that we split our data set by the factor of the manuscript author. When the algorithm is learning on the training set, it can not see the authors in the test set. Thus, we enforce our method to infer general properties al-Maqrizi's handwriting not specific for particular manuscript. Number of non-al-Maqrizi's documents is chosen in such way that positive and negative classes in training and test sets are roughly balanced.
 
-Main interest of this paper is author verification of al-Khitat manuscript consisting of 32 pages.
+The goal of this study is to verify the authorship of the \textit{al-Khitat} manuscript that consists of 32 pages.
 
 
 %\pagebreak
@@ -196,50 +199,50 @@ Main interest of this paper is author verification of al-Khitat manuscript consi
 \section{Method}
 \label{sec:the_method}
 
-We consider author verification as a binary classification problem: al-Maqrizi class denoted as $1$ and non al-Maqrizi class denoted as $0$. In this context our goal is to build a classification pipeline able predict probability (\textit{soft} classification) that given image belongs to the $1$ (al-Maqrizi) class. The entire al-Maqrizi authorship classification pipeline illustrated at figure~\ref{fig:pipeline} consists of the following steps:
+We consider author verification as a binary classification problem: the al-Maqrizi class designated as 1 and the non-al-Maqrizi class designated as 0. In this context our goal is to build a classification pipeline able to predict the probability (\textit{soft} classification) that a given image belongs to the $1$ (al-Maqrizi) class. The entire al-Maqrizi authorship classification pipeline illustrated at figure~\ref{fig:pipeline} consists of the following steps:
 
 \begin{enumerate}[start=0]
 	\item Image preprocessing.
 	\item Extracting patches from candidate image.
-	\item Patches soft classification using convolution network.
-	\item Averaging predicted patches probabilities to produce overall candidate image al-Maqrizi authorship probability.
+	\item Soft classification of patches using convolution network.
+	\item Averaging predicted patches probabilities to produce overall candidate image of the probability of al-Maqrizi's authorship.
 \end{enumerate}
 
-Each of this steps are thoroughly described in the following sections.	
+Each of these steps are thoroughly described in the following sections.	
 
 %The heart of our method is a \convnet patches classifier. We use ground-truth labelled patches extracted from images described in section~\ref{sec:the_data} as a training set for \convnet. [SOME DEFERRABLES FOR \convnet HERE].
 
 
 \subsection{Image preprocessing}
-This step was done to bring all images to relatively same size and scale by performing following steps:
+This step was done to bring all images to relatively same size and scale by performing the following steps:
 \begin{enumerate}
 	\item Removing part of image within the text bounding box.
 	\item Resizing resulted image to resolution $700\times 500$.
 \end{enumerate}
-This steps are reasonable enough since all images from our data set has approximately equal number of text lines and text bounding box aspect ratio. 
+This steps are reasonable enough since all images from our data set have approximately equal number of text lines and text bounding box aspect ratio. 
 
-Since this step is done only to unify our images data set we does not include it in the pipeline.
+Since this step is done only to unify our images data set we do not include it in the pipeline.
 
 \subsection{Patches extraction}
-The patches extraction method generates a set of sub-images called patches from given image. The basic idea is that patch should represent small but yet meaningful part of image for the main purpose --- authorship verification. We use two alternative methods for patches extraction described in following subsections.
+The patches extraction method generates a set of sub-images called patches from a given image. The basic idea is that a patch should represent a small but yet meaningful part of image for the purpose of authorship verification. We use two alternative methods for patches extraction described in following subsections.
 
 \subsubsection{Sliding window based method}
-This method splits image into patches by a grid of fixed cell of size $80\times 80$ pixels with a stride $20$ pixels. Figure~\ref{fig:patches_example_sliding_window} illustrates the idea. 
+This method splits an image into patches by a grid of fixed cells of the size $80\times 80$ pixels with a stride $20$ pixels. Figure~\ref{fig:patches_example_sliding_window} illustrates the idea. 
 
-\subsubsection{Connected components based method}
-This method uses following routine for patches extraction
+\subsubsection{Connected components-based method}
+This method uses the following routine for patches extraction
 
 \begin{enumerate}
 	\item Input image binarization using Otsu's filter~\cite{otsu1975threshold}.
-	\item Connected components extraction from binarized image using algorithm from~\cite{fiorio1996connected_components}.
+	\item Connected components extraction from a binarized image using the algorithm from~\cite{fiorio1996connected_components}.
 	\item Too small, too big and too stretched connected components filtering using several empirical rules, e.g.: major axis to minor axis ratio less then $10$, minimum minor axis length greater then $3$ pixels, etc.
-	\item Outlier connected components filtering using DBSCAN clustering algorithm~\cite{ester1996dbscan}, \cite{GranVolk}.
-	\item Extracting remaining connected components bounding boxes from source image and resizing them $28\times 28$ pixels size.
+	\item Outlier connected components filtering using the\\ DBSCAN clustering algorithm~\cite{ester1996dbscan}, \cite{GranVolk}.
+	\item Extracting remaining connected components bounding boxes from the source image and resizing them $28\times 28$ pixels size.
 \end{enumerate}
 
 Example of connected components based patches show on figure~\ref{fig:patches_example_connected_components}. 
 
-It can be seen, that connected components based patches usually consist of one or few letters thus providing high robustness for different image scale and size in contrast to fixed-size sliding window patches (since all images been preprocessed this features is not important in our case). However, sliding-window patches contain much more information: several symbols from multiple lines, --- a very important feature for the authorship verification.
+As one can see, connected components-based patches usually consist of one or few letters thus providing a high robustness for different image scale and size in contrast to fixed-size sliding window patches (since all images been preprocessed this features is not important in our case). However, sliding-window patches contain much more information: several symbols from multiple lines --- a very important feature for authorship verification.
 %
 %\begin{figure}[!b]
 %    \centering
@@ -293,11 +296,11 @@ It can be seen, that connected components based patches usually consist of one o
 
 \subsection{Deep convolution network}
 
-Denote $x_i$ as the $i$-th patch obtained from image in the previous step and $y_i$ as binary label. Then for predicting the probability
+Denote $x_i$ as the $i$-th patch obtained from an image in the previous step and $y_i$ as binary label. Then for predicting the probability
 \begin{equation*}
 	p_i = P(y_i | x_i)
 \end{equation*}
-that current patch belongs to al-Maqrizi's hand we need to train a discriminative model. As a robust and powerful classification algorithm deep convolution networks \cite{DL}, \cite{CNN} are chosen. 
+that the current patch belongs to al-Maqrizi's hand we need to train a discriminative model. As a robust and powerful classification algorithm deep convolution networks \cite{DL}, \cite{CNN} are chosen. 
 
 In a case of sliding window patches we apply Alexnet type of network \cite{Alexnet}. Architecture of this network described in table~\ref{alexnet_tab}.
 \begin{table}[!h]
@@ -343,9 +346,9 @@ softmax & & 2 \\
 \end{tabular}
 \end{table}
 
-As an input network takes $80\times80$ RGB image. All activation functions in convolution and fully connected layers is rectified linear units (ReLU). This deep network was trained by stochastic gradient descent method with Nesterov momentum, initial learning rate is $0.01$ and it decrease policy is step down.
+As an input network takes $80\times80$ RGB image. All activation functions in convolution and fully connected layers are rectified linear units (ReLU). This deep network was trained by stochastic gradient descent method with Nesterov momentum, initial learning rate is $0.01$ and it decrease policy is step down.
 
-With connected components patches we use GoogLeNet type of deep convolutional network \cite{Googlenet}. It architecture provided in table~\ref{googlenet_tab}. 
+With connected components patches we use GoogLeNet type of deep convolutional network \cite{Googlenet}. Its architecture is provided in table~\ref{googlenet_tab}. 
 \begin{table}[!h]
 \centering
 \caption{Connected components patch convolution network}
@@ -389,12 +392,12 @@ softmax & & 2 \\
 \end{tabular}
 \end{table}
 
-As an input network takes $28\times28$ RGB image. All activation functions in convolution and fully connected layers is rectified linear units (ReLU). Inception layer is a combination of several convolution and pooling layers, for more details see \cite{Googlenet}. Learning method for this convolutional network is stochastic gradient descent with Nesterov momentum and initial learning rate $0.01$ with step down decrease policy. 
+As an input network takes $28\times28$ RGB image. All activation functions in convolution and fully connected layers are rectified linear units (ReLU). Inception layer is a combination of several convolution and pooling layers; for more details see \cite{Googlenet}. Learning method for this convolutional network is stochastic gradient descent with Nesterov momentum and initial learning rate $0.01$ with step down decrease policy. 
 
 \section{Results and Discussion}
 \label{sec:results_and_description}
 
-We experimented with both types of patches extraction and corresponding convolutional networks. 
+We have experimented with both types of patches extraction and corresponding convolutional networks. 
 
 \subsection{Deep convolutional network learning}
 
@@ -405,13 +408,13 @@ We experimented with both types of patches extraction and corresponding convolut
 \label{img_alexnet}
 \end{figure}
 
-Figure~\ref{img_alexnet} demonstrates values of loss function on training (blue curve) and test (green curve) sets depending on the learning epoch for sliding window patch convolution network. Also one can see accuracy (orange curve) on the test set. It final value is near $87 \%$. For connected components patch convolution network accuracy is worse --- $80 \%$.    
+Figure~\ref{img_alexnet} demonstrates values of loss function on training (blue curve) and test (green curve) sets depending on the learning epoch for sliding window patch convolution network. Also one can see accuracy (orange curve) on the test set. Its final value is near $87 \%$. For connected components patch convolution network accuracy is worse --- $80 \%$.    
 
 \subsection{Manuscript classification}
 
-To assess quality of the classification pipeline we use only images from the test set, since they are the only ones had not been used in the learning process. 
+To assess quality of the classification pipeline we have used only images from the test set, since they are the only ones not used in the learning process. 
 
-Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification result for two images from the test set: one from al-Maqrizi class and one from not al-Maqrizi class. As you can see, both of them classified quite confidently with estimated al-Maqrizi authorship probability $0.0085$ and $0.94$ respectively. Also this figure shows classification result for al-Khitat manuscript page. It gives $0.77$ probability of al-Maqrizi authorship.
+Figure~\ref{fig:al_maqrizi_classification_example} demonstrates the classification results for two images from the test set: one from al-Maqrizi class and one from non-al-Maqrizi class. As one can see, both of them can be classified quite confidently as having al-Maqrizi as the author with the probability $0.0085$ and $0.94$ respectively. Also this figure shows the classification result for an {\it al-Khitat} manuscript page. It gives $0.77$ probability of al-Maqrizi being the author.
 
 \begin{figure}
 \centering
@@ -435,17 +438,17 @@ Figure~\ref{fig:al_maqrizi_classification_example} demonstrates classification r
   %\captionof{figure}{ }
   %\label{fig:}
 \end{minipage}
-  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: not al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) and manuscript page from Khitat (bottom). Patches probabilities visualized using white-red colors (corresponding to 0-1 classes) on top of the original image. Additionally, probabilities histogram presented below.}
+  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: non-al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) the transcript page from {\it al-Khitat} (bottom). Patches probabilities are visualized by using white-red colors (corresponding to 0-1 classes) on the top of the original image. Additionally, a probabilities histogram is shown below.}
 	\label{fig:al_maqrizi_classification_example}
 \end{figure}
 
-Regarding entire test set classification for sliding window patches with decision threshold $0.5$ we obtained precision $0.99$ and recall $0.92$. Method based on connected components patches is less robust: it generate many false positive predictions. But this approach has great potential and for it stable work required much more training examples. Thus convolutional network learned on connected components patches is prominent field for further research.
+Regarding the entire test set classification for sliding window patches with decision threshold $0.5$ we obtained precision $0.99$ and recall $0.92$. The method based on connected components patches is less robust: it generates many false positive predictions. This approach has a great potential, however, its improvement requires many more training examples. Thus convolutional network learned on connected components patches is a promising field for further research.
 
-By using sliding window patches with deep network method we received that mean probability of al-Maqrizi authorship over all al-Khitat pages is equal to $0.86$.    
+By using sliding window patches with deep network method we have arrived at the conclusion that the mean probability of al-Maqrizi's authorship  of the entire set of the {\it al-Khitat} pages equals $0.86$.    
 
 \section{Conclusion}
 
-The join research on al-Maqrizi’s ``Description of Egypt'' undertaken by a historian-philologist and three mathematicians from St. Petersburg State University is a unique experiment in working across disciplinary boundaries to achieve a common goal. Its results bode well for the future by opening new horizons for scholars of ``Oriental'' manuscripts who often desperately lack resources (other than their own eyes and intuition) to verify the provenance and authorship of the manuscript material they are working with. Given the propensity of Muslim scribes and later writers to attribute manuscripts to important luminaries of the past (such as, e.g., al-Ghazali, d. 505/1111; Ibn al-Arabi, d. 638/1240, and others), the new methods of analyzing and verifying handwritten texts, which have been designed and tested by St. Petersburg mathematicians, are bound to become an important tool for their colleagues in the humanities and social sciences.
+The joint study of al-Maqrizi's ``Description of Egypt'' undertaken by a historian-philologist and three mathematicians from St. Petersburg State University is a unique experiment in working across disciplinary boundaries to achieve a common goal. The results achieved thus far bode well for the future by opening new horizons for scholars of ``Oriental'' manuscripts who often desperately lack resources (other than their own eyes and intuition) to verify the provenance and authorship of the manuscript material they are working with. Given the propensity of Muslim scribes and later writers to attribute manuscripts to important luminaries of the past (such as, e.g., al-Ghazali, d. 505/1111; Ibn al-'Arabi, d. 638/1240, and others), the new methods of analyzing and verifying handwritten texts, which have been designed and tested by St. Petersburg mathematicians, are bound to become an important tool for their colleagues in the humanities and social sciences.
 
 % ---------------------------------------------------
 % References
