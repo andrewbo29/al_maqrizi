@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.5)  18 FEB 2016 22:14
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.5)  19 FEB 2016 22:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -373,183 +373,105 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 43.
-LaTeX Font Info:    Try loading font information for U+msa on input line 43.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 42.
+LaTeX Font Info:    Try loading font information for U+msa on input line 42.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 43.
+LaTeX Font Info:    Try loading font information for U+msb on input line 42.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 43.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 42.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-** ATTENTION: \keywords is deprecated (line 49). Use \IEEEkeywords instead.
-
-LaTeX Warning: Citation `Noah' on page 1 undefined on input line 57.
-
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no ™ in font ptmr7t!
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no ™ in font ptmr7t!
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no ™ in font ptmr7t!
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no ™ in font ptmr7t!
-
-LaTeX Warning: Citation `MBulacu' on page 1 undefined on input line 61.
-
-
-LaTeX Warning: Citation `DFecker' on page 1 undefined on input line 61.
-
-
-LaTeX Warning: Citation `DL' on page 1 undefined on input line 61.
-
-
-LaTeX Warning: Citation `CNN' on page 1 undefined on input line 61.
-
-
-LaTeX Warning: Citation `Alexnet' on page 1 undefined on input line 61.
-
-
-LaTeX Warning: Citation `DL' on page 1 undefined on input line 61.
-
+** ATTENTION: \keywords is deprecated (line 48). Use \IEEEkeywords instead.
 
 <figures/Al-Maqrizi_classification_pipeline.png, id=1, 1887.05pt x 518.93875pt>
 File: figures/Al-Maqrizi_classification_pipeline.png Graphic file (type png)
 <use figures/Al-Maqrizi_classification_pipeline.png>
 Package pdftex.def Info: figures/Al-Maqrizi_classification_pipeline.png used on
- input line 69.
-(pdftex.def)             Requested size: 516.0pt x 141.89696pt.
+ input line 68.
+(pdftex.def)             Requested size: 464.39685pt x 127.70726pt.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-
-LaTeX Warning: Reference `fig:patches_example_sliding_window' on page 2 undefin
-ed on input line 126.
-
-
-LaTeX Warning: Citation `otsu1975threshold' on page 2 undefined on input line 1
-32.
-
-
-LaTeX Warning: Citation `fiorio1996connected_components' on page 2 undefined on
- input line 133.
-
-
-LaTeX Warning: Citation `ester1996dbscan' on page 2 undefined on input line 135
-.
-
-
-LaTeX Warning: Reference `fig:patches_example_connected_components' on page 2 u
-ndefined on input line 139.
+Underfull \hbox (badness 2237) in paragraph at lines 106--107
+\OT1/ptm/m/n/10 over-all can-di-date im-age of the prob-a-bil-ity of al-
+ []
 
 <figures/3.png, id=15, 80.3pt x 80.3pt>
 File: figures/3.png Graphic file (type png)
  <use figures/3.png>
-Package pdftex.def Info: figures/3.png used on input line 170.
-(pdftex.def)             Requested size: 75.60077pt x 75.60329pt.
+Package pdftex.def Info: figures/3.png used on input line 173.
+(pdftex.def)             Requested size: 79.38083pt x 79.3791pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--171
-[]\OT1/ptm/m/n/10 Fig. 2: |Slid-ing
+Underfull \hbox (badness 6842) in paragraph at lines 174--174
+[]\OT1/ptm/m/n/10 Fig. 2: |Slid-ing win-dow
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--171
-\OT1/ptm/m/n/10 win-dow patches
- []
-
-
-<figures/patches_example_connected_components.png, id=16, 269.005pt x 425.59pt>
-File: figures/patches_example_connected_components.png Graphic file (type png)
-<use figures/patches_example_connected_components.png>
-Package pdftex.def Info: figures/patches_example_connected_components.png used 
-on input line 176.
-(pdftex.def)             Requested size: 75.60077pt x 119.60597pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 177--177
-\OT1/ptm/m/n/10 com-po-nents
- []
-
-
-LaTeX Warning: Citation `DL' on page 2 undefined on input line 197.
-
-
-LaTeX Warning: Citation `CNN' on page 2 undefined on input line 197.
-
-[2 <./figures/Al-Maqrizi_classification_pipeline.png>]
-
-LaTeX Warning: Citation `Alexnet' on page 3 undefined on input line 199.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 206--207
+<figures/patches_example_connected_components_part.png, id=16, 249.93375pt x 22
+7.85126pt>
+File: figures/patches_example_connected_components_part.png Graphic file (type 
+png)
+ <use figures/patches_example_connected_components_part.png>
+Package pdftex.def Info: figures/patches_example_connected_components_part.png 
+used on input line 180.
+(pdftex.def)             Requested size: 87.07387pt x 79.3791pt.
+ [2 <./figures/Al-Maqrizi_classification_pipeline.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 210--211
 []\OT1/ptm/b/n/8 output
  []
 
 
-LaTeX Warning: Citation `Googlenet' on page 3 undefined on input line 245.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 252--253
+Underfull \hbox (badness 10000) in paragraph at lines 256--257
 []\OT1/ptm/b/n/8 output
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-LaTeX Warning: Citation `Googlenet' on page 3 undefined on input line 289.
-
-
-Underfull \vbox (badness 1852) has occurred while \output is active []
-
-
-<figures/alexnet_loss.png, id=25, 1101.11375pt x 680.5425pt>
+<figures/alexnet_loss.png, id=23, 1101.11375pt x 680.5425pt>
 File: figures/alexnet_loss.png Graphic file (type png)
 
 <use figures/alexnet_loss.png>
-Package pdftex.def Info: figures/alexnet_loss.png used on input line 299.
-(pdftex.def)             Requested size: 220.21884pt x 136.10608pt.
+Package pdftex.def Info: figures/alexnet_loss.png used on input line 304.
+(pdftex.def)             Requested size: 165.15993pt x 102.07697pt.
 
-<figures/not_al_maqrizi_image_classification_example.png, id=26, 731.3724pt x 8
+<figures/not_al_maqrizi_image_classification_example.png, id=24, 731.3724pt x 8
 97.5934pt>
 File: figures/not_al_maqrizi_image_classification_example.png Graphic file (typ
 e png)
  <use figures/not_al_maqrizi_image_classification_example.png>
 Package pdftex.def Info: figures/not_al_maqrizi_image_classification_example.pn
-g used on input line 316.
-(pdftex.def)             Requested size: 120.95892pt x 148.43892pt.
+g used on input line 321.
+(pdftex.def)             Requested size: 108.86229pt x 133.59229pt.
 
-<figures/sw_al_maqrisi.png, id=27, 722.7pt x 980.7039pt>
+<figures/sw_al_maqrisi.png, id=25, 722.7pt x 980.7039pt>
 File: figures/sw_al_maqrisi.png Graphic file (type png)
 
 <use figures/sw_al_maqrisi.png>
-Package pdftex.def Info: figures/sw_al_maqrisi.png used on input line 323.
-(pdftex.def)             Requested size: 120.95892pt x 164.12863pt.
+Package pdftex.def Info: figures/sw_al_maqrisi.png used on input line 328.
+(pdftex.def)             Requested size: 96.7675pt x 131.31187pt.
 
-<figures/hitat_15.png, id=28, 731.3724pt x 847.0044pt>
+<figures/hitat_15.png, id=26, 731.3724pt x 847.0044pt>
 File: figures/hitat_15.png Graphic file (type png)
 
 <use figures/hitat_15.png>
-Package pdftex.def Info: figures/hitat_15.png used on input line 330.
+Package pdftex.def Info: figures/hitat_15.png used on input line 335.
 (pdftex.def)             Requested size: 120.95892pt x 140.0728pt.
  [3 <./figures/3.png (PNG copy)> <./figures/patches_example_connected_component
-s.png> <./figures/alexnet_loss.png>]
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no ™ in font ptmr7t!
-
-No file elmar2016.bbl.
+s_part.png> <./figures/alexnet_loss.png>]
+(./elmar2016.bbl
+Missing character: There is no Ã in font ptmr7t!
+Missing character: There is no ¤ in font ptmr7t!
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -562,31 +484,28 @@ Before submitting the final camera ready copy, remember to:
  process uses the appropriate paper size.
 
 [4 <./figures/not_al_maqrizi_image_classification_example.png> <./figures/sw_al
-_maqrisi.png> <./figures/hitat_15.png>] (./elmar2016.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+_maqrisi.png> <./figures/hitat_15.png>] (./elmar2016.aux) ) 
 Here is how much of TeX's memory you used:
- 4790 strings out of 493304
- 73862 string characters out of 6139871
- 153017 words of memory out of 5000000
+ 4792 strings out of 493304
+ 73943 string characters out of 6139871
+ 153061 words of memory out of 5000000
  8163 multiletter control sequences out of 15000+600000
- 43998 words of font info for 103 fonts, out of 8000000 for 9000
+ 44027 words of font info for 103 fonts, out of 8000000 for 9000
  960 hyphenation exceptions out of 8191
- 44i,14n,42p,1709b,311s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/urw/times/utmri8a.pfb>
-Output written on elmar2016.pdf (4 pages, 4311311 bytes).
+ 44i,14n,42p,1738b,319s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/
+texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/
+utmri8a.pfb>
+Output written on elmar2016.pdf (4 pages, 4284661 bytes).
 PDF statistics:
  75 PDF objects out of 1000 (max. 8388607)
  45 compressed objects within 1 object stream

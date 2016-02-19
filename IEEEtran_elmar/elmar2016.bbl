@@ -1,0 +1,61 @@
+\begin{thebibliography}{10}
+
+\bibitem{Noah}
+N.~Gardiner and B.~F., ``A recently discovered holograph fair copy of
+  al-maqrizi's al-mawa'iz wa-al-i'tibar fi dhikr al-khitat wa-al-athar
+  (michigan islamic ms 605),'' {\em Journal of Islamic Manuscripts}, vol.~2,
+  pp.~123--131, 2011.
+
+\bibitem{MBulacu}
+M.~Bulacu, L.~Schomaker, and A.~Brink, ``Text-independent writer identification
+  and verification on offline arabic handwriting,'' {\em Proc. 9th
+  International Conference on Document Analysis and Recognition, ICDAR},
+  pp.~769--773, 2007.
+
+\bibitem{DFecker}
+D.~Fecker, A.~Asi, W.~Pantke, V.~Märgner, J.~El-Sana, and T.~Fingscheidt,
+  ``Document writer analysis with rejection for historical arabic
+  manuscripts,'' {\em Proc. 14th nternational Conference on Frontiers in
+  Handwriting Recognition, ICFHR}, pp.~743--748, 2014.
+
+\bibitem{DL}
+Y.~Lecun, Y.~Bengio, and G.~Hinton, ``Deep learning,'' {\em Nature}, no.~521,
+  pp.~436--444, 2015.
+
+\bibitem{CNN}
+Y.~Lecun, L.~Bottou, Y.~Bengio, and P.~Haffner, ``Gradient-based learning
+  applied to document recognition,'' {\em Proc. of the IEEE}, pp.~2278--2324,
+  1998.
+
+\bibitem{Alexnet}
+A.~Krizhevsky, I.~Sutskever, and G.~Hinton, ``Imagenet classification with deep
+  convolutional neural networks,'' {\em Advances in Neural Information
+  Processing Systems}, vol.~25, pp.~1097--1105, 2012.
+
+\bibitem{otsu1975threshold}
+N.~Otsu, ``A threshold selection method from gray-level histograms,'' {\em
+  Automatica}, vol.~11, pp.~285--296, 1975.
+
+\bibitem{fiorio1996connected_components}
+C.~Fiorio and J.~Gustedt, ``Two linear time union-find strategies for image
+  processing,'' {\em Theoretical Computer Science}, vol.~154, no.~2,
+  pp.~165--181, 1996.
+
+\bibitem{ester1996dbscan}
+M.~Ester, H.~Kriegel, J.~Sander, and X.~Xu, ``A density-based algorithm for
+  discovering clusters in large spatial databases with noise,'' {\em Proc. of
+  Second International Conference on Knowledge Discovery and Data Mining},
+  vol.~96, no.~34, pp.~226--231, 1996.
+
+\bibitem{GranVolk}
+O.~Granichin, V.~Volkovich, and D.~Toledano-Kitai, {\em Randomized Algorithms
+  in Automatic Control and Data Mining}.
+\newblock Heidelberg New York Dordrecht London: Springer-Verlag, 2015.
+
+\bibitem{Googlenet}
+C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan,
+  V.~Vanhoucke, and A.~Rabinovich, ``Going deeper with convolutions,'' {\em
+  Proc. of the IEEE Conference on Computer Vision and Pattern Recognition},
+  pp.~1--9, 2015.
+
+\end{thebibliography}
