@@ -1,0 +1,292 @@
+\documentclass[unicode, notheorems]{beamer}
+
+\mode<presentation>
+{
+  \usetheme{default}
+  
+  \setbeamertemplate{navigation symbols}{}
+
+  \setbeamercovered{transparent}
+}
+
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{epstopdf} 
+
+\usepackage{concmath}
+\usepackage[T2A]{fontenc}
+
+\title[]{\Large Верификация авторства\\ арабских рукописей при помощи\\ глубоких свёрточных сетей}
+
+\subtitle{}
+
+\author[]{Андрей Бояров, Александр Сенов}
+
+\setbeamertemplate{footline}[frame number] 
+
+\institute[]{Санкт-Петербургский Государственный Университет\\ Математико-Механический Факультет}
+
+% logo of university
+\titlegraphic{\includegraphics[width=2cm]{spbsu_sign}}
+
+\date{25 февраля 2016 г.}
+
+\definecolor{pantone}{HTML}{9F2D20}
+
+\setbeamercolor{title}{fg=pantone}
+\setbeamertemplate{frametitle}{\color{pantone}\bfseries\insertframetitle\par\vskip-6pt}
+
+\setbeamertemplate{itemize items}[circle]
+\setbeamercolor{itemize item}{fg=pantone}
+
+\setbeamercolor{itemize subitem}{fg=pantone}
+
+\setbeamertemplate{enumerate items}[default]
+\setbeamercolor*{enumerate item}{fg=pantone}
+
+\setbeamercolor*{enumerate subitem}{fg=pantone}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, decorations.markings}
+\usepackage{ifthen}
+
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{innerWhite} = [semithick, white,line width=1.4pt, shorten >= 4.5pt]
+
+\newcommand{\Prod}{\mathsf{P}}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+	\frametitle{Задача}
+
+	\begin{itemize}
+		\item Аль-Макризи (1364--1442) --- египетский историк и географ периода мамлюков.\bigskip
+		\item Целью исследования была верификация авторства аль-Макризи недавно найденной части рукописи \textit{al-Khitat} (Историко-географический обзор Египта).
+	\end{itemize}		
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Данные}
+	
+	\begin{itemize}
+		\item Тренировочные: 1 манускрипт аль-Макризи, состоящий из 26 страниц и 5 не аль-Макризи манускриптов, по 7 страниц каждый.\medskip
+		\item Тестовые: 1 манускрипт аль-Макризи, состоящий из 14 страниц и 3 не аль-Макризи манускриптов, по 7 страниц каждый. Авторы этих трёх манускриптов отличались от авторов пяти манускриптов из тренировочных данных.\medskip
+		\item Манускрипт \textit{al-Khitat} состоит из 32 страниц.    
+	\end{itemize}
+
+\end{frame}
+	
+\begin{frame}
+	\frametitle{Метод}
+	
+	\begin{figure}[!t]
+	\center
+  	\includegraphics[width=1.0\textwidth]{figures/Al-Maqrizi_classification_pipeline.png}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Извлечение патчей}
+	
+	\begin{itemize}
+		\item Скользящее окно: This method splits an image into patches by a grid of fixed cells of the size $80\times 80$ pixels with a stride $20$ pixels.
+		\item Связные компоненты:
+			\begin{enumerate}
+				\item Input image binarization using Otsu's filter.
+				\item Connected components extraction from a binarized image using the algorithm from.
+				\item Too small, too big and too stretched connected components filtering using several empirical rules, e.g.: major axis to minor axis ratio less then $10$, minimum minor axis length greater then $3$ pixels, etc.
+				\item Outlier connected components filtering using the DBSCAN clustering algorithm.
+				\item Extracting remaining connected components bounding boxes from the source image and resizing them $28\times 28$ pixels size.
+			\end{enumerate}
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Скользящее окно и связные компоненты}
+	
+	\begin{figure}
+\centering
+\begin{minipage}{.45\linewidth}
+	\centering
+  \includegraphics[height=.7\linewidth]{figures/3.png}
+\end{minipage}
+\hspace{.05\linewidth}
+\begin{minipage}{.45\linewidth}
+	\centering
+  \includegraphics[height=.7\linewidth]{figures/patches_example_connected_components_part.png}
+\end{minipage}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Глубокие свёрточные сети}
+	
+	\begin{itemize}
+		\item State of the art в задачах компьютерного зрения (с 2012 года).
+		\item Представитель класса алгоритмов глубокого обучения.
+		\item Представляет собой набор свёрточных, pooling, LRN, полносвязных слоёв. В качестве функции активации используется ReLU: $f(x)=\max(0, x)$. 
+	\end{itemize}
+	
+	\begin{figure}[!t]
+	\center
+  	\includegraphics[width=0.5\textwidth]{figures/conv.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Скользящее окно, Alexnet}
+	
+	\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{тип} & \textbf{фильтр / шаг} & \textbf{выход}  \\
+\hline
+convolution & 11 / 4 & 96 \\
+\hline
+local response norm & & 96 \\
+\hline
+max pool & 3 / 2 & 96 \\
+\hline
+convolution & 5 / 1 & 256 \\
+\hline
+local response norm & & 256 \\
+\hline
+max pool & 3 / 2 & 256 \\
+\hline
+convolution & 3 / 1 & 384 \\
+\hline
+convolution & 3 / 1 & 384 \\
+\hline
+convolution & 3 / 1 & 256 \\
+\hline
+max pool & 3 / 2 & 256 \\
+\hline
+fully connected & & 4096 \\
+\hline
+dropout (50 \%) & & 4096 \\
+\hline
+fully connected & & 4096 \\
+\hline
+dropout (50 \%) & & 4096 \\
+\hline
+fully connected & & 2 \\
+\hline
+softmax & & 2 \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Скользящее окно, Alexnet, обучение}
+	
+	\begin{figure}[!ht]
+\centering
+\includegraphics[scale=0.25]{figures/alexnet_loss.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Связные компоненты, GoogLeNet}
+	
+	\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{тип} & \textbf{фильтр / шаг} & \textbf{выход}  \\
+\hline
+convolution & 7 / 2 & 64 \\
+\hline
+max pool & 3 / 2 & 64 \\
+\hline
+local response norm & & 64 \\
+\hline
+convolution & 1 / 1 & 64 \\
+\hline
+convolution & 3 / 1 & 192 \\
+\hline
+local response norm & & 192 \\
+\hline
+max pool & 3 / 2 & 192 \\
+\hline
+inception &  & 256 \\
+\hline
+inception &  & 480 \\
+\hline
+max pool & 3 / 2 & 480 \\
+\hline
+inception &  & 512 \\
+\hline
+convolution & 1 / 1 & 128 \\
+\hline
+fully connected & & 1024 \\
+\hline
+dropout (70 \%) & & 1024 \\
+\hline
+fully connected & & 2 \\
+\hline
+softmax & & 2 \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Результаты}
+	
+	\begin{itemize}
+		\item На тестовом множестве для метода скользящего окна: порог = $0.5$, precision = $0.99$, recall = $0.92$.\medskip
+		\item Метод связных компонент менее робастный: он даёт большое число ложно-позитивных результатов.\medskip
+		\item Средняя вероятность по страницам того, что манускрипт \textit{al-Khitat} принадлежит перу аль-Макризи составляет $0.86$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Результаты}
+	
+	\begin{figure}
+\centering
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=0.7\linewidth]{figures/not_al_maqrizi_image_classification_example.png}
+  %\captionof{figure}{ }
+  %\label{fig:}
+\end{minipage}
+\hspace{.01\linewidth}
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=0.6\linewidth]{figures/sw_al_maqrisi.png}
+  %\captionof{figure}{ }
+  %\label{fig:}
+\end{minipage}
+\hspace{.01\linewidth}
+\begin{minipage}{.48\linewidth}
+	\centering
+  \includegraphics[width=0.8\linewidth]{figures/hitat_15.png}
+  %\captionof{figure}{ }
+  %\label{fig:}
+\end{minipage}
+  
+\end{figure}
+
+\end{frame}
+
+\end{document}
