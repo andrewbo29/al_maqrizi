@@ -15,12 +15,14 @@
 \usepackage{color}
 \usepackage{multicol}
 \usepackage{epstopdf} 
+\usepackage{cancel}
 
 \usepackage{concmath}
 \usepackage[T2A]{fontenc}
 
 
-\title[]{\Large Верификация авторства\\ арабских рукописей при помощи\\ глубоких свёрточных сетей}
+\title[]{\Large Верификация авторства\\ арабских рукописей при помощи\\ глубоких 
+\small{\cancel{как твоя вагина}} \normalsize свёрточных сетей}
 
 \subtitle{}
 
@@ -107,11 +109,11 @@
 		\bigskip
 		\item Связные компоненты:
 			\begin{enumerate}
-				\item Бинаризация изоборажение с помощью фильтра Otsu\footnote{\url{https://en.wikipedia.org/wiki/Otsu's_method}. Реализация в scikit--image}.
+				\item Бинаризация изоборажение с помощью фильтра Otsu.
 				\item Выделение компонент связности из бинаризованного изображения.
 				\item Фильтрация компонент на основе их размеров
-				\item Выделение компонент аутлаеров с помощью алгоритма DBSCAN\footnote{\url{https://en.wikipedia.org/wiki/DBSCAN}. Реализация в scikit--learn}.
-				\item Извлечение AABB\footnote{\href{https://en.wikipedia.org/wiki/Minimum_bounding_box}{Axis-aligned minimum bounding box}} компонент связности и преобразование их в квадраты $28\times 28$ пикселей.
+				\item Выделение компонент аутлаеров с помощью алгоритма DBSCAN.
+				\item Извлечение AABB\footnote{Axis-aligned minimum bounding box} компонент связности и преобразование их в квадраты $28\times 28$ пикселей.
 			\end{enumerate}
 	\end{itemize}
 
