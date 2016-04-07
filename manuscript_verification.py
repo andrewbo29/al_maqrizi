@@ -93,7 +93,8 @@ if __name__ == '__main__':
 
     # image_path = '/home/andrew/Projects/al-maqrizi/data/hitat/text'
     # image_path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/text'
-    image_path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/8/text'
+    # image_path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/8/text'
+    image_path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi_plagiarism/convert'
 
     if patches_type == 'sw':
         window_size = 80
@@ -118,8 +119,8 @@ if __name__ == '__main__':
 
             doc_probs.append(np.mean([output[i][1] for i in range(len(output))]))
 
-            # matplotlib.rcParams['figure.figsize'] = (10.0, 18.0)
-            # viz.plot_image_estimated_al_maqrizi_probability2(sw.normalize_image(image_name), bbox_list)
+            matplotlib.rcParams['figure.figsize'] = (10.0, 18.0)
+            viz.plot_image_estimated_al_maqrizi_probability2(sw.normalize_image(image_name), bbox_list)
 
         print 'Al-Maqrizi document probability: %f' % np.mean(doc_probs)
 
