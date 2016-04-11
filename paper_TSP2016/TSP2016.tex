@@ -31,10 +31,7 @@
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
-% *** CUSTOME (added by Alexander Senov) PACKAGES ***
-%\usepackage[utf8x]{inputenc} % указывает кодировку документа
-%\usepackage[T2A]{fontenc} % указывает внутреннюю кодировку TeX 
-\usepackage[english]{babel} % указывает язык документа
+\usepackage[english]{babel}
 %\usepackage{lmodern}
 %\usepackage{gentium}
 %\renewcommand*\rmdefault{phv}
@@ -44,13 +41,8 @@
 %\usepackage{subcaption}
 \usepackage{enumitem} % to specify enumeration start
 
-\usepackage{color} % для цветного текста
 
-\usepackage{lipsum} % for dummy text
-
-\newcommand{\convnet}{ConvNet~} % я не знаю как правильно называть сетку в тексте, вместо этого вставляю эту команду
-
-\newcommand{\todo}[1]{\textcolor{red}{\textbf{[#1]}}} % чтобы в глаза бросалось
+\renewcommand\IEEEkeywordsname{Keywords}
 % ---------------------------------------------------
 % Begin of Document
 % ---------------------------------------------------
@@ -136,6 +128,10 @@ The problem of manuscript author verification is quite important nowadays and si
 %The problem of manuscript author verification is quite important nowadays. Since manual verification has a subjectivity drawback, need in objective automatic methods arises. We propose an automatic method for author verification based on such foremost image classification method as deep convolutional network which encapsulate both features from image extraction and classification steps thus removing subjectivity even from features extraction step in contrast to most state of the art author verification methods. We apply the method to the problem of of recently discovered paper by questonable  al-Maqrizi's authorship verification for specific set of manuscripts images authored both by al-Maqrizi (positive class) and other authors (negative class). Using careful by-author train/validation/test set splitting, preprocessing and convolutional network training we achieve excellent classification accuracy on the test set. 
 
 \end{abstract}
+
+\begin{keywords}
+Deep learning; Author verification; Historical Arabic manuscript; Handwriting recognition; Convolutional networks; Image classification; Machine learning
+\end{keywords}
 
 % no keywords
 
