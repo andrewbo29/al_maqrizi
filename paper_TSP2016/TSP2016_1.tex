@@ -11,8 +11,41 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
 \fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/tex-archive/info/epslatex/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
 
 
   \usepackage{tipa}
@@ -28,6 +61,11 @@
 
 % *** SUBFIGURE PACKAGES ***
 \usepackage{subfigure}
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
@@ -77,30 +115,32 @@ Deep Convolutional Networks}
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
 % 
+
+
 \author{
 \IEEEauthorblockN{
 Andrei Boiarov\IEEEauthorrefmark{1},
-Alexander Senov\IEEEauthorrefmark{2},
-Alexander Knysh\IEEEauthorrefmark{3} and
-Dmitry Shalymov\IEEEauthorrefmark{4}
+Alexander Senov\IEEEauthorrefmark{1},
+Alexander Knysh\IEEEauthorrefmark{2}\IEEEauthorrefmark{3} and
+Dmitry Shalymov\IEEEauthorrefmark{1}
 }
 \IEEEauthorblockA{
-	\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\IEEEauthorrefmark{4}
-	Faculty of Mathematics and Mechanics\\
-	Saint Petersburg State University\\
+\IEEEauthorrefmark{1} Faculty of Mathematics and Mechanics, 
+	Saint Petersburg State University, 
 	Saint Petersburg, Russia\\
-	Email: 
-		\IEEEauthorrefmark{1}andrei.boiarov@gmail.com, 
-		\IEEEauthorrefmark{2}alexander.senov@gmail.com, 
-		\IEEEauthorrefmark{4}dmitry.shalymov@gmail.com
-}
-\IEEEauthorblockA{
-\IEEEauthorrefmark{3}Department of Near Eastern Studies\\
-University of Michigan\\
-St. Petersburg State University Laboratory of Analysis and Modeling of Social Processes\\
-%Ann Arbor, Michigan 48104-1608, USA\\
+\IEEEauthorrefmark{2} Department of Near Eastern Studies, University of Michigan,
 Ann Arbor, Michigan, USA\\
-Email: alknysh@umich.edu}
+\IEEEauthorrefmark{3} Faculty of Asian and African Studies, 
+%	Research Laboratory for Analysis and Modeling of Social Processes,
+	Saint Petersburg State University, 
+	Saint Petersburg, Russia\\
+Email: 
+		andrei.boiarov@gmail.com, 
+		alexander.senov@gmail.com, 
+		dmitry.shalymov@gmail.com,
+		alknysh@umich.edu
+}
+
 \thanks{This research is supported by Saint Petersburg State University grant 6.37.181.2014. The authors express their deep gratitude to Mrs. Evyn Kropf of the Hatcher Graduate Library who kindly facilitated access to the University of Michigan library resources.}
 }
 
@@ -122,7 +162,7 @@ Email: alknysh@umich.edu}
 % in the abstract
 \begin{abstract}
 % \lipsum[5]
-In this paper, we propose an automatic method for manuscript author verification based on analysis of consecutive patches extracted from an image. The classification algorithm uses a deep convolutional network with two types of patch extraction: the one based on connected components and the second using a fixed-size sliding window. We apply this method to specific problem of medieval Egyptian Arab historian al-Maqrizi's authorship verification of manuscript \textit{al-Khitat} which volume was recently discovered. Using appropriately collected ground-truth labeled data for convolutional network training purpose our method demonstrates very promising results on previously unseen manuscripts.
+In this paper, we propose an automatic method for manuscript author verification based on analysis of consecutive patches extracted from an image. The classification algorithm uses a deep convolutional network with two types of patch extraction: one based on connected components and the other based on usage of a fixed-size sliding window. We apply this method to specific problem of medieval Egyptian Arab historian al-Maqrizi's authorship verification of manuscript \textit{al-Khitat} which volume was recently discovered. Using appropriately collected ground-truth labeled data for convolutional network training purpose our method demonstrates very promising results on previously unseen manuscripts.
 
 
 %The problem of manuscript author verification is quite important nowadays. Since manual verification has a subjectivity drawback, need in objective automatic methods arises. We propose an automatic method for author verification based on such foremost image classification method as deep convolutional network which encapsulate both features from image extraction and classification steps thus removing subjectivity even from features extraction step in contrast to most state of the art author verification methods. We apply the method to the problem of of recently discovered paper by questonable  al-Maqrizi's authorship verification for specific set of manuscripts images authored both by al-Maqrizi (positive class) and other authors (negative class). Using careful by-author train/validation/test set splitting, preprocessing and convolutional network training we achieve excellent classification accuracy on the test set. 
@@ -296,7 +336,7 @@ Denote $x_i$ as the $i$-th patch obtained from an image in the previous step and
 \end{equation*}
 that the current patch belongs to al-Maqrizi's hand we need to train a discriminative model. As a robust and powerful classification algorithm deep convolution networks \cite{DL}, \cite{CNN} are chosen. 
 
-In a case of sliding window patches we apply Alexnet type of network \cite{Alexnet}. Architecture of this network is described in Table~\ref{alexnet_tab}. The following table shows the parameters of layers.
+In a case of sliding window patches we apply Alexnet type of network \cite{Alexnet}. Its architecture and layers parameters is described in Table~\ref{alexnet_tab}. 
 \begin{table}[!h]
 \centering
 \caption{Sliding window patch convolution network}
@@ -442,7 +482,7 @@ By using sliding window patches with deep network method we have arrived at the 
 
 \section{Conclusion}
 
-Deep convolutional network with sliding window patches demonstrates very prominent result in the problem of {\it al-Khitat} author verification. In compression with other methods \cite{MBulacu}, \cite{MBulacu1}, \cite{DFecker}, \cite{Salvador} our approach shows good outcome without the constructing of complex features. For the extension of this approach to other Arabic authors we will train our network on bigger amounts of data. The joint study of al-Maqrizi's ``Description of Egypt'' undertaken by a historian-philologist and mathematicians is a unique experiment in working across disciplinary boundaries to achieve a common goal. The results achieved thus far bode well for the future by opening new horizons for scholars of ``Oriental'' manuscripts who often desperately lack resources (other than their own eyes and intuition) to verify the provenance and authorship of the manuscript material they are working with.
+Deep convolutional network with sliding window patches demonstrates very prominent result in the problem of {\it al-Khitat} author verification. In comparison with other methods \cite{MBulacu}, \cite{MBulacu1}, \cite{DFecker}, \cite{Salvador} our approach shows good outcome without the need to construct complex features. For the extension of this approach to other Arabic authors we will train our network on bigger amounts of data. The joint study of al-Maqrizi's ``Description of Egypt'' undertaken by a historian-philologist and mathematicians is a unique experiment in working across disciplinary boundaries to achieve a common goal. The results achieved thus far bode well for the future by opening new horizons for scholars of ``Oriental'' manuscripts who often desperately lack resources (other than their own eyes and intuition) to verify the provenance and authorship of the manuscript material they are working with.
 
 % ---------------------------------------------------
 % References
