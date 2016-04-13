@@ -302,7 +302,7 @@ As one can see, connected components-based patches usually consist of one or few
 %	\end{minipage}
 %\end{figure}
 
-\begin{figure}
+\begin{figure}[!t]
 \centering
 \begin{minipage}{.45\linewidth}
 	\centering
@@ -337,7 +337,7 @@ Denote $x_i$ as the $i$-th patch obtained from an image in the previous step and
 that the current patch belongs to al-Maqrizi's hand we need to train a discriminative model. As a robust and powerful classification algorithm deep convolution networks \cite{DL}, \cite{CNN} are chosen. 
 
 In a case of sliding window patches we apply Alexnet type of network \cite{Alexnet}. Its architecture and layers parameters is described in Table~\ref{alexnet_tab}. 
-\begin{table}[!h]
+\begin{table}[!b]
 \centering
 \caption{Sliding window patch convolution network}
 \label{alexnet_tab}
@@ -383,7 +383,7 @@ softmax & & 2 \\
 As an input network takes $80\times80$ RGB image. All activation functions in convolution and fully connected layers are rectified linear units (ReLU). This deep network was trained by stochastic gradient descent method with Nesterov momentum, initial learning rate is $0.01$ and it decrease policy is step down.
 
 With connected components patches we use GoogLeNet type of deep convolutional network \cite{Googlenet}. Its architecture and layers parameters is provided in Table~\ref{googlenet_tab}.
-\begin{table}[!h]
+\begin{table}[!t]
 \centering
 \caption{Connected components patch convolution network}
 \label{googlenet_tab}
@@ -448,32 +448,25 @@ Deep artificial networks have been trained with backpropagation algorithm \cite{
 
 To assess quality of the classification pipeline we have used only images from the test set, since they are the only ones not used in the learning process. 
 
-Figure~\ref{fig:al_maqrizi_classification_example} demonstrates the classification results for two images from the test set: one from al-Maqrizi class and one from non-al-Maqrizi class. As one can see, both of them can be classified quite confidently as having al-Maqrizi as the author with the probability $0.0085$ and $0.94$ respectively. Also this figure shows the classification result for an {\it al-Khitat} manuscript page. It gives $0.77$ probability of al-Maqrizi being the author.
+Figure~\ref{fig:al_maqrizi_classification_example_train} demonstrates the classification results for two images from the test set: one from al-Maqrizi class and one from non-al-Maqrizi class. As one can see, both of them can be classified quite confidently as having al-Maqrizi as the author with the probability $0.0085$ and $0.94$ respectively. Figure~\ref{fig:al_maqrizi_classification_example_test_hitat} shows the classification result for an {\it al-Khitat} manuscript page. It gives $0.77$ probability of al-Maqrizi being the author.
 
-\begin{figure}
-\centering
-\begin{minipage}{.70\linewidth}
+\begin{figure}[!t]
 	\centering
-  \includegraphics[width=0.9\linewidth]{figures/not_al_maqrizi_image_classification_example.png}
+  \includegraphics[width=0.49\linewidth]{figures/not_al_maqrizi_image_classification_example_fixed.png}
+  \includegraphics[width=0.49\linewidth]{figures/sw_al_maqrisi_fixed.png}
+  \caption{Sliding window patches al-Maqrizi authorship classification example visualization on non-al-Maqrizi manuscript page (left) and al-Maqrizi manuscript page (right). Patches probabilities are visualized by using white-red colors (corresponding to 0-1 classes) on the top of the original image. Average al-Maqrizi authorship probability across patches is 0.0085 and 0.94 respectively.}
+	\label{fig:al_maqrizi_classification_example_train}
+\end{figure}
+
+
+\begin{figure}[!b]
+	\centering
+  \includegraphics[width=0.49\linewidth]{figures/hitat_15_fixed.png}
+   \caption{Sliding window patches al-Maqrizi authorship classification example visualization on the transcript page from {\it al-Khitat}. Average al-Maqrizi authorship probability across patches is 0.77.}
   %\captionof{figure}{ }
   %\label{fig:}
-\end{minipage}
-\hspace{.01\linewidth}
-\begin{minipage}{.70\linewidth}
-	\centering
-  \includegraphics[width=0.8\linewidth]{figures/sw_al_maqrisi.png}
-  %\captionof{figure}{ }
-  %\label{fig:}
-\end{minipage}
-\hspace{.01\linewidth}
-\begin{minipage}{.70\linewidth}
-	\centering
-  \includegraphics[width=\linewidth]{figures/hitat_15.png}
-  %\captionof{figure}{ }
-  %\label{fig:}
-\end{minipage}
-  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: non-al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) the transcript page from {\it al-Khitat} (bottom). Patches probabilities are visualized by using white-red colors (corresponding to 0-1 classes) on the top of the original image. Additionally, a probabilities histogram is shown below.}
-	\label{fig:al_maqrizi_classification_example}
+%  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: %non-al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) the transcript %page from {\it al-Khitat} (bottom). Patches probabilities are visualized by using white-%red colors (corresponding to 0-1 classes) on the top of the original image. Additionally, %a probabilities histogram is shown below.}
+	\label{fig:al_maqrizi_classification_example_test_hitat}
 \end{figure}
 
 Regarding the entire test set classification for sliding window patches with decision threshold $0.5$ we obtained precision $0.99$ and recall $0.92$. The method based on connected components patches is less robust: it generates many false positive predictions. This approach has a great potential, however, its improvement requires many more training examples. Thus convolutional network learned on connected components patches is a promising field for further research.
