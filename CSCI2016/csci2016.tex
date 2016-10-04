@@ -57,10 +57,10 @@ The paper is organized as follows. In Section~\ref{sec:the_data}, a description 
 
 Solving the problem of al-Maqrizi authorship verification requires training and test data sets. 
 We consider a single page of the manuscript as one data unit.
-As a one unique data element we consider single page of manuscript. The data set consists of two sets of manuscript materials:
+As a one unique data element we consider single page of manuscript. The data set consists of two sets of manuscript materials.
 \begin{itemize}
-	\item two holographs of al-Maqrizi verified by Prof. Bauden will serve as a positive example;
-	\item eight manuscripts not written by al-Maqrizi's hand  (taken from the University of Michigan Hatcher Library Special Collections) are considered to be a negative example. These manuscripts were selected in such a way that the date and place of writing of each of them would be close to those of al-Maqrizi's  \textit{al-Khitat}, namely, the 14th and 15th centuries, Egypt and Syria.
+	\item Two holographs of al-Maqrizi verified by Prof. Bauden will serve as a positive example.
+	\item Eight manuscripts not written by al-Maqrizi's hand  (taken from the University of Michigan Hatcher Library Special Collections) are considered to be a negative example. These manuscripts were selected in such a way that the date and place of writing of each of them would be close to those of al-Maqrizi's  \textit{al-Khitat}, namely, the 14th and 15th centuries, Egypt and Syria.
 \end{itemize}
 
 To enhance robustness of the learning process the data obtained were divided into training and test sets:
@@ -79,7 +79,7 @@ The goal of this study is to verify the authorship of the \textit{al-Khitat} man
 \section{Method}
 \label{sec:the_method}
 
-We consider author verification as a binary classification problem: the al-Maqrizi class designated as 1 and the non-al-Maqrizi class designated as 0. In this context our goal is to build a classification pipeline able to predict the probability (\textit{soft} classification) that a given image belongs to the $1$ (al-Maqrizi) class. The entire al-Maqrizi authorship classification pipeline illustrated at Figure~\ref{fig:pipeline} consists of the following steps:
+We consider author verification as a binary classification problem: positive class designated as 1 consist of images that belongs to al-Maqrizi's hand and negative class designated as 0 consist of images of different author. In this context our goal is to build a classification pipeline able to estimate the probability (\textit{soft} classification) that a given image belongs to the $1$ (al-Maqrizi) class. Thus, perfect classifier should return 1 for all al-Maqrizi's images and 0 for all non-al-Maqrizi's images. The entire proposed classification pipeline for al-Maqrizi authorship verification illustrated at Figure~\ref{fig:pipeline} and consists of the following steps:
 
 \begin{enumerate}
 	\item Image preprocessing.
@@ -92,33 +92,42 @@ Each of these steps are thoroughly described in the following sections.
 
 
 \subsection{Image preprocessing}
-This step was done to bring all images to relatively same size and scale by performing the following steps:
+Image preprocessing was done to bring all images to relatively same size and scale by performing the following steps:
 \begin{enumerate}
 	\item Removing part of image within the text bounding box.
-	\item Resizing resulted image to resolution $700\times 500$.
+	\item Resizing resulted image to fixed resolution $(700\times 500)$.
 \end{enumerate}
-This steps are reasonable enough since all images from our data set have approximately equal number of text lines and text bounding box aspect ratio. 
+This steps are reasonable enough since all images from our data set have approximately equal number of text lines, relative font size and text bounding box aspect ratio. Thus, removing blank margin from image and resizing it to fixed size we make our classification problem more simple since 	images became less diverse. 
 
-Since this step is done only to unify our images data set we do not include it in the pipeline.
+Note: since this step is done only to unify our images data set we did not include it to the pipeline figure~\ref{fig:pipeline}.
 
 \subsection{Patches extraction}
-The patches extraction method generates a set of sub-images called patches from a given image. The basic idea is that a patch should represent a small but yet meaningful part of image for the purpose of authorship verification. We use two alternative methods for patches extraction described in following subsections.
+Patches extraction is a process of breaking given image into set of potentially overlapping sub-images called patches. The basic idea is that a patch should represent a small but yet meaningful part of image for the purpose of authorship verification. On the one hand patches should be as small as possible to reduce dimension of input vector for classification, but on the other hand patches still should contain enough information for successful authorship verification.  
+
+We use two alternative methods for patches extraction. Both of them described below.
 
 \subsubsection{Sliding window based method}
-This method splits an image into patches by a grid of fixed cells of the size $80\times 80$ pixels with a stride $20$ pixels. Figure~\ref{fig:patches_example_sliding_window} illustrates the idea. 
+This method use sliding window of the size $80\times 80$ pixels, a stride of size $20$ pixels and operates in the following way:
+\begin{enumerate}
+  \setcounter{enumi}{-1}
+	\item Sliding window moved to top left conner of the image
+	\item Patch extracted from current window position
+	\item Sliding window shifts to the right on the stride size, if possible. Otherwise it moved to the most left position and shifted down on the stride size.
+	\item Goto 1.
+\end{enumerate} 
+Figure~\ref{fig:patches_example_sliding_window} demonstrates and example of resulted patch. 
 
 \subsubsection{Connected components-based method}
-This method uses the following routine for patches extraction
-
+This method attempts to extract patches containing one ore few symbols on the same text line by utilizing idea of connected components. Its general scheme described below.
 \begin{enumerate}
-	\item Input image binarization using Otsu's filter~\cite{otsu1975threshold}.
-	\item Connected components extraction from a binarized image using the algorithm from~\cite{fiorio1996connected_components}.
-	\item Too small, too big and too stretched connected components filtering using several empirical rules, e.g.: major axis to minor axis ratio less then $10$, minimum minor axis length greater then $3$ pixels, etc.
-	\item Outlier connected components filtering using the\\ DBSCAN clustering algorithm~\cite{ester1996dbscan}, \cite{GranVolk}.
-	\item Extracting remaining connected components bounding boxes from the source image and resizing them $28\times 28$ pixels size.
+	\item First, input image binarized using Otsu's filter~\cite{otsu1975threshold}. After this step images consist of only 1's (symbols) and 0's (blank space).
+	\item Then, connected components of 1's extracted from a binarized image using the algorithm from~\cite{fiorio1996connected_components}. 
+	\item Too small, too big and too stretched connected components filtered out using several empirical rules, e.g.: major axis to minor axis ratio less then $10$, minimum minor axis length greater then $3$ pixels, maximum major axis length less then $220$ pixels and  minimum major axis length greater then 5.
+	\item Points of connected components centers clustered using DBSCAN clustering algorithm~\cite{ester1996dbscan,GranVolk} with following parameters: epsilon = 0.5 and minimum number of points to form a dense cluster = 10. Then connected components corresponding to the points which did not fall in any cluster are labelled as outliers and filtered out.
+	\item Finally, remaining connected components bounding boxes extracted from the source image and resized to $28\times 28$ pixels size.
 \end{enumerate}
 
-Example of connected components based patches show on Figure~\ref{fig:patches_example_connected_components}. 
+Example of connected components based patches shown on Figure~\ref{fig:patches_example_connected_components}. 
 
 As one can see, connected components-based patches usually consist of one or few letters thus providing a high robustness for different image scale and size in contrast to fixed-size sliding window patches (since all images been preprocessed this features is not important in our case). However, sliding-window patches contain much more information: several symbols from multiple lines --- a very important feature for authorship verification.
 %
