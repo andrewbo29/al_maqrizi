@@ -69,10 +69,19 @@ To enhance robustness of the learning process the data obtained were divided int
 	\item Test set: 1 al-Maqrizi's manuscript consisting of 14 pages and 3 non-al-Maqrizi's manuscripts each of which consists of 7 pages. Authors of these 3 manuscripts differ from authors of 5 negative examples in the training set.   
 \end{itemize}
 
+Two examples from the training set is illustrated at Figure~\ref{fig:train_examp}. 
+
 It is important to note that we split our data set by the factor of the manuscript author. When the algorithm is learning on the training set, it can not see the authors in the test set. Thus, we enforce our method to infer general properties al-Maqrizi's handwriting not specific for particular manuscript. Number of non-al-Maqrizi's documents is chosen in such way that positive and negative classes in training and test sets are roughly balanced.
 
 The goal of this study is to verify the authorship of the \textit{al-Khitat} manuscript that consists of 32 pages.
 
+\begin{figure}[!t]
+	\centering
+  	\includegraphics[width=0.45\linewidth]{figures/Ms-orient-A-01771_017.jpg}
+  	\includegraphics[width=0.415\linewidth]{figures/5_test_1.png}
+  	\caption{Examples of al-Maqrizi (left) and not al-Maqrizi (manuscript from Cairo, 1466 C.E.) (right) holographs from training set}
+	\label{fig:train_examp}
+\end{figure}
 
 %\pagebreak
 
@@ -97,9 +106,9 @@ Image preprocessing was done to bring all images to relatively same size and sca
 	\item Removing part of image within the text bounding box.
 	\item Resizing resulted image to fixed resolution $(700\times 500)$.
 \end{enumerate}
-This steps are reasonable enough since all images from our data set have approximately equal number of text lines, relative font size and text bounding box aspect ratio. Thus, removing blank margin from image and resizing it to fixed size we make our classification problem more simple since 	images became less diverse. 
+This steps are reasonable enough since all images from our data set have approximately equal number of text lines, relative font size and text bounding box aspect ratio. Thus, removing blank margin from image and resizing it to fixed size we make our classification problem more simple since images became less diverse. 
 
-Note: since this step is done only to unify our images data set we did not include it to the pipeline figure~\ref{fig:pipeline}.
+Note: since this step is done only to unify our images data set we did not include it to the pipeline at Figure~\ref{fig:pipeline}.
 
 \subsection{Patches extraction}
 Patches extraction is a process of breaking given image into set of potentially overlapping sub-images called patches. The basic idea is that a patch should represent a small but yet meaningful part of image for the purpose of authorship verification. On the one hand patches should be as small as possible to reduce dimension of input vector for classification, but on the other hand patches still should contain enough information for successful authorship verification.  
@@ -189,7 +198,7 @@ Denote $x_i$ as the $i$-th patch obtained from an image in the previous step and
 \end{equation*}
 that the current patch belongs to al-Maqrizi's hand we need to train a discriminative model. As a robust and powerful classification algorithm deep convolution networks \cite{DL}, \cite{CNN} are chosen. 
 
-In a case of sliding window patches we apply Alexnet type of network \cite{Alexnet}. Its architecture and layers parameters is described in Table~\ref{alexnet_tab}. This table contains the following columns: layer type, patch size and stride parameters for convolutional and pooling layers, number of layer output neurons.  
+In a case of sliding window patches we apply AlexNet type of network \cite{Alexnet}. Its architecture and layers parameters is described in Table~\ref{alexnet_tab}. This table contains the following columns: layer type, patch size and stride parameters for convolutional and pooling layers, number of layer output neurons. Network architecture is illustrated on Figure~\ref{fig:alexnet}. 
 \begin{table}[!b]
 \centering
 \caption{Sliding window patch convolution network}
@@ -235,13 +244,12 @@ softmax & & 2 \\
 
 \begin{figure}[!b]
 	\centering
-  \includegraphics[width=0.49\linewidth]{figures/tmp.png}
-  %\captionof{figure}{ }
-  %\label{fig:}
-%  \captionof{figure}{Sliding window patches al-Maqrizi authorship classification example: %non-al-Maqrizi manuscript page (left), al-Maqrizi manuscript page (right) the transcript %page from {\it al-Khitat} (bottom). Patches probabilities are visualized by using white-%red colors (corresponding to 0-1 classes) on the top of the original image. Additionally, %a probabilities histogram is shown below.}
+  	\includegraphics[width=0.85\linewidth]{figures/alexnet.png}
+	\caption{Sliding window patch convolution network architecture}
+  	\label{fig:alexnet}
 \end{figure}
 
-As an input network takes $80\times80$ RGB image. All activation functions in convolution and fully connected layers are rectified linear units (ReLU). This deep network was trained by stochastic gradient descent method with Nesterov momentum, initial learning rate is $0.01$ and it decrease policy is step down.
+As an input network takes $80\times80$ RGB image. All activation functions in convolution and fully connected layers are rectified linear units (ReLU): $f(x)=\max(0, x)$. This deep network was trained by stochastic gradient descent method with Nesterov momentum, initial learning rate is $0.01$ and it decrease policy is step down. 
 
 With connected components patches we use GoogLeNet type of deep convolutional network \cite{Googlenet}. Its architecture and layers parameters is provided in Table~\ref{googlenet_tab}.
 \begin{table}[!t]
@@ -285,14 +293,16 @@ fully connected & & 2 \\
 softmax & & 2 \\
 \hline
 \end{tabular}
-\end{table}
+\end{table}		
+
+As an input network takes $28\times28$ RGB image. All activation functions in convolution and fully connected layers are rectified linear units (ReLU). Inception layer is a combination of several convolution and pooling layers, it is pictured on Figure~\ref{fig:inception}; for more details see \cite{Googlenet}. Learning method for this convolutional network is stochastic gradient descent with Nesterov momentum and initial learning rate $0.01$ with step down decrease policy.
 
 \begin{figure*}[!t]
 	\center
-  \includegraphics[width=0.9\textwidth]{figures/tmp_1.png}
-\end{figure*}	
-
-As an input network takes $28\times28$ RGB image. All activation functions in convolution and fully connected layers are rectified linear units (ReLU). Inception layer is a combination of several convolution and pooling layers; for more details see \cite{Googlenet}. Learning method for this convolutional network is stochastic gradient descent with Nesterov momentum and initial learning rate $0.01$ with step down decrease policy. 
+ 	\includegraphics[width=0.95\textwidth]{figures/inception.png}
+  	\caption{Inception layer architecture}
+  	\label{fig:inception}
+\end{figure*} 
 
 \section{Results and Discussion}
 \label{sec:results_and_description}
@@ -308,7 +318,16 @@ We have experimented with both types of patches extraction and corresponding con
 %\label{img_alexnet}
 %\end{figure}
 
-Deep artificial networks have been trained with backpropagation algorithm \cite{CNN} and shown small training error. For sliding window patch convolution network accuracy value on the test set is near $87 \%$. For connected components patch convolution network accuracy is worse --- $80 \%$.    
+Deep artificial networks have been trained with backpropagation algorithm \cite{CNN} and shown small training error. For sliding window patch convolution network accuracy value on the test set is near $87 \%$. For connected components patch convolution network accuracy is worse --- $80 \%$. 
+
+During training process deep convolutional network is trying to build a hierarchical structure of data presentation. On the first layers trained low-level features, on last layers -- some high-level representation of an input data. This approach allows to build classifiers and successfully meet the challenges supervised learning. To illustrate this idea, consider features activation of the first local response normalization layer (LRN) in the sliding window patch convolution network after feed forward through the network sliding window patch from Figure~\ref{fig:patches_example_sliding_window}. As can be seen in Figure~\ref{fig:lrn_activation} some feature maps are spiking to various arabic words or combinations of words. This behavior demonstrates the purpose of this layer in the structure of the entire deep network.
+
+\begin{figure}[!b]
+	\centering
+  	\includegraphics[width=0.75\linewidth]{figures/norm1.png}
+	\caption{Features activations on the first local response normalization layer (LRN) in the sliding window patch convolution network}
+  	\label{fig:lrn_activation}
+\end{figure}
 
 \subsection{Manuscript classification}
 
@@ -324,8 +343,7 @@ Figure~\ref{fig:al_maqrizi_classification_example_train} demonstrates the classi
 	\label{fig:al_maqrizi_classification_example_train}
 \end{figure}
 
-
-\begin{figure}[!b]
+\begin{figure}[!t]
 	\centering
   \includegraphics[width=0.49\linewidth]{figures/hitat_15_fixed.png}
    \caption{Sliding window patches al-Maqrizi authorship classification example visualization on the page from {\it al-Khitat} manuscript. Average al-Maqrizi authorship probability across patches is 0.77.}

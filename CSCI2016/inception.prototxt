@@ -1,7 +1,18 @@
 layer {
-  name: "inception_3a/1x1"
+  name: "input"
+  type: "Pooling"
+  top: "pool"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv1"
   type: "Convolution"
-  top: "inception_3a/1x1"
+  bottom: "pool"
+  top: "conv1"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -24,15 +35,16 @@ layer {
   }
 }
 layer {
-  name: "inception_3a/relu_1x1"
+  name: "relu1"
   type: "ReLU"
-  bottom: "inception_3a/1x1"
-  top: "inception_3a/1x1"
+  bottom: "conv1"
+  top: "conv1"
 }
 layer {
-  name: "inception_3a/3x3_reduce"
+  name: "conv2"
   type: "Convolution"
-  top: "inception_3a/3x3_reduce"
+  bottom: "pool"
+  top: "conv2"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -55,16 +67,16 @@ layer {
   }
 }
 layer {
-  name: "inception_3a/relu_3x3_reduce"
+  name: "relu2"
   type: "ReLU"
-  bottom: "inception_3a/3x3_reduce"
-  top: "inception_3a/3x3_reduce"
+  bottom: "conv2"
+  top: "conv2"
 }
 layer {
-  name: "inception_3a/3x3"
+  name: "conv3"
   type: "Convolution"
-  bottom: "inception_3a/3x3_reduce"
-  top: "inception_3a/3x3"
+  bottom: "conv2"
+  top: "conv3"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -88,15 +100,16 @@ layer {
   }
 }
 layer {
-  name: "inception_3a/relu_3x3"
+  name: "relu3"
   type: "ReLU"
-  bottom: "inception_3a/3x3"
-  top: "inception_3a/3x3"
+  bottom: "conv3"
+  top: "conv3"
 }
 layer {
-  name: "inception_3a/5x5_reduce"
+  name: "conv4"
   type: "Convolution"
-  top: "inception_3a/5x5_reduce"
+  bottom: "pool"
+  top: "conv4"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -119,16 +132,16 @@ layer {
   }
 }
 layer {
-  name: "inception_3a/relu_5x5_reduce"
+  name: "relu4"
   type: "ReLU"
-  bottom: "inception_3a/5x5_reduce"
-  top: "inception_3a/5x5_reduce"
+  bottom: "conv4"
+  top: "conv4"
 }
 layer {
-  name: "inception_3a/5x5"
+  name: "conv5"
   type: "Convolution"
-  bottom: "inception_3a/5x5_reduce"
-  top: "inception_3a/5x5"
+  bottom: "conv4"
+  top: "conv5"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -152,15 +165,16 @@ layer {
   }
 }
 layer {
-  name: "inception_3a/relu_5x5"
+  name: "relu5"
   type: "ReLU"
-  bottom: "inception_3a/5x5"
-  top: "inception_3a/5x5"
+  bottom: "conv5"
+  top: "conv5"
 }
 layer {
-  name: "inception_3a/pool"
+  name: "pool1"
   type: "Pooling"
-  top: "inception_3a/pool"
+  bottom: "pool"
+  top: "pool1"
   pooling_param {
     pool: MAX
     kernel_size: 3
@@ -169,10 +183,10 @@ layer {
   }
 }
 layer {
-  name: "inception_3a/pool_proj"
+  name: "conv6"
   type: "Convolution"
-  bottom: "inception_3a/pool"
-  top: "inception_3a/pool_proj"
+  bottom: "pool1"
+  top: "conv6"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -195,17 +209,16 @@ layer {
   }
 }
 layer {
-  name: "inception_3a/relu_pool_proj"
+  name: "relu6"
   type: "ReLU"
-  bottom: "inception_3a/pool_proj"
-  top: "inception_3a/pool_proj"
+  bottom: "conv6"
+  top: "conv6"
 }
 layer {
-  name: "inception_3a/output"
+  name: "output"
   type: "Concat"
-  bottom: "inception_3a/1x1"
-  bottom: "inception_3a/3x3"
-  bottom: "inception_3a/5x5"
-  bottom: "inception_3a/pool_proj"
-  top: "inception_3a/output"
+  bottom: "conv1"
+  bottom: "conv3"
+  bottom: "conv5"
+  bottom: "conv6"
 }
