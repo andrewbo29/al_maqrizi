@@ -6,6 +6,7 @@ from skimage import img_as_ubyte
 import visualize_classified_patches as viz
 import matplotlib
 import os
+from skimage.color import rgb2gray
 
 
 class VerificationNet(caffe.Net):
@@ -18,6 +19,7 @@ class VerificationNet(caffe.Net):
         self.transformer.set_transpose(in_, (2, 0, 1))
         if mean_file is not None:
             blob = caffe.proto.caffe_pb2.BlobProto()
+            # blob = caffe.io.caffe_pb2.BlobProto()
             data = open(mean_file, 'rb').read()
             blob.ParseFromString(data)
             arr = np.array(caffe.io.blobproto_to_array(blob))
@@ -29,6 +31,7 @@ class VerificationNet(caffe.Net):
     def predict(self, images):
         in_ = self.inputs[0]
         caffe_in = np.zeros((len(images), images[0].shape[2]) + self.blobs[in_].data.shape[2:], dtype=np.float32)
+        # caffe_in = np.zeros((len(images), 1) + self.blobs[in_].data.shape[2:], dtype=np.float32)
         for ix, img in enumerate(images):
             caffe_in[ix] = self.transformer.preprocess(in_, img)
         out = self.forward_all(**{in_: caffe_in})
@@ -43,7 +46,10 @@ def process_image_sw(image_fname, w_size, s):
     crops = sw.get_sliding_window_patches(image, bin_map, w_size, s)
     coords = sw.get_sliding_window_patches_coord(image, bin_map, w_size, s)
 
+    # gray_crops = [rgb2gray(crop) for crop in crops]
+
     return crops, coords
+    # return gray_crops, coords
 
 
 def process_image_components(image_fname, size):
@@ -94,7 +100,8 @@ if __name__ == '__main__':
     # image_path = '/home/andrew/Projects/al-maqrizi/data/hitat/text'
     # image_path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi/Archive_1/text'
     # image_path = '/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/8/text'
-    image_path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi_plagiarism/convert'
+    # image_path = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi_plagiarism/convert'
+    image_path = '/home/andrew/Projects/al-maqrizi/data/samples/converted'
 
     if patches_type == 'sw':
         window_size = 80
@@ -103,6 +110,10 @@ if __name__ == '__main__':
         model = '/home/andrew/Projects/al-maqrizi/nets/sw/deploy.prototxt'
         pretrained = '/home/andrew/Projects/al-maqrizi/nets/sw/snapshot_iter_7170.caffemodel'
         mean_fname = '/home/andrew/Projects/al-maqrizi/nets/sw/mean.binaryproto'
+
+        # model = '/home/andrew/digits/digits/jobs/20160504-231044-9215/deploy.prototxt'
+        # pretrained = '/home/andrew/digits/digits/jobs/20160504-231044-9215/snapshot_iter_5610.caffemodel'
+        # mean_fname = '/home/andrew/digits/digits/jobs/20160504-220619-1eef/mean.binaryproto'
 
         net = VerificationNet(model, pretrained, mean_file=mean_fname)
 

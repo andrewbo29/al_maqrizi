@@ -144,17 +144,17 @@ def process_images_path(path, window_size, stride, dir_name, txt_fname, label):
         process_image(full_image_name, window_size, stride, dir_name, txt_fname, label)
 
 
-def _half_image(image_name, image_num_1, image_num_2):
+def _half_image(image_name, image_name_1, image_name_2):
     dir_name = '/'.join(image_name.split('/')[:-1])
 
     image = skimage.io.imread(image_name)
     half_w = int(image.shape[1] / 2)
     img_1 = image[:, :half_w, :]
-    img_1_name = '%s/archive_2_%d.png' % (dir_name, image_num_1)
+    img_1_name = '%s/%s.jpg' % (dir_name, image_name_1)
     skimage.io.imsave(img_1_name, img_1)
 
     img_2 = image[:, half_w:, :]
-    img_2_name = '%s/archive_2_%d.png' % (dir_name, image_num_2)
+    img_2_name = '%s/%s.jpg' % (dir_name, image_name_2)
     skimage.io.imsave(img_2_name, img_2)
 
 
@@ -285,14 +285,14 @@ if __name__ == '__main__':
                         ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/7/text', 0),
                         ('/home/andrew/Projects/al-maqrizi/data/not_al-maqrizi/8/text', 0)]
 
-    window_size = 80
+    window_size = 81
     stride = 20
-    data_dir = '/home/andrew/Projects/al-maqrizi/data/sw_patches'
+    data_dir = '/home/andrew/Projects/al-maqrizi/data/sw_patches_81'
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
 
-    train_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches/train.txt'
-    val_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches/val.txt'
+    train_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches_81/train.txt'
+    val_fname = '/home/andrew/Projects/al-maqrizi/data/sw_patches_81/val.txt'
 
     for image_path, class_label in train_images_paths:
         process_images_path(image_path, window_size, stride, data_dir, train_fname, class_label)
@@ -312,3 +312,6 @@ if __name__ == '__main__':
         #     full_image_name = os.path.join(path, image_name)
         #     if os.path.isfile(full_image_name):
         #         _generate_normalize_double_images(full_image_name)
+
+    # img_name = '/home/andrew/Projects/al-maqrizi/data/al-maqrizi_plagiarism/convert/Maqrizi (28) 3.JPG'
+    # _half_image(img_name, 'maqrizi(28)_3_1', 'maqrizi(28)_3_2')
