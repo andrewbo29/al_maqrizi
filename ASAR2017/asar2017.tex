@@ -39,7 +39,7 @@ The problem of manuscript author verification is quite important nowadays. Since
 
 Given the importance of this discovery for the history of science (al-Maqrizi's \textit{al-Khitat} is one of the earliest descriptions of the topography of Cairo and ancient Egyptian monuments in its environs as well as Alexandria), authors decided to verify Dr. Gardiner's and Prof. Bauden's findings using method based on deep convolutional networks.
 
-Previously used methods for author verification of Arabic manuscripts and for related fields were focused on developing various types of features that can be obtained from a manuscript picture. These features are then used to learn a classification model. Here are some of the approaches: textural, allographic features and clustering methods \cite{MBulacu}, \cite{MBulacu1}; contour-based, oriented basic image, K-SIFT features and SVM \cite{DFecker}, texture-related and structure-related features \cite{Salvador}, TF/IDF and clustering algorithms \cite{Dunn}. In this paper, we present a novel approach based on learning of deep hierarchical structure of features from the row image. This method belongs to the class of the deep learning algorithms \cite{DL} and uses convolutional network \cite{CNN} for feature extraction and prediction. Deep convolution networks since 2012 year \cite{Alexnet} became the state of the art in many areas of computer vision: objects recognition, face identification, optical character recognition, object detection, etc \cite{DL}. Deep learning approach is based on using artificial neural networks with a huge number of layers which allows to train deep hierarchical representation of data. This representation in many cases works better then handmade features \cite{DL}, \cite{Alexnet}, \cite{Googlenet}. Moreover deep networks are not saturated with an increasing amounts of data thus they have better generalization ability then traditional ``shalow'' methods like logistic regeression or SVM \cite{DL}.   
+Previously used methods for author verification of Arabic manuscripts and for related fields were focused on developing various types of features that can be obtained from a manuscript picture. These features are then used to learn a classification model. Here are some of the approaches: textural, allographic features and clustering methods \cite{MBulacu}, \cite{MBulacu1}; contour-based, oriented basic image, K-SIFT features and SVM \cite{DFecker}, texture-related and structure-related features \cite{Salvador}, TF/IDF and clustering algorithms \cite{Dunn}. In this paper, we present a novel approach based on learning of deep hierarchical structure of features from the row image. This method belongs to the class of the deep learning algorithms \cite{DL} and uses convolutional network \cite{CNN} for feature extraction and prediction. {\color{red} Deep learning methods were used in tasks from nearby regions, for example \cite{DL_Arabic_1}, \cite{DL_Arabic_2}. Our approach is considered for a particular purpose of al-Maqriz's authorship verification. To solve this problem, the methods described above need to be adapted, so it was decided to apply a new promising deep learning approach.} Deep convolution networks since 2012 year \cite{Alexnet} became the state of the art in many areas of computer vision: objects recognition, face identification, optical character recognition, object detection, etc \cite{DL}. Deep learning approach is based on using artificial neural networks with a huge number of layers which allows to train deep hierarchical representation of data. This representation in many cases works better then handmade features \cite{DL}, \cite{Alexnet}, \cite{Googlenet}. Moreover deep networks are not saturated with an increasing amounts of data thus they have better generalization ability then traditional ``shalow'' methods like logistic regeression or SVM \cite{DL}.   
 
 The paper is organized as follows. In Section~\ref{sec:the_data}, a description of the data set used in experiments is given. Section~\ref{sec:the_method} contains presentation of our methodology of patches from image extraction, training deep convolution networks and making decision of manuscript author. In Section~\ref{sec:results_and_description}, we present the results of our experiments.
 %\pagebreak
@@ -115,7 +115,7 @@ Patches extraction is a process of breaking given image into a set of potentiall
 
 We use two alternative methods for patches extraction. Both of them are described below.
 
-\subsubsection{Sliding window based method}
+\textit{Sliding window based method:}
 This method uses sliding window of the size $80\times 80$ pixels, a stride of size $20$ pixels and operates in the following way:
 \begin{enumerate}
   \setcounter{enumi}{-1}
@@ -124,10 +124,7 @@ This method uses sliding window of the size $80\times 80$ pixels, a stride of si
 	\item Sliding window shifts to the right on the stride size, if possible. Otherwise it is moved to the leftmost position and shifted down on the stride size.
 	\item Goto 1.
 \end{enumerate} 
-Figure~\ref{fig:patches_example_sliding_window} demonstrates and an example of the resultant patch. 
-
-\subsubsection{Connected components-based method}
-This method attempts to extract patches containing one or few symbols on the same text line by utilizing the idea of connected components. Its general scheme is described below.
+Figure~\ref{fig:patches_example_sliding_window} demonstrates and an example of the resultant paThis method attempts to extract patches containing one or few symbols on the same text line by utilizing the idea of connected components. Its general scheme is described below.
 \begin{enumerate}
 	\item First, the input image is binarized using Otsu's filter~\cite{otsu1975threshold}. After this step images consist of only 1's (symbols) and 0's (blank space).
 	\item Then, connected components of 1's are extracted from a binarized image using the algorithm from~\cite{fiorio1996connected_components}. 
@@ -196,7 +193,7 @@ Denote $x_i$ as the $i$-th patch obtained from an image in the previous step and
 \begin{equation*}
 	p_i = P(y_i | x_i)
 \end{equation*}
-that the current patch belongs to al-Maqrizi's hand we need to train a discriminative model. As a robust and powerful classification algorithm deep convolution networks \cite{DL}, \cite{CNN} are chosen. 
+that the current patch belongs to al-Maqrizi's hand we need to train a discriminative model. As a robust and powerful classification algorithm deep convolution networks \cite{DL}, \cite{CNN} are chosen. {\color{red} During experiments have been tried various architectures of networks and were selected those that showed the best results in our test.}
 
 In a case of the sliding window patches we apply AlexNet type of network \cite{Alexnet}. Its architecture and layers parameters is described in Table~\ref{alexnet_tab}. This table contains the following columns: layer type, patch size and stride parameters for convolutional and pooling layers, number of layer output neurons.% Network architecture is illustrated on Figure~\ref{fig:alexnet}. 
 \begin{table}[!b]
@@ -322,6 +319,8 @@ Deep artificial networks have been trained with backpropagation algorithm \cite{
 
 During the training process deep convolutional network is trying to build a hierarchical structure of data presentation. On the first layers trained low-level features, on last layers -- some high-level representation of an input data. This approach allows to build classifiers and successfully meet the challenges of supervised learning. To illustrate this idea, consider features activation of the first local response normalization layer (LRN) in the sliding window patch convolution network after feed forward through the network sliding window patch from Figure~\ref{fig:patches_example_sliding_window}. As can be seen in Figure~\ref{fig:lrn_activation} some feature maps are spiking to various Arabic words or combinations of words. This behavior demonstrates the purpose of this layer in the structure of the entire deep network.
 
+{\color{red} In further studies would be useful to use for training convolutional networks an additional training base such as KHATT \cite{khatt}.}
+
 \begin{figure}[!b]
 	\centering
   	\includegraphics[width=0.75\linewidth]{figures/norm1.png}
@@ -355,7 +354,9 @@ Figure~\ref{fig:al_maqrizi_classification_example_train} demonstrates the classi
 
 Regarding the entire test set classification for sliding window patches with decision threshold $0.5$ we obtained precision $0.99$ and recall $0.92$. The method based on connected components patches is less robust: it generates many false positive predictions. This approach has a great potential, however, although its improvement requires many more training examples. In sum, convolutional network trained on connected components patches is a promising field for further research.
 
-By using sliding window patches with the deep network method we have arrived at the conclusion that the mean probability of al-Maqrizi's authorship for the entire set of the {\it al-Khitat} pages equals $0.86$.    
+By using sliding window patches with the deep network method we have arrived at the conclusion that the mean probability of al-Maqrizi's authorship for the entire set of the {\it al-Khitat} pages equals $0.86$. 
+
+{\color{red} The authors collected in the future to consider the approach of treating manuscript verification as the one-class classification problem.}   
 
 \section{Conclusion}
 
@@ -372,7 +373,7 @@ The authors express their deep gratitude to Mrs. Evyn Kropf of the Hatcher Gradu
 
 \bibitem{MBulacu1} M.~Bulacu, L.~Schomaker, \lq\lq Automatic Handwriting Identification on Medieval Documents,\rq\rq~in~\emph{Proc. of the International Conference on Image Analysis and Processing}, Modena, 2007, pp.~279--284.
 
-\bibitem{DFecker} D.~Fecker, A.~Asi, W.~Pantke, V.~Margner, J.~El-Sana, T.~Fingscheidt, \lq\lq Document Writer Analysis with Rejection for Historical Arabic Manuscripts,\rq\rq~in~\emph{Proc. 14th nternational Conference on Frontiers in Handwriting Recognition, ICFHR}, Crete, 2014, pp.~743--748.
+\bibitem{DFecker} D.~Fecker, A.~Asi, W.~Pantke, V.~Margner, J.~El-Sana, T.~Fingscheidt, \lq\lq Document Writer Analysis with Rejection for Historical Arabic Manuscripts,\rq\rq~in~\emph{Proc. 14th International Conference on Frontiers in Handwriting Recognition, ICFHR}, Crete, 2014, pp.~743--748.
 
 \bibitem{Salvador} S.~Godoy-Calderon, E.~M.~Felipe-Riveron, E.~C.~Herrera-Luna, \lq\lq Multi-level Modeling of Manuscripts for Authorship Identification with Collective Decision Systems,\rq\rq~\emph{Progress in Pattern Recognition, Image Analysis, Computer Vision, and Applications}, vol.~7441, pp.~757--764, 2012.
 
@@ -381,6 +382,10 @@ The authors express their deep gratitude to Mrs. Evyn Kropf of the Hatcher Gradu
 \bibitem{DL} Y.~Lecun, Y.~Bengio, G.~Hinton, \lq\lq Deep learning,\rq\rq~\emph{Nature}, no.~521, pp.~436--444, May.~2015.
 
 \bibitem{CNN} Y.~Lecun, L.~Bottou, Y.~Bengio, P.~Haffner, \lq\lq Gradient-based learning applied to document recognition,\rq\rq~in~\emph{Proc. of the IEEE}, 1998, pp.~2278--2324.
+
+\bibitem{DL_Arabic_1} S.~Yousfi, S.-A.~Berrani, C.~Garcia, \lq\lq Deep learning and recurrent connectionist-based approaches for Arabic text recognition in videos,\rq\rq~in~\emph{Proc. of the 13th International Conference on Document Analysis and Recognition (ICDAR)}, 2015, pp.~1026--1030
+
+\bibitem{DL_Arabic_2} W.~Yang, L.~Jin, M.~Liu, \lq\lq Character-level Chinese Writer Identification using Path Signature Feature, DropStroke and Deep CNN,\rq\rq~in~\emph{Proc. of the 13th International Conference on Document Analysis and Recognition (ICDAR)}, 2015, pp.~546--550
 
 \bibitem{Alexnet} A.~Krizhevsky,I.~Sutskever, G.~Hinton, \lq\lq ImageNet Classification with Deep Convolutional Neural Networks,\rq\rq~in~\emph{Advances in Neural Information Processing Systems}, vol.~25, 2012, pp.~1097--1105.
 
@@ -394,6 +399,8 @@ The authors express their deep gratitude to Mrs. Evyn Kropf of the Hatcher Gradu
 Conference on Knowledge Discovery and Data Mining}, vol.~96, no.~34, 1996, pp.~226--231.
 
 \bibitem{GranVolk} O.~Granichin, V.~Volkovich, D.~Toledano-Kitai, \emph{Randomized Algorithms in Automatic Control and Data Mining}. Springer-Verlag: Heidelberg, New York, Dordrecht, London, 2015, 251~p.
+
+\bibitem{khatt} S.~A.~Mahmoud, I.~Ahmad, M.~Alshayeb, W.~G.~Al-Khatib, M.~T.~Parvez, G.~A.~Fink, V.~Margner, H.~El Abed, \lq\lq KHATT: Arabic offline handwritten text database, \rq\rq~in~\em{ Proc.13th International Conference on Frontiers in Handwriting Recognition (ICFHR)}, 2012 pp.~447--452.
 
 \end{thebibliography}
 
