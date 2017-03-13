@@ -1,5 +1,3 @@
-data/**
-patches/**
 .idea
 .idea/**
 *.pyc
@@ -27,3 +25,4 @@ patches/**
 **/*.out
 **/*.snm
 **/*.synctex.gz
+.DS_Store
